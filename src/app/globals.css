@@ -64,20 +64,6 @@ canvas {
   }
 }
 
-.path {
-  fill: none;
-  stroke: var(--foreground);
-  stroke-width: 1.5px;
-  animation: drawPath 3s ease-in-out forwards;
-}
+/* Add looping path animation and rotation for SVG icons */
 
-@keyframes drawPath {
-  0% {
-    stroke-dashoffset: 1000;
-    stroke-dasharray: 1000;
-  }
-  100% {
-    stroke-dashoffset: 0;
-    stroke-dasharray: 1000;
-  }
-}
+
