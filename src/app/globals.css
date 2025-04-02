@@ -3,7 +3,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --grid-color: rgba(0, 0, 0, 0.2);
+  --grid-color: rgba(0, 0, 0, 0.1);
   --grid-size: 20px;
   --grid-line-width: 1px;
   --font-sans: system-ui, sans-serif;
@@ -31,6 +31,7 @@ body {
   height: var(--navbar-height);
   background-color: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(5px);
+  border: 1px solid black;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   z-index: 100;
   font-family: var(--font-shantell-sans), sans-serif;
@@ -39,7 +40,7 @@ body {
 
 .navbar-content {
   display: flex;
-  justify-content: center;
+  justify-content: center; /* Center horizontally */
   align-items: center;
   height: 100%;
   gap: 2rem;
@@ -50,6 +51,7 @@ body {
   align-items: center;
   gap: 0.5rem;
   font-weight: 500;
+  font-size: 1.1rem; /* Increased font size */
   color: var(--foreground);
   text-decoration: none;
   padding: 0.25rem 0.75rem;
@@ -66,14 +68,33 @@ body {
   min-height: 100vh;
   padding: 0 1rem;
   background-image: 
-    linear-gradient(rgba(0, 0, 0, 0.2) var(--grid-line-width), transparent var(--grid-line-width)), 
-    linear-gradient(90deg, rgba(0, 0, 0, 0.2) var(--grid-line-width), transparent var(--grid-line-width));
+    linear-gradient(var(--grid-color) var(--grid-line-width), transparent var(--grid-line-width)), 
+    linear-gradient(90deg, var(--grid-color) var(--grid-line-width), transparent var(--grid-line-width));
   background-size: var(--grid-size) var(--grid-size);
   position: relative;
   display: flex;
   align-items: flex-start;
   justify-content: center; /* Ensure horizontal centering */
   font-family: var(--font-shantell-sans), sans-serif;
+}
+
+/* Circular image holder in the middle of the front page */
+.hero-image-container {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px; /* Size of the circular container */
+  height: 400px;
+  border-radius: 50%; /* Makes it circular */
+  overflow: hidden; /* Ensures the image stays within the circle */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+}
+
+.hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Makes the image cover the container */
 }
 
 /* Position hero content down the page */
@@ -107,7 +128,7 @@ body {
 .name-sticker {
   position: relative;
   display: inline-block;
-  max-width: 400px; /* Control sticker size */
+  max-width: 400px;
   width: 100%;
   margin: 0 auto; /* Center horizontally */
 }
@@ -164,6 +185,7 @@ body {
   animation: handwriting 2.5s ease-out forwards;
 }
 
+/* To provide the illusion of text being erased. */
 .handwritten-text.fade-out {
   opacity: 1;
   animation: erasingBackAndForth 1.2s ease-in forwards;

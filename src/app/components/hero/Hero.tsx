@@ -1,10 +1,18 @@
 'use client';
 import HandwrittenText from '../hero/HandwrittenText';
 
-
 export default function Hero() {
   return (
     <section className="hero-section">
+      {/* Add circular image container in the middle of the hero section */}
+      <div className="hero-image-container">
+        <img 
+          src="/daniel_zhu.jpeg" 
+          alt="Daniel Zhu" 
+          className="hero-image"
+        />
+      </div>
+      
       <div className="container hero-content text-center">
         <div className="name-sticker">
           <img 
@@ -17,7 +25,7 @@ export default function Hero() {
               Daniel Zhu
             </h1>
             <div className="handwritten-subtitle">
-              <HandwrittenText phrases={['Software Developer', 'Molecular Biologist', 'PhD Candidate, MIT']} />
+              <HandwrittenText phrases={['Software Developer', 'Web Designer', 'Molecular Biologist', 'PhD Candidate, MIT']} />
             </div>
           </div>
         </div>
