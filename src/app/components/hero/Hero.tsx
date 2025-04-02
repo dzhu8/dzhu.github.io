@@ -13,6 +13,46 @@ export default function Hero() {
         />
       </div>
       
+      {/* Social media stickers section */}
+      <div className="social-stickers-container">
+        <h2 className="social-stickers-title">
+          My links
+        </h2>
+        <div className="social-stickers-grid">
+          {/* GitHub */}
+          <a href="Placeholder" className="social-sticker" target="_blank" rel="noopener noreferrer">
+            <img 
+              src="/Octicons-mark-github.svg" 
+              alt="GitHub" 
+            />
+          </a>
+          
+          {/* LinkedIn */}
+          <a href="Placeholder" className="social-sticker" target="_blank" rel="noopener noreferrer">
+            <img 
+              src="/LinkedIn_icon.svg" 
+              alt="LinkedIn" 
+            />
+          </a>
+          
+          {/* Google Scholar */}
+          <a href="Placeholder" className="social-sticker" target="_blank" rel="noopener noreferrer">
+            <img 
+              src="/google-scholar-svgrepo-com.svg" 
+              alt="Google Scholar" 
+            />
+          </a>
+          
+          {/* Email */}
+          <a href="Placeholder" className="social-sticker">
+            <img 
+              src="/Gmail_icon_(2020).svg" 
+              alt="Email" 
+            />
+          </a>
+        </div>
+      </div>
+      
       <div className="container hero-content text-center">
         <div className="name-sticker">
           <img 
