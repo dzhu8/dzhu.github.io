@@ -9,9 +9,11 @@ interface SectionProps {
 export default function Section({ id, title, children }: SectionProps) {
   return (
     <section id={id} className="content-section">
-      <div className="container">
+      <div className="container text-center">
         <h2 className="text-3xl font-bold mb-6">{title}</h2>
-        {children}
+        <div>
+          {children}
+        </div>
       </div>
     </section>
   );
