@@ -20,7 +20,7 @@ export default function Hero() {
         </h2>
         <div className="social-stickers-grid">
           {/* GitHub */}
-          <a href="Placeholder" className="social-sticker" target="_blank" rel="noopener noreferrer">
+          <a href="https://github.com/dzhu8" className="social-sticker" target="_blank" rel="noopener noreferrer">
             <img 
               src="/Octicons-mark-github.svg" 
               alt="GitHub" 
@@ -28,7 +28,7 @@ export default function Hero() {
           </a>
           
           {/* LinkedIn */}
-          <a href="Placeholder" className="social-sticker" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.linkedin.com/in/daniel-zhu-449681175/" className="social-sticker" target="_blank" rel="noopener noreferrer">
             <img 
               src="/LinkedIn_icon.svg" 
               alt="LinkedIn" 
@@ -36,7 +36,7 @@ export default function Hero() {
           </a>
           
           {/* Google Scholar */}
-          <a href="Placeholder" className="social-sticker" target="_blank" rel="noopener noreferrer">
+          <a href="https://scholar.google.com/citations?user=2Q_Wq7AAAAAJ&hl=en" className="social-sticker" target="_blank" rel="noopener noreferrer">
             <img 
               src="/google-scholar-svgrepo-com.svg" 
               alt="Google Scholar" 
@@ -44,7 +44,7 @@ export default function Hero() {
           </a>
           
           {/* Email */}
-          <a href="Placeholder" className="social-sticker">
+          <a href="mailto:danielyumengzhu@gmail.com" className="social-sticker">
             <img 
               src="/Gmail_icon_(2020).svg" 
               alt="Email" 
