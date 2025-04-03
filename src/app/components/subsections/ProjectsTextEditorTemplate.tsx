@@ -329,16 +329,13 @@ const TextEditWindow: React.FC<TextEditWindowProps> = ({
           </div>
           
           {/* Ruler */}
-          <div className="h-6 bg-gray-100 border-b border-gray-300 relative flex items-center">
+          <div className="h-8 bg-gray-100 border-b border-gray-300 relative flex items-center">
             {[...Array(9)].map((_, i) => (
               <React.Fragment key={i}>
-                <div className="absolute w-px h-2 bg-gray-400" style={{ left: `${i * 100}px`, top: '10px' }}></div>
-                <div className="absolute text-xs text-gray-600" style={{ left: `${i * 100}px`, transform: 'translateX(-50%)' }}>{i}</div>
+                <div className="absolute w-px h-2.5 bg-gray-400" style={{ left: `${i * 100}px`, top: '0px' }}></div>
+                <div className="absolute text-xs text-gray-600" style={{ left: `${i * 100}px`, transform: 'translateX(-50%)', bottom: '2px' }}>{i}</div>
               </React.Fragment>
             ))}
-            
-            {/* Tab marker */}
-            <div className="absolute w-4 h-4 text-xs" style={{ left: '100px', top: '2px' }}>✓</div>
           </div>
           
           {/* Text area */}
