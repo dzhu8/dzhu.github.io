@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -13,8 +13,10 @@ interface NewsArticleLayoutProps {
   secondaryContent?: string;
   article1Title?: string;
   article1Content?: string;
+  article1PdfPath?: string; // New prop for article 1 PDF
   article2Title?: string;
   article2Content?: string;
+  article2PdfPath?: string; // New prop for article 2 PDF
   // Numeric font sizes
   mainContentFontSize?: number;
   secondaryContentFontSize?: number;
@@ -33,8 +35,10 @@ const NewsArticleLayout: React.FC<NewsArticleLayoutProps> = ({
   secondaryContent = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse vel justo eu nibh vestibulum tincidunt. Praesent faucibus, nisl in lobortis tincidunt, magna lacus pulvinar mauris, nec accumsan odio metus et dolor. Cras non nisi ut augue pulvinar luctus. Curabitur eget augue ut turpis feugiat finibus eget sed nibh. Duis fermentum, tortor vel dictum lobortis, arcu nisi condimentum eros, vel ullamcorper risus dolor eget nisl. Praesent sodales nibh at euismod mattis. Sed dignissim, tortor sed finibus pellentesque, felis dolor scelerisque massa, eget tincidunt libero magna sit amet risus.",
   article1Title = "Title",
   article1Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse vel justo eu nibh vestibulum tincidunt. Praesent faucibus, nisl in lobortis tincidunt, magna lacus pulvinar mauris.",
+  article1PdfPath,
   article2Title = "Title",
   article2Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse vel justo eu nibh vestibulum tincidunt. Praesent faucibus, nisl in lobortis tincidunt, magna lacus pulvinar mauris.",
+  article2PdfPath,
   // Default font sizes in pixels
   mainContentFontSize = 16,
   secondaryContentFontSize = 16,
@@ -44,6 +48,30 @@ const NewsArticleLayout: React.FC<NewsArticleLayoutProps> = ({
   // Get the first letter of the main content for the drop cap
   const firstLetter = mainContent.charAt(0);
   const restOfContent = mainContent.substring(1);
+  
+  // Refs for measuring header heights
+  const article1HeaderRef = useRef<HTMLDivElement>(null);
+  const article2HeaderRef = useRef<HTMLDivElement>(null);
+  const [headerHeight, setHeaderHeight] = useState<number | null>(null);
+  
+  // Ensure consistent header height
+  useEffect(() => {
+    const calculateHeaderHeight = () => {
+      if (article1HeaderRef.current && article2HeaderRef.current) {
+        const height1 = article1HeaderRef.current.offsetHeight;
+        const height2 = article2HeaderRef.current.offsetHeight;
+        setHeaderHeight(Math.max(height1, height2));
+      }
+    };
+    
+    // Calculate on mount and when window resizes
+    calculateHeaderHeight();
+    window.addEventListener('resize', calculateHeaderHeight);
+    
+    return () => {
+      window.removeEventListener('resize', calculateHeaderHeight);
+    };
+  }, []);
   
   return (
     <div className="max-w-6xl mx-auto p-6">
@@ -140,11 +168,31 @@ const NewsArticleLayout: React.FC<NewsArticleLayoutProps> = ({
       {/* Bottom text boxes */}
       <div className="grid grid-cols-2 gap-8">
         {/* Left text box */}
-        <div>
-          <div className="p-2 mb-2">
-            <h2 className="text-2xl font-bold">{article1Title}</h2>
+        <div className="flex flex-col h-full">
+          <div 
+            ref={article1HeaderRef} 
+            className="p-2 mb-2" 
+            style={headerHeight ? { height: `${headerHeight}px` } : undefined}
+          >
+            <h2 className="text-2xl font-bold text-center">{article1Title}</h2>
+            {article1PdfPath && (
+              <div className="flex justify-center mt-2">
+                <Link href={article1PdfPath} target="_blank" rel="noopener noreferrer">
+                  <button className="flex items-center px-3 py-1 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors text-sm">
+                    <Image 
+                      src="/PDF_file_icon.svg" 
+                      alt="PDF" 
+                      width={16} 
+                      height={16} 
+                      className="mr-1"
+                    />
+                    <span>Download PDF</span>
+                  </button>
+                </Link>
+              </div>
+            )}
           </div>
-          <div className="p-2">
+          <div className="p-2 flex-grow">
             <p className="text-justify" style={{ fontSize: `${article1ContentFontSize}px` }}>
               {article1Content}
             </p>
@@ -152,11 +200,31 @@ const NewsArticleLayout: React.FC<NewsArticleLayoutProps> = ({
         </div>
         
         {/* Right text box */}
-        <div>
-          <div className="p-2 mb-2">
-            <h2 className="text-2xl font-bold">{article2Title}</h2>
+        <div className="flex flex-col h-full">
+          <div 
+            ref={article2HeaderRef} 
+            className="p-2 mb-2"
+            style={headerHeight ? { height: `${headerHeight}px` } : undefined}
+          >
+            <h2 className="text-2xl font-bold text-center">{article2Title}</h2>
+            {article2PdfPath && (
+              <div className="flex justify-center mt-2">
+                <Link href={article2PdfPath} target="_blank" rel="noopener noreferrer">
+                  <button className="flex items-center px-3 py-1 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors text-sm">
+                    <Image 
+                      src="/PDF_file_icon.svg" 
+                      alt="PDF" 
+                      width={16} 
+                      height={16} 
+                      className="mr-1"
+                    />
+                    <span>Download PDF</span>
+                  </button>
+                </Link>
+              </div>
+            )}
           </div>
-          <div className="p-2">
+          <div className="p-2 flex-grow">
             <p className="text-justify" style={{ fontSize: `${article2ContentFontSize}px` }}>
               {article2Content}
             </p>
