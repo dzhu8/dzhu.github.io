@@ -18,14 +18,21 @@ export default function Home() {
       {/* Content Sections with white backgrounds */}
       <Section id="research" title="Research">
         <NewsArticleLayout 
-          title="My Research Work"
-          date="April 2, 2025"
-          mainContent="My research primarily focuses on exploring innovative approaches to solve complex problems in the field. Through a combination of theoretical frameworks and practical experimentation, I've been working to develop new methodologies that can be applied across various domains."
-          secondaryContent="Recent advancements in the field have opened up new avenues for exploration. I've been collaborating with researchers from different institutions to conduct cross-disciplinary studies that bridge traditional boundaries and create novel insights."
-          article1Title="Latest Publication"
-          article1Content="Our most recent paper, published in a prestigious journal, presents a comprehensive analysis of emerging trends and their implications for future research directions."
-          article2Title="Ongoing Projects"
-          article2Content="Currently, I'm involved in several projects that aim to extend our understanding of fundamental concepts and their applications in real-world scenarios."
+          title="Spateo: Spatiotemporal modeling of molecular holograms"
+          imagePath = "/Spateo.png"
+          pdfPath = "/Spateo.pdf"
+          githubUrl = "https://github.com/aristoteleo/spateo-release"
+          date="November 11th, 2024"
+          mainContentFontSize={14}
+          secondaryContentFontSize={14}
+          article1ContentFontSize={14}
+          article2ContentFontSize={14}
+          mainContent="Quantifying spatiotemporal dynamics during embryogenesis is crucial for understanding congenital diseases. We developed Spateo, a 3D spatiotemporal modeling framework, and applied it to a 3D mouse embryogenesis atlas at E9.5 and E11.5, capturing eight million cells. Spateo enables scalable, partial, non-rigid alignment, multi-slice refinement, and mesh correction to create molecular holograms of whole embryos. It introduces digitization methods to uncover multi-level biology from subcellular to whole organ, identifying expression gradients along orthogonal axes of emergent 3D structures, e.g., "
+          secondaryContent="e.g., secondary organizers such as the zona limitans intrathalamica (ZLI). Spateo further jointly models intercellular and intracellular interaction to dissect signaling landscapes in 3D structures. Lastly, Spateo introduces “morphometric vector fields” of cell migration and integrates spatial differential geometry to unveil molecular programs underlying asymmetrical murine heart organogenesis and others, bridging macroscopic changes with molecular dynamics. Thus, Spateo enables the study of organ ecology at a molecular level in 3D space over time. From both a technological and intellectual perspective, this has been my most complex paper (and certainly the one that has taken the most time and effort!)"
+          article1Title="Related: Mapping cells through space and time with moscot"
+          article1Content="Introduces multi-omics single-cell optimal transport (moscot), a scalable framework for optimal transport in single-cell genomics. This can be used to align mouse cells across space and time."
+          article2Title="Related: A single-cell time-lapse of mouse prenatal development from gastrula to birth"
+          article2Content="This study established a single-cell atlas spanning 12.4 million nuclei from 83 embryos, precisely staged at 2- to 6-hour intervals spanning late gastrulation, annotating hundreds of cell types."
         />
       </Section>
 

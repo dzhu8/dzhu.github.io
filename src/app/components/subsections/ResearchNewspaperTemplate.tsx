@@ -1,27 +1,45 @@
 import React from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
 
 interface NewsArticleLayoutProps {
   title?: string;
   date?: string;
-  mainImage?: React.ReactNode;
+  imagePath?: string;
+  imageAlt?: string; 
+  pdfPath?: string;
+  githubUrl?: string;
   mainContent?: string;
   secondaryContent?: string;
   article1Title?: string;
   article1Content?: string;
   article2Title?: string;
   article2Content?: string;
+  // Numeric font sizes
+  mainContentFontSize?: number;
+  secondaryContentFontSize?: number;
+  article1ContentFontSize?: number;
+  article2ContentFontSize?: number;
 }
 
 const NewsArticleLayout: React.FC<NewsArticleLayoutProps> = ({
   title = "Title",
   date = "Date",
-  mainImage = "Image",
+  imagePath = "/Spateo.png", 
+  imageAlt = "Article image",
+  pdfPath,
+  githubUrl,
   mainContent = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse vel justo eu nibh vestibulum tincidunt. Praesent faucibus, nisl in lobortis tincidunt, magna lacus pulvinar mauris, nec accumsan odio metus et dolor. Cras non nisi ut augue pulvinar luctus. Curabitur eget augue ut turpis feugiat finibus eget sed nibh. Duis fermentum, tortor vel dictum lobortis, arcu nisi condimentum eros, vel ullamcorper risus dolor eget nisl. Praesent sodales nibh at euismod mattis. Sed dignissim, tortor sed finibus pellentesque, felis dolor scelerisque massa, eget tincidunt libero magna sit amet risus.",
   secondaryContent = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse vel justo eu nibh vestibulum tincidunt. Praesent faucibus, nisl in lobortis tincidunt, magna lacus pulvinar mauris, nec accumsan odio metus et dolor. Cras non nisi ut augue pulvinar luctus. Curabitur eget augue ut turpis feugiat finibus eget sed nibh. Duis fermentum, tortor vel dictum lobortis, arcu nisi condimentum eros, vel ullamcorper risus dolor eget nisl. Praesent sodales nibh at euismod mattis. Sed dignissim, tortor sed finibus pellentesque, felis dolor scelerisque massa, eget tincidunt libero magna sit amet risus.",
   article1Title = "Title",
   article1Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse vel justo eu nibh vestibulum tincidunt. Praesent faucibus, nisl in lobortis tincidunt, magna lacus pulvinar mauris.",
   article2Title = "Title",
-  article2Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse vel justo eu nibh vestibulum tincidunt. Praesent faucibus, nisl in lobortis tincidunt, magna lacus pulvinar mauris."
+  article2Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse vel justo eu nibh vestibulum tincidunt. Praesent faucibus, nisl in lobortis tincidunt, magna lacus pulvinar mauris.",
+  // Default font sizes in pixels
+  mainContentFontSize = 16,
+  secondaryContentFontSize = 16,
+  article1ContentFontSize = 16,
+  article2ContentFontSize = 16,
 }) => {
   // Get the first letter of the main content for the drop cap
   const firstLetter = mainContent.charAt(0);
@@ -31,7 +49,42 @@ const NewsArticleLayout: React.FC<NewsArticleLayoutProps> = ({
     <div className="max-w-6xl mx-auto p-6">
       {/* Title */}
       <div className="mb-4 p-2">
-        <h1 className="text-5xl font-bold">{title}</h1>
+        <h1 className="text-4xl font-bold">{title}</h1>
+        
+        {/* Action Buttons Row - centered */}
+        <div className="mt-3 flex justify-center space-x-4">
+          {/* PDF Download Button - only shown if pdfPath is provided */}
+          {pdfPath && (
+            <Link href={pdfPath} target="_blank" rel="noopener noreferrer">
+              <button className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors">
+                <Image 
+                  src="/PDF_file_icon.svg" 
+                  alt="PDF" 
+                  width={20} 
+                  height={20} 
+                  className="mr-2"
+                />
+                <span>Download PDF</span>
+              </button>
+            </Link>
+          )}
+          
+          {/* GitHub Button - only shown if githubUrl is provided */}
+          {githubUrl && (
+            <Link href={githubUrl} target="_blank" rel="noopener noreferrer">
+              <button className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors">
+                <Image 
+                  src="/Octicons-mark-github.svg" 
+                  alt="GitHub" 
+                  width={20} 
+                  height={20} 
+                  className="mr-2"
+                />
+                <span>View on GitHub</span>
+              </button>
+            </Link>
+          )}
+        </div>
       </div>
       
       {/* Date and Share */}
@@ -50,19 +103,25 @@ const NewsArticleLayout: React.FC<NewsArticleLayoutProps> = ({
       <div className="flex flex-wrap mb-6">
         {/* Image container */}
         <div className="w-full md:w-1/3 mb-4 md:mb-0">
-          <div className="bg-blue-800 h-96 flex items-center justify-center text-white">
-            {mainImage}
+          <div className="bg-blue-800 h-96 flex items-center justify-center text-white overflow-hidden">
+            <Image 
+              src={imagePath} 
+              alt={imageAlt} 
+              width={400}
+              height={400}
+              style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+            />
           </div>
         </div>
         
         {/* Text columns */}
         <div className="w-full md:w-2/3 md:pl-6">
-          <div className="grid grid-cols-2 gap-4 h-full">
+          <div className="grid grid-cols-2 gap-8 h-full">
             {/* Left column with drop cap */}
             <div className="p-2">
-              <p>
+              <p className="text-justify">
                 <span className="float-left text-7xl font-serif mr-2 mt-1 leading-none">{firstLetter}</span>
-                <span className="text-base">
+                <span style={{ fontSize: `${mainContentFontSize}px` }}>
                   {restOfContent}
                 </span>
               </p>
@@ -70,7 +129,7 @@ const NewsArticleLayout: React.FC<NewsArticleLayoutProps> = ({
             
             {/* Right column */}
             <div className="p-2">
-              <p className="text-base">
+              <p className="text-justify" style={{ fontSize: `${secondaryContentFontSize}px` }}>
                 {secondaryContent}
               </p>
             </div>
@@ -79,14 +138,14 @@ const NewsArticleLayout: React.FC<NewsArticleLayoutProps> = ({
       </div>
       
       {/* Bottom text boxes */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-8">
         {/* Left text box */}
         <div>
           <div className="p-2 mb-2">
             <h2 className="text-2xl font-bold">{article1Title}</h2>
           </div>
           <div className="p-2">
-            <p className="text-base">
+            <p className="text-justify" style={{ fontSize: `${article1ContentFontSize}px` }}>
               {article1Content}
             </p>
           </div>
@@ -98,7 +157,7 @@ const NewsArticleLayout: React.FC<NewsArticleLayoutProps> = ({
             <h2 className="text-2xl font-bold">{article2Title}</h2>
           </div>
           <div className="p-2">
-            <p className="text-base">
+            <p className="text-justify" style={{ fontSize: `${article2ContentFontSize}px` }}>
               {article2Content}
             </p>
           </div>
