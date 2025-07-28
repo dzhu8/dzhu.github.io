@@ -7,7 +7,7 @@
   --grid-size: 20px;
   --grid-line-width: 1px;
   --font-sans: system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), monospace;
+  --font-mono: var(--font-lora), serif;
   --navbar-height: 45px; 
   --navbar-top-offset: 10px; /* Offset from top of page */
 }
@@ -15,7 +15,7 @@
 body {
   background: #ffffff;
   color: var(--foreground);
-  font-family: var(--font-geist-mono), monospace; /* Default font for most content */
+  font-family: var(--font-lora), serif; /* Default font for most content */
   margin: 0;
   padding: 0;
 }
@@ -115,13 +115,13 @@ body {
   justify-content: center; /* Ensure horizontal centering */
 }
 
-/* Content sections with white background and Geist Mono font */
+/* Content sections with white background and Lora font */
 .content-section {
   min-height: 100vh;
   padding: calc(var(--navbar-height) + 3rem) 1rem 3rem;
   background-color: #ffffff;
   position: relative;
-  font-family: var(--font-geist-mono), monospace; /* Apply Geist Mono to content sections */
+  font-family: var(--font-lora), serif; /* Apply Lora to content sections */
 }
 
 /* Container for responsive layout */

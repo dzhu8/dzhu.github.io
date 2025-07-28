@@ -339,12 +339,12 @@ const TextEditWindow: React.FC<TextEditWindowProps> = ({
                                    <React.Fragment key={i}>
                                         <div
                                              className="absolute w-px h-2.5 bg-gray-400"
-                                             style={{ left: `${i * 100}px`, top: "0px" }}
+                                             style={{ left: `${i * 100 + 8}px`, top: "0px" }}
                                         ></div>
                                         <div
                                              className="absolute text-xs text-gray-600"
                                              style={{
-                                                  left: `${i * 100}px`,
+                                                  left: `${i * 100 + 8}px`,
                                                   transform: "translateX(-50%)",
                                                   bottom: "2px",
                                              }}

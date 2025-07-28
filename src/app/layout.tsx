@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Shantell_Sans, Geist_Mono } from "next/font/google";
+import { Shantell_Sans, Lora } from "next/font/google";
 import "./globals.css";
 
 // Load Shantell Sans with Medium weight
@@ -9,10 +9,11 @@ const shantellSans = Shantell_Sans({
      variable: "--font-shantell-sans",
 });
 
-// Load Geist Mono for content sections
-const geistMono = Geist_Mono({
+// Load Lora for content sections
+const lora = Lora({
      subsets: ["latin"],
-     variable: "--font-geist-mono",
+     weight: ["400", "500", "600", "700"], // Multiple weights for flexibility
+     variable: "--font-lora",
 });
 
 export const metadata: Metadata = {
@@ -27,7 +28,7 @@ export default function RootLayout({
 }>) {
      return (
           <html lang="en">
-               <body className={`${shantellSans.variable} ${geistMono.variable} antialiased`}>{children}</body>
+               <body className={`${shantellSans.variable} ${lora.variable} antialiased`}>{children}</body>
           </html>
      );
 }

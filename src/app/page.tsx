@@ -39,13 +39,23 @@ export default function Home() {
                </Section>
 
                <Section id="projects" title="Projects">
-                    <TextEditWindow
-                         title="JSMonitor"
-                         imagePath="/JS_monitor_logo.png"
-                         languages={["python"]}
-                         content={`A suite of terminal commands for quickly managing JavaScript/TypeScript project dependencies that I created out of pure laziness. Currently, this contains two tools: a dependency updater that fetches the latest versions of dependencies and devDependencies and installs them if outdated,
-and an import scanner that checks codebases for import statements that are not yet installed. These packages are installed, and the package file is updated accordingly. Stay tuned for further updates!`}
-                    />
+                    <div className="space-y-12"> {}
+                      <TextEditWindow
+                          title="JSMonitor"
+                          imagePath="/JS_monitor_logo.png"
+                          languages={["python"]}
+                          content={`A suite of terminal commands for quickly managing JavaScript/TypeScript project dependencies that I created out of pure laziness. Currently, this contains two tools: a dependency updater that fetches the latest versions of dependencies and devDependencies and installs them if outdated,
+  and an import scanner that checks codebases for import statements that are not yet installed. These packages are installed, and the package file is updated accordingly. Stay tuned for further updates!`}
+                      />
+
+                      <TextEditWindow
+                          title="Orange"
+                          imagePath="/Orange_logo.png"
+                          languages={["python"]}
+                          content={`A command-line tool for formatting and organizing JavaScript/TypeScript files and additional common file types found in JS/TS projects. Formats files with extensions .js, .jsx, .ts, .tsx, .vue, .html, and .json by default. Allows for custom Prettier config and ignore files to be used,
+                            (by specifying the path to --config flag) with fallback to a default configuration if none is provided.`}
+                      />
+                    </div>
                </Section>
 
                <Section id="hobbies" title="Hobbies">
