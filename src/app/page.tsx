@@ -25,6 +25,7 @@ export default function Home() {
                               pdfPath="/Spateo.pdf"
                               githubUrl="https://github.com/aristoteleo/spateo-release"
                               date="November 11th, 2024"
+                              journal="Cell"
                               mainContentFontSize={14}
                               secondaryContentFontSize={14}
                               article1ContentFontSize={14}

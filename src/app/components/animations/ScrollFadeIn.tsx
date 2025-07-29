@@ -23,16 +23,26 @@ export default function ScrollFadeIn({
 }: ScrollFadeInProps) {
      const elementRef = useRef<HTMLDivElement>(null);
      const [isVisible, setIsVisible] = useState(false);
-     const [hasAnimated, setHasAnimated] = useState(false);
+     const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
      useEffect(() => {
           const observer = new IntersectionObserver(
                ([entry]) => {
-                    if (entry.isIntersecting && !hasAnimated) {
-                         setTimeout(() => {
+                    if (entry.isIntersecting) {
+                         // Clear any existing timeout
+                         if (timeoutRef.current) {
+                              clearTimeout(timeoutRef.current);
+                         }
+                         // Set new timeout for animation
+                         timeoutRef.current = setTimeout(() => {
                               setIsVisible(true);
-                              setHasAnimated(true);
                          }, delay);
+                    } else {
+                         // Element is out of view, reset animation
+                         if (timeoutRef.current) {
+                              clearTimeout(timeoutRef.current);
+                         }
+                         setIsVisible(false);
                     }
                },
                {
@@ -50,8 +60,11 @@ export default function ScrollFadeIn({
                if (currentElement) {
                     observer.unobserve(currentElement);
                }
+               if (timeoutRef.current) {
+                    clearTimeout(timeoutRef.current);
+               }
           };
-     }, [delay, threshold, hasAnimated]);
+     }, [delay, threshold]);
 
      // Calculate transform based on direction
      const getTransform = () => {

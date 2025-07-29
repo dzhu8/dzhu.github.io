@@ -5,6 +5,7 @@ import Link from "next/link";
 interface NewsArticleLayoutProps {
      title?: string;
      date?: string;
+     journal?: string;
      imagePath?: string;
      imageAlt?: string;
      pdfPath?: string;
@@ -13,10 +14,10 @@ interface NewsArticleLayoutProps {
      secondaryContent?: string;
      article1Title?: string;
      article1Content?: string;
-     article1PdfPath?: string; // New prop for article 1 PDF
+     article1PdfPath?: string;
      article2Title?: string;
      article2Content?: string;
-     article2PdfPath?: string; // New prop for article 2 PDF
+     article2PdfPath?: string;
      // Numeric font sizes
      mainContentFontSize?: number;
      secondaryContentFontSize?: number;
@@ -27,6 +28,7 @@ interface NewsArticleLayoutProps {
 const NewsArticleLayout: React.FC<NewsArticleLayoutProps> = ({
      title = "Title",
      date = "Date",
+     journal,
      imagePath = "/Spateo.png",
      imageAlt = "Article image",
      pdfPath,
@@ -53,6 +55,14 @@ const NewsArticleLayout: React.FC<NewsArticleLayoutProps> = ({
      const article1HeaderRef = useRef<HTMLDivElement>(null);
      const article2HeaderRef = useRef<HTMLDivElement>(null);
      const [headerHeight, setHeaderHeight] = useState<number | null>(null);
+     const [currentUrl, setCurrentUrl] = useState<string>('');
+
+     // Get current URL on client side
+     useEffect(() => {
+          if (typeof window !== 'undefined') {
+               setCurrentUrl(window.location.href);
+          }
+     }, []);
 
      // Ensure consistent header height
      useEffect(() => {
@@ -84,7 +94,7 @@ const NewsArticleLayout: React.FC<NewsArticleLayoutProps> = ({
                          {/* PDF Download Button - only shown if pdfPath is provided */}
                          {pdfPath && (
                               <Link href={pdfPath} target="_blank" rel="noopener noreferrer">
-                                   <button className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors">
+                                   <button className="flex items-center px-4 py-2 bg-violet-600 text-white rounded-full hover:bg-violet-700 transition-colors">
                                         <Image
                                              src="/PDF_file_icon.svg"
                                              alt="PDF"
@@ -100,7 +110,7 @@ const NewsArticleLayout: React.FC<NewsArticleLayoutProps> = ({
                          {/* GitHub Button - only shown if githubUrl is provided */}
                          {githubUrl && (
                               <Link href={githubUrl} target="_blank" rel="noopener noreferrer">
-                                   <button className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors">
+                                   <button className="flex items-center px-4 py-2 bg-violet-600 text-white rounded-full hover:bg-violet-700 transition-colors">
                                         <Image
                                              src="/Octicons-mark-github.svg"
                                              alt="GitHub"
@@ -115,15 +125,79 @@ const NewsArticleLayout: React.FC<NewsArticleLayoutProps> = ({
                     </div>
                </div>
 
-               {/* Date and Share */}
+               {/* Date, Journal and Share */}
                <div className="flex items-center mb-6">
-                    <span className="text-xl mr-auto">{date}</span>
+                    <div className="mr-auto">
+                         <span className="text-xl">{date}</span>
+                         {journal && (
+                              <>
+                                   <span className="text-xl">, </span>
+                                   <span className="text-xl italic">{journal}</span>
+                              </>
+                         )}
+                    </div>
                     <span className="mr-2">Share:</span>
                     <div className="flex space-x-2">
-                         {/* Three circular SVG icons */}
-                         <div className="w-10 h-10 rounded-full bg-blue-800"></div>
-                         <div className="w-10 h-10 rounded-full bg-blue-800"></div>
-                         <div className="w-10 h-10 rounded-full bg-blue-800"></div>
+                         {/* LinkedIn */}
+                         <a
+                              href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(currentUrl)}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="w-10 h-10 rounded-full bg-violet-800 flex items-center justify-center hover:bg-violet-700 transition-colors"
+                         >
+                              <Image
+                                   src="/LinkedIn_icon.svg"
+                                   alt="Share on LinkedIn"
+                                   width={20}
+                                   height={20}
+                              />
+                         </a>
+                         
+                         {/* X (Twitter) */}
+                         <a
+                              href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent(title)}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="w-10 h-10 rounded-full bg-violet-800 flex items-center justify-center hover:bg-violet-700 transition-colors"
+                         >
+                              <Image
+                                   src="/X_icon.svg"
+                                   alt="Share on X"
+                                   width={16}
+                                   height={16}
+                                   className="invert" // Invert colors for better visibility
+                              />
+                         </a>
+                         
+                         {/* Bluesky */}
+                         <a
+                              href={`https://bsky.app/intent/compose?text=${encodeURIComponent(title + ' ' + currentUrl)}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="w-10 h-10 rounded-full bg-violet-800 flex items-center justify-center hover:bg-violet-700 transition-colors"
+                         >
+                              <Image
+                                   src="/Bluesky_icon.svg"
+                                   alt="Share on Bluesky"
+                                   width={16}
+                                   height={16}
+                              />
+                         </a>
+                         
+                         {/* Reddit */}
+                         <a
+                              href={`https://www.reddit.com/submit?url=${encodeURIComponent(currentUrl)}&title=${encodeURIComponent(title)}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="w-10 h-10 rounded-full bg-violet-800 flex items-center justify-center hover:bg-violet-700 transition-colors"
+                         >
+                              <Image
+                                   src="/reddit_icon.svg"
+                                   alt="Share on Reddit"
+                                   width={20}
+                                   height={20}
+                              />
+                         </a>
                     </div>
                </div>
 
@@ -178,7 +252,7 @@ const NewsArticleLayout: React.FC<NewsArticleLayoutProps> = ({
                               {article1PdfPath && (
                                    <div className="flex justify-center mt-2">
                                         <Link href={article1PdfPath} target="_blank" rel="noopener noreferrer">
-                                             <button className="flex items-center px-3 py-1 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors text-sm">
+                                             <button className="flex items-center px-3 py-1 bg-violet-600 text-white rounded-full hover:bg-violet-700 transition-colors text-sm">
                                                   <Image
                                                        src="/PDF_file_icon.svg"
                                                        alt="PDF"
@@ -210,7 +284,7 @@ const NewsArticleLayout: React.FC<NewsArticleLayoutProps> = ({
                               {article2PdfPath && (
                                    <div className="flex justify-center mt-2">
                                         <Link href={article2PdfPath} target="_blank" rel="noopener noreferrer">
-                                             <button className="flex items-center px-3 py-1 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors text-sm">
+                                             <button className="flex items-center px-3 py-1 bg-violet-600 text-white rounded-full hover:bg-violet-700 transition-colors text-sm">
                                                   <Image
                                                        src="/PDF_file_icon.svg"
                                                        alt="PDF"
