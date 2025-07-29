@@ -145,7 +145,7 @@ const TextEditWindow: React.FC<TextEditWindowProps> = ({
                               </div>
 
                               {/* Window title */}
-                              <div className="w-full text-center text-sm text-gray-700">{title}</div>
+                              <div className="w-full text-center text-lg font-semibold text-gray-700">{title}</div>
                          </div>
 
                          {/* Toolbar */}
