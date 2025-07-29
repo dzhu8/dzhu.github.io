@@ -4,6 +4,7 @@ import React, { useRef, useEffect } from 'react';
 import * as THREE from 'three';
 import { OBJLoader } from '../utils/three/OBJLoader.js';
 import { CraneGroup, CraneInstance, CraneUtilities } from '../components/animations/origami-crane.js';
+import { QuaternionTransforms } from '../utils/quaternion-transforms.js';
 
 interface ThreeDContainerProps {
   showAxes?: boolean;
@@ -24,12 +25,173 @@ export default function ThreeDContainer({
   const sceneRef = useRef<THREE.Scene | null>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
+  
+  // Path and animation state
+  const pathsRef = useRef<THREE.Vector3[][]>([]);
+  const pathLinesRef = useRef<THREE.Line[]>([]);
+  const cranePathDataRef = useRef<Array<{
+    pathPoints: THREE.Vector3[];
+    currentPathIndex: number;
+    pathProgress: number;
+    currentPosition: THREE.Vector3;
+    referenceVector: THREE.Vector3;
+    derivativeHistory: THREE.Vector3[];
+    isInitialAlignment: boolean;
+  }>>([]);
+  const animationTimeRef = useRef<number>(0);
+
+  // Alignment constants (similar to origami-flock)
+  const REALIGNMENT_INTERVAL = 0.1; // Seconds between re-alignments
+  const DERIVATIVE_SMOOTHING_FRAMES = 5; // Number of frames to smooth derivative
+  const MAX_ANGLE_CHANGE = 90; // Maximum angle change per update for smooth transitions (degrees)
+  const lastRealignmentTimeRef = useRef<number>(0);
 
   useEffect(() => {
     if (!mountRef.current) return;
 
     // Capture the current mount reference for cleanup
     const currentMount = mountRef.current;
+
+    // Define viewing dimensions based on camera distance
+    const viewWidth = cameraDistance * 2;
+    const viewHeight = cameraDistance * 1.2;
+    const viewDepth = cameraDistance * 0.4; // Smaller depth for more gradual z-axis changes
+
+    // Path generation functions
+    const generateRandomPoint = (isStart: boolean) => {
+      if (isStart) {
+        // Start points on the left side with full Z-axis variation
+        return new THREE.Vector3(
+          -viewWidth * 0.8,
+          (Math.random() - 0.5) * viewHeight,
+          (Math.random() - 0.5) * viewDepth // Full z variation at start
+        );
+      } else {
+        // End points on the right side with full Z-axis variation
+        return new THREE.Vector3(
+          viewWidth * 0.8,
+          (Math.random() - 0.5) * viewHeight,
+          (Math.random() - 0.5) * viewDepth // Full z variation at end
+        );
+      }
+    };
+
+    const createSmoothCurvedPath = (startPoint: THREE.Vector3, endPoint: THREE.Vector3) => {
+      const points: THREE.Vector3[] = [];
+      
+      // Create control points for smooth Bézier-like curve
+      const direction = new THREE.Vector3().subVectors(endPoint, startPoint);
+      const distance = direction.length();
+      direction.normalize();
+
+      // Generate perpendicular vectors for curve variation
+      const perpendicular1 = new THREE.Vector3();
+      const perpendicular2 = new THREE.Vector3();
+
+      if (Math.abs(direction.x) < 0.9) {
+        perpendicular1.set(1, 0, 0);
+      } else {
+        perpendicular1.set(0, 1, 0);
+      }
+      perpendicular1.cross(direction).normalize();
+      perpendicular2.crossVectors(direction, perpendicular1).normalize();
+
+      // Curve parameters with smaller z-axis variation
+      const maxCurveOffset = distance * 0.12; // Slightly smaller overall curve
+      const maxZOffset = viewDepth * 0.15; // Much smaller z-axis variation
+      const numControlPoints = 3;
+
+      // Start point
+      points.push(startPoint.clone());
+
+      // Generate intermediate control points
+      for (let i = 1; i <= numControlPoints; i++) {
+        const t = i / (numControlPoints + 1);
+        
+        // Linear interpolation along main direction
+        const basePoint = new THREE.Vector3().lerpVectors(startPoint, endPoint, t);
+        
+        // Add smooth random offset with reduced z-axis variation
+        const offsetScale = Math.sin(t * Math.PI) * maxCurveOffset;
+        const zOffsetScale = Math.sin(t * Math.PI) * maxZOffset * 0.3; // Much smaller z variation
+        
+        const randomOffsetY = (Math.sin(t * Math.PI * 2 + Math.random() * Math.PI) - 0.5) * offsetScale;
+        const randomOffsetZ = (Math.cos(t * Math.PI * 2 + Math.random() * Math.PI) - 0.5) * zOffsetScale;
+        
+        basePoint.add(new THREE.Vector3(0, randomOffsetY, randomOffsetZ));
+        
+        points.push(basePoint);
+      }
+
+      // End point
+      points.push(endPoint.clone());
+
+      // Create smooth curve using Catmull-Rom spline
+      const curve = new THREE.CatmullRomCurve3(points);
+      curve.tension = 0.3; // Slightly higher tension for smoother, more gradual curves
+
+      // Sample points along the curve
+      const pathResolution = 150; // Fewer points for smoother but efficient animation
+      const curvePoints = curve.getPoints(pathResolution);
+
+      return curvePoints;
+    };
+
+    const generateCranePaths = (craneCount: number) => {
+      const paths: THREE.Vector3[][] = [];
+      const cranePathData: Array<{
+        pathPoints: THREE.Vector3[];
+        currentPathIndex: number;
+        pathProgress: number;
+        currentPosition: THREE.Vector3;
+        referenceVector: THREE.Vector3;
+        derivativeHistory: THREE.Vector3[];
+        isInitialAlignment: boolean;
+      }> = [];
+
+      for (let i = 0; i < craneCount; i++) {
+        const startPoint = generateRandomPoint(true);
+        const endPoint = generateRandomPoint(false);
+        const pathPoints = createSmoothCurvedPath(startPoint, endPoint);
+        
+        // Calculate initial direction vector for alignment
+        const initialDirection = new THREE.Vector3().subVectors(pathPoints[1], pathPoints[0]).normalize();
+        
+        paths.push(pathPoints);
+        cranePathData.push({
+          pathPoints,
+          currentPathIndex: 0,
+          pathProgress: Math.random(), // Random starting progress for variety
+          currentPosition: pathPoints[0].clone(),
+          referenceVector: initialDirection.clone(),
+          derivativeHistory: [],
+          isInitialAlignment: true
+        });
+      }
+
+      pathsRef.current = paths;
+      cranePathDataRef.current = cranePathData;
+      
+      return paths;
+    };
+
+    const visualizePaths = (scene: THREE.Scene, paths: THREE.Vector3[][]) => {
+      // Clear existing path lines
+      pathLinesRef.current.forEach(line => {
+        scene.remove(line);
+      });
+      pathLinesRef.current = [];
+
+      // Create new path lines
+      paths.forEach(path => {
+        const geometry = new THREE.BufferGeometry().setFromPoints(path);
+        const material = new THREE.LineBasicMaterial({ color: 0x000000, linewidth: 2 });
+        const line = new THREE.Line(geometry, material);
+        
+        scene.add(line);
+        pathLinesRef.current.push(line);
+      });
+    };
 
     // Scene setup
     const scene = new THREE.Scene();
@@ -74,9 +236,16 @@ export default function ThreeDContainer({
     currentMount.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
-    // Add crane instances
+    // Add crane instances with path animation
     let craneGroup: CraneGroup | null = null;
     let cranesLoaded = false;
+    const craneCount = 10;
+    
+    // Generate paths for cranes
+    const paths = generateCranePaths(craneCount);
+    
+    // Visualize the paths in black
+    visualizePaths(scene, paths);
     
     // Create a crane group
     craneGroup = new CraneGroup('test-cranes');
@@ -86,20 +255,26 @@ export default function ThreeDContainer({
     objLoader.load('/crane-3D.obj', (objObject) => {
       if (!craneGroup) return;
       
-      // Create 10 crane instances
-      for (let i = 0; i < 10; i++) {
+      // Create crane instances along paths
+      for (let i = 0; i < craneCount; i++) {
         const crane = new CraneInstance(`crane-${i}`);
         
         // Load the crane from OBJ object
         crane.loadFromOBJObject(objObject.clone());
         
-        // Set random y and z positions at x = -15
-        const randomY = (Math.random() - 0.5) * 20; // Random Y between -10 and 10
-        const randomZ = (Math.random() - 0.5) * 20; // Random Z between -10 and 10
-        crane.setPosition(-15, randomY, randomZ);
+        // Set initial position to start of path
+        const pathData = cranePathDataRef.current[i];
+        if (pathData && pathData.pathPoints.length > 0) {
+          const startPos = pathData.pathPoints[0];
+          crane.setPosition(startPos.x, startPos.y, startPos.z);
+          pathData.currentPosition.copy(startPos);
+        }
         
         // Process the crane instance
-        CraneUtilities.processCraneInstance(crane, craneScale); // Use dynamic scale
+        CraneUtilities.processCraneInstance(crane, craneScale);
+        
+        // Perform initial crane analysis for alignment system
+        crane.performCraneAnalysis();
         
         // Add crane to the group
         craneGroup.addCrane(crane);
@@ -120,6 +295,135 @@ export default function ThreeDContainer({
     }, undefined, (error: unknown) => {
       console.error('Error loading crane OBJ file:', error);
     });
+
+    // Path animation function with alignment
+    const updateCranePositions = (deltaTime: number) => {
+      if (!craneGroup || !cranesLoaded) return;
+      
+      const travelSpeed = 2.0; // Units per second
+      const cranes = craneGroup.getCranes(); // Get all cranes
+      
+      // Update animation time
+      animationTimeRef.current += deltaTime;
+      
+      cranePathDataRef.current.forEach((pathData, index) => {
+        const crane = cranes[index];
+        if (!crane || !crane.craneObject || !pathData.pathPoints.length) return;
+        
+        // Update progress along current path segment
+        pathData.pathProgress += travelSpeed * deltaTime;
+        
+        // Check if we need to move to next segment or restart
+        if (pathData.pathProgress >= 1.0) {
+          pathData.currentPathIndex++;
+          pathData.pathProgress = 0.0;
+          
+          // If we've reached the end, restart from beginning
+          if (pathData.currentPathIndex >= pathData.pathPoints.length - 1) {
+            pathData.currentPathIndex = 0;
+            pathData.pathProgress = Math.random() * 0.5; // Add some variety to restart timing
+          }
+        }
+        
+        // Interpolate position along current path segment
+        if (pathData.currentPathIndex < pathData.pathPoints.length - 1) {
+          const currentPoint = pathData.pathPoints[pathData.currentPathIndex];
+          const nextPoint = pathData.pathPoints[pathData.currentPathIndex + 1];
+          
+          pathData.currentPosition.lerpVectors(currentPoint, nextPoint, pathData.pathProgress);
+          
+          // Update crane position
+          crane.craneObject.position.copy(pathData.currentPosition);
+          crane.updateObjectCenter();
+          
+          // Calculate current derivative (direction to next point)
+          const currentDerivative = new THREE.Vector3(1, 0, 0); // Default forward
+          
+          if (pathData.currentPathIndex < pathData.pathPoints.length - 2) {
+            const futurePoint = pathData.pathPoints[pathData.currentPathIndex + 2];
+            currentDerivative.subVectors(futurePoint, currentPoint).normalize();
+          } else if (pathData.currentPathIndex < pathData.pathPoints.length - 1) {
+            currentDerivative.subVectors(nextPoint, currentPoint).normalize();
+          }
+          
+          // Add to derivative history for smoothing
+          pathData.derivativeHistory.push(currentDerivative.clone());
+          if (pathData.derivativeHistory.length > DERIVATIVE_SMOOTHING_FRAMES) {
+            pathData.derivativeHistory.shift();
+          }
+          
+          // Calculate smoothed reference vector
+          if (pathData.derivativeHistory.length > 0) {
+            const smoothedVector = new THREE.Vector3();
+            pathData.derivativeHistory.forEach(vec => smoothedVector.add(vec));
+            smoothedVector.divideScalar(pathData.derivativeHistory.length);
+            
+            if (smoothedVector.length() > 0.1) {
+              pathData.referenceVector.copy(smoothedVector.normalize());
+            }
+          }
+          
+          // Perform alignment every REALIGNMENT_INTERVAL seconds
+          if (
+            animationTimeRef.current - lastRealignmentTimeRef.current >= REALIGNMENT_INTERVAL &&
+            !pathData.isInitialAlignment &&
+            !crane.isAnimating
+          ) {
+            performAlignment(crane, pathData);
+          }
+          
+          // Handle initial alignment
+          if (pathData.isInitialAlignment) {
+            performInitialAlignment(crane, pathData);
+            pathData.isInitialAlignment = false;
+          }
+        }
+      });
+      
+      // Update last realignment time for all cranes
+      if (animationTimeRef.current - lastRealignmentTimeRef.current >= REALIGNMENT_INTERVAL) {
+        lastRealignmentTimeRef.current = animationTimeRef.current;
+      }
+    };
+
+    // Define path data type for alignment functions
+    type PathDataType = {
+      pathPoints: THREE.Vector3[];
+      currentPathIndex: number;
+      pathProgress: number;
+      currentPosition: THREE.Vector3;
+      referenceVector: THREE.Vector3;
+      derivativeHistory: THREE.Vector3[];
+      isInitialAlignment: boolean;
+    };
+
+    // Perform initial alignment for crane
+    const performInitialAlignment = (crane: CraneInstance, pathData: PathDataType) => {
+      if (!crane || !pathData) return;
+
+      // Step 1: Align to positive X-axis first
+      const positiveXVector = new THREE.Vector3(1, 0, 0);
+      crane.updateReferenceVectorWithUpRotation(positiveXVector, QuaternionTransforms);
+
+      // Step 2: Align to initial reference vector using smooth update
+      crane.updateReferenceVectorSmooth(pathData.referenceVector, MAX_ANGLE_CHANGE, QuaternionTransforms);
+
+      // Perform initial crane analysis and alignment
+      crane.performCraneAnalysis();
+      crane.performAlignmentTestFlight(QuaternionTransforms, pathData.referenceVector);
+    };
+
+    // Perform periodic alignment for crane
+    const performAlignment = (crane: CraneInstance, pathData: PathDataType) => {
+      if (!crane || !pathData || crane.isAnimating) return;
+
+      // Update the crane's reference vector using smooth transitions
+      crane.updateReferenceVectorSmooth(pathData.referenceVector, MAX_ANGLE_CHANGE, QuaternionTransforms);
+
+      // Perform crane analysis and alignment
+      crane.performCraneAnalysis();
+      crane.performAlignmentTestFlight(QuaternionTransforms, pathData.referenceVector);
+    };
 
     // Add axes helper if enabled
     let xLabels: HTMLDivElement[] = [];
@@ -151,10 +455,20 @@ export default function ThreeDContainer({
     }
 
     // Animation loop
-    const animate = () => {
+    let lastFrameTime = 0;
+    const animate = (currentTime: number = 0) => {
       requestAnimationFrame(animate);
 
-      // Update crane animations
+      // Calculate delta time in seconds
+      const deltaTime = lastFrameTime ? (currentTime - lastFrameTime) / 1000 : 0;
+      lastFrameTime = currentTime;
+
+      // Update crane path positions (includes animation time update)
+      if (deltaTime > 0) {
+        updateCranePositions(deltaTime);
+      }
+
+      // Update crane wing flapping animations
       if (craneGroup && cranesLoaded) {
         craneGroup.updateAllAnimations(wingFlapSpeed);
       }
@@ -195,7 +509,23 @@ export default function ThreeDContainer({
       if (currentMount && renderer.domElement) {
         currentMount.removeChild(renderer.domElement);
       }
+      
+      // Clean up path lines
+      pathLinesRef.current.forEach(line => {
+        if (line.geometry) line.geometry.dispose();
+        if (line.material) {
+          if (Array.isArray(line.material)) {
+            line.material.forEach(mat => mat.dispose());
+          } else {
+            line.material.dispose();
+          }
+        }
+        scene.remove(line);
+      });
+      pathLinesRef.current = [];
+      
       renderer.dispose();
+      
       // Remove x-axis labels
       if (xLabels && currentMount) {
         xLabels.forEach(label => {

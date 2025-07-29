@@ -26,7 +26,7 @@ export class CraneInstance {
           this.lightingUniforms = {
                ambientLightIntensity: { value: 0.95 },
                ambientLightColor: { value: new THREE.Color(0xffffff) },
-               directionalLightIntensity: { value: 1.0 },
+               directionalLightIntensity: { value: 0.0 },
                directionalLightColor: { value: new THREE.Color(0xffffff) },
                directionalLightDirection: { value: new THREE.Vector3(-1, -1, -1).normalize() },
                useExternalLighting: { value: true },

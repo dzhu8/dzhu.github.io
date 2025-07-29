@@ -9,8 +9,8 @@ import TextEditWindow from "./components/subsections/ProjectsTextEditorTemplate"
 import ScrollFadeIn from "./components/animations/ScrollFadeIn";
 
 export default function Home() {
-     const [craneScale, setCraneScale] = useState(0.5);
-     const [wingFlapSpeed, setWingFlapSpeed] = useState(7.5);
+     const [craneScale, setCraneScale] = useState(1.2);
+     const [wingFlapSpeed, setWingFlapSpeed] = useState(3.0);
 
      return (
           <main>
