@@ -2,19 +2,23 @@
 
 import React, { useRef, useEffect } from 'react';
 import * as THREE from 'three';
+import { OBJLoader } from '../utils/three/OBJLoader.js';
+import { CraneGroup, CraneInstance, CraneUtilities } from '../components/animations/origami-crane.js';
 
 interface ThreeDContainerProps {
-  showTestSpheres?: boolean;
   showAxes?: boolean;
   isHeroSection?: boolean;
   cameraDistance?: number;
+  craneScale?: number;
+  wingFlapSpeed?: number;
 }
 
 export default function ThreeDContainer({ 
-  showTestSpheres = false, 
   showAxes = false,
   isHeroSection = false,
-  cameraDistance = 10
+  cameraDistance = 10,
+  craneScale = 1.0,
+  wingFlapSpeed = 7.5
 }: ThreeDContainerProps) {
   const mountRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<THREE.Scene | null>(null);
@@ -70,28 +74,52 @@ export default function ThreeDContainer({
     currentMount.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
-    // Add test spheres if enabled
-    let animatedSphere: THREE.Mesh | null = null;
-    if (showTestSpheres) {
-      const colors = [0xff0000, 0x00ff00, 0x0000ff, 0xffff00, 0xff00ff];
-      const sphereGeometry = new THREE.SphereGeometry(0.5, 32, 32);
-
-      colors.forEach((color, index) => {
-        const material = new THREE.MeshBasicMaterial({ color });
-        const sphere = new THREE.Mesh(sphereGeometry, material);
-        sphere.position.set(
-          (index - 2) * 2, // Spread along x-axis
-          0,
-          (index - 2) * 2  // Spread along z-axis
-        );
-        scene.add(sphere);
+    // Add crane instances
+    let craneGroup: CraneGroup | null = null;
+    let cranesLoaded = false;
+    
+    // Create a crane group
+    craneGroup = new CraneGroup('test-cranes');
+    
+    // Load the crane OBJ file and create instances
+    const objLoader = new OBJLoader();
+    objLoader.load('/crane-3D.obj', (objObject) => {
+      if (!craneGroup) return;
+      
+      // Create 10 crane instances
+      for (let i = 0; i < 10; i++) {
+        const crane = new CraneInstance(`crane-${i}`);
         
-        // Mark the first sphere for animation
-        if (index === 0) {
-          animatedSphere = sphere;
+        // Load the crane from OBJ object
+        crane.loadFromOBJObject(objObject.clone());
+        
+        // Set random y and z positions at x = -15
+        const randomY = (Math.random() - 0.5) * 20; // Random Y between -10 and 10
+        const randomZ = (Math.random() - 0.5) * 20; // Random Z between -10 and 10
+        crane.setPosition(-15, randomY, randomZ);
+        
+        // Process the crane instance
+        CraneUtilities.processCraneInstance(crane, craneScale); // Use dynamic scale
+        
+        // Add crane to the group
+        craneGroup.addCrane(crane);
+        
+        // Add crane object to scene
+        if (crane.craneObject) {
+          scene.add(crane.craneObject);
         }
-      });
-    }
+      }
+      
+      // Apply materials to all cranes
+      craneGroup.applyMaterialsToAllCranes(true);
+      
+      // Start wing flapping animation
+      craneGroup.startAllWingFlapping();
+      
+      cranesLoaded = true;
+    }, undefined, (error: unknown) => {
+      console.error('Error loading crane OBJ file:', error);
+    });
 
     // Add axes helper if enabled
     let xLabels: HTMLDivElement[] = [];
@@ -123,24 +151,12 @@ export default function ThreeDContainer({
     }
 
     // Animation loop
-    let animationTime = 0;
     const animate = () => {
       requestAnimationFrame(animate);
-      animationTime += 0.016; // Approximate delta time
 
-      // Animate the first sphere along x-axis and rotate others
-      if (showTestSpheres) {
-        scene.children.forEach((child) => {
-          if (child instanceof THREE.Mesh && child.geometry instanceof THREE.SphereGeometry) {
-            if (child === animatedSphere) {
-              // Animate along x-axis from -8 to +8 in a looping pattern
-              child.position.x = Math.sin(animationTime * 0.5) * 8;
-              child.position.y = Math.sin(animationTime * 0.7) * 2; // Add some vertical movement
-            } else {
-              child.rotation.y += 0.01;
-            }
-          }
-        });
+      // Update crane animations
+      if (craneGroup && cranesLoaded) {
+        craneGroup.updateAllAnimations(wingFlapSpeed);
       }
 
       // Update x-axis label positions
@@ -187,7 +203,7 @@ export default function ThreeDContainer({
         });
       }
     };
-  }, [showTestSpheres, showAxes, isHeroSection, cameraDistance]);
+  }, [showAxes, isHeroSection, cameraDistance, craneScale, wingFlapSpeed]);
 
   return (
     <div 

@@ -406,9 +406,9 @@ class OBJLoader extends Loader {
           loader.setWithCredentials(this.withCredentials);
           loader.load(
                url,
-               function (text) {
+               (text) => {
                     try {
-                         onLoad(scope.parse(text));
+                         onLoad(this.parse(text));
                     } catch (e) {
                          if (onError) {
                               onError(e);
@@ -416,7 +416,7 @@ class OBJLoader extends Loader {
                               console.error(e);
                          }
 
-                         scope.manager.itemError(url);
+                         this.manager.itemError(url);
                     }
                },
                onProgress,

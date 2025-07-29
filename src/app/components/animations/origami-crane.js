@@ -404,7 +404,7 @@ export class CraneInstance {
 
           // Project midpoint onto line through object center parallel to tracking vector
           const centroidToMidpoint = new THREE.Vector3().subVectors(midpoint, this.objectCenter);
-          const projectionLength = centroidToMidpoint.dot(worldTrackingVector);
+          let projectionLength = centroidToMidpoint.dot(worldTrackingVector);
           // Handle the case where tracking vector points opposite to the desired direction
           if (projectionLength < 0) {
                console.warn(`Projection length for crane ${craneIndex} is negative, using the absolute value`);
@@ -606,7 +606,7 @@ export class CraneInstance {
 
           // Recalculate projection point
           const centroidToMidpoint = new THREE.Vector3().subVectors(midpointWorld, craneCentroid);
-          const projectionLength = centroidToMidpoint.dot(trackingVectorWorld);
+          let projectionLength = centroidToMidpoint.dot(trackingVectorWorld);
 
           // Handle the case where tracking vector points opposite to the desired direction
           if (projectionLength < 0) {

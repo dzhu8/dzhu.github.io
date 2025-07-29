@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useState } from "react";
 import Hero from "./components/hero/Hero";
 import Navbar from "./components/hero/Navbar";
 import Section from "./components/hero/Section";
@@ -8,16 +9,84 @@ import TextEditWindow from "./components/subsections/ProjectsTextEditorTemplate"
 import ScrollFadeIn from "./components/animations/ScrollFadeIn";
 
 export default function Home() {
+     const [craneScale, setCraneScale] = useState(0.5);
+     const [wingFlapSpeed, setWingFlapSpeed] = useState(7.5);
+
      return (
           <main>
                {/* Fixed navigation bar at the top */}
                <Navbar />
 
+               {/* Floating crane scale slider */}
+               <div style={{
+                    position: 'fixed',
+                    top: '20px',
+                    right: '20px',
+                    zIndex: 1000,
+                    background: 'rgba(255, 255, 255, 0.9)',
+                    padding: '15px',
+                    borderRadius: '8px',
+                    boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+                    minWidth: '200px'
+               }}>
+                    {/* Crane Scale Slider */}
+                    <div style={{ marginBottom: '20px' }}>
+                         <div style={{ marginBottom: '8px', fontSize: '14px', fontWeight: 'bold' }}>
+                              Crane Scale: {craneScale.toFixed(2)}
+                         </div>
+                         <input
+                              type="range"
+                              min="0.1"
+                              max="2.0"
+                              step="0.1"
+                              value={craneScale}
+                              onChange={(e) => setCraneScale(parseFloat(e.target.value))}
+                              style={{
+                                   width: '100%',
+                                   height: '6px',
+                                   borderRadius: '3px',
+                                   background: '#ddd',
+                                   outline: 'none'
+                              }}
+                         />
+                         <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: '#666', marginTop: '4px' }}>
+                              <span>0.1</span>
+                              <span>2.0</span>
+                         </div>
+                    </div>
+
+                    {/* Wing Flap Speed Slider */}
+                    <div>
+                         <div style={{ marginBottom: '8px', fontSize: '14px', fontWeight: 'bold' }}>
+                              Wing Flap Speed: {wingFlapSpeed.toFixed(1)}
+                         </div>
+                         <input
+                              type="range"
+                              min="0.5"
+                              max="15"
+                              step="0.5"
+                              value={wingFlapSpeed}
+                              onChange={(e) => setWingFlapSpeed(parseFloat(e.target.value))}
+                              style={{
+                                   width: '100%',
+                                   height: '6px',
+                                   borderRadius: '3px',
+                                   background: '#ddd',
+                                   outline: 'none'
+                              }}
+                         />
+                         <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: '#666', marginTop: '4px' }}>
+                              <span>Slow (0.5)</span>
+                              <span>Fast (15)</span>
+                         </div>
+                    </div>
+               </div>
+
                {/* Hero Section with graph paper background */}
-               <Hero />
+               <Hero craneScale={craneScale} wingFlapSpeed={wingFlapSpeed} />
 
                {/* Content Sections with white backgrounds */}
-               <Section id="research" title="Research">
+               <Section id="research" title="Research" craneScale={craneScale} wingFlapSpeed={wingFlapSpeed}>
                     <ScrollFadeIn delay={200} duration={800} direction="up">
                          <NewsArticleLayout
                               title="Spateo: Spatiotemporal modeling of molecular holograms"
@@ -42,7 +111,7 @@ export default function Home() {
                     </ScrollFadeIn>
                </Section>
 
-               <Section id="projects" title="Projects">
+               <Section id="projects" title="Projects" craneScale={craneScale} wingFlapSpeed={wingFlapSpeed}>
                     <div className="space-y-12"> {}
                       <ScrollFadeIn delay={100} duration={700} direction="left">
                         <TextEditWindow
@@ -66,7 +135,7 @@ export default function Home() {
                     </div>
                </Section>
 
-               <Section id="hobbies" title="Hobbies">
+               <Section id="hobbies" title="Hobbies" craneScale={craneScale} wingFlapSpeed={wingFlapSpeed}>
                     {/* Hobbies content will be added later */}
                </Section>
           </main>

@@ -2,15 +2,20 @@
 import HandwrittenText from "../hero/HandwrittenText";
 import ThreeDContainer from "../../test/ThreeDContainer";
 
-export default function Hero() {
+interface HeroProps {
+     craneScale?: number;
+     wingFlapSpeed?: number;
+}
+
+export default function Hero({ craneScale = 0.5, wingFlapSpeed = 7.5 }: HeroProps) {
      return (
           <section className="hero-section">
                {/* 3D Container for Hero Section */}
                <ThreeDContainer 
-                    sectionId="hero"
-                    showTestSpheres={true}
                     showAxes={true}
                     isHeroSection={true}
+                    craneScale={craneScale}
+                    wingFlapSpeed={wingFlapSpeed}
                />
                
                {/* Add circular image container in the middle of the hero section */}
