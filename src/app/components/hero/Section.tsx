@@ -1,6 +1,7 @@
 "use client";
 
 import ScrollFadeIn from "../animations/ScrollFadeIn";
+import ThreeDContainer from "../../test/ThreeDContainer";
 
 interface SectionProps {
      id: string;
@@ -11,6 +12,14 @@ interface SectionProps {
 export default function Section({ id, title, children }: SectionProps) {
      return (
           <section id={id} className="content-section">
+               {/* 3D Container for Section */}
+               <ThreeDContainer 
+                    sectionId={id}
+                    showTestSpheres={true}
+                    showAxes={true}
+                    isHeroSection={false}
+               />
+               
                <div className="container text-center">
                     <div className="content-piece">
                          <ScrollFadeIn delay={0} duration={600} threshold={0.3}>

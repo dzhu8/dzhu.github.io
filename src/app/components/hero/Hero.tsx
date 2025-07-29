@@ -1,9 +1,18 @@
 "use client";
 import HandwrittenText from "../hero/HandwrittenText";
+import ThreeDContainer from "../../test/ThreeDContainer";
 
 export default function Hero() {
      return (
           <section className="hero-section">
+               {/* 3D Container for Hero Section */}
+               <ThreeDContainer 
+                    sectionId="hero"
+                    showTestSpheres={true}
+                    showAxes={true}
+                    isHeroSection={true}
+               />
+               
                {/* Add circular image container in the middle of the hero section */}
                <div className="hero-image-container">
                     <img src="/daniel_zhu.jpeg" alt="Daniel Zhu" className="hero-image" />

@@ -83,6 +83,25 @@ body {
   font-family: var(--font-shantell-sans), sans-serif;
 }
 
+/* 3D Container Styles */
+.three-d-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hero-3d {
+  z-index: 1; /* Behind hero content but above background */
+}
+
+.section-3d {
+  z-index: 0; /* Behind section content */
+}
+
 /* Circular image holder in the middle of the front page */
 .hero-image-container {
   position: absolute;
@@ -97,6 +116,7 @@ body {
   overflow: hidden; /* Ensures the image stays within the circle */
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25); 
   background-color: white;
+  z-index: 10; /* Above 3D container */
 }
 
 .hero-image {
@@ -113,6 +133,7 @@ body {
   transform: translateY(-50%);
   display: flex;
   justify-content: center; /* Ensure horizontal centering */
+  z-index: 10; /* Above 3D container */
 }
 
 /* Content sections with graph paper background and Lora font */
@@ -137,6 +158,7 @@ body {
   margin: 2rem auto;
   max-width: fit-content;
   position: relative;
+  z-index: 10; /* Above 3D container */
 }
 
 /* Container for responsive layout */
@@ -510,6 +532,7 @@ body {
   width: 300px; /* Container width that accommodates the icons */
   height: 400px;
   pointer-events: none; /* Allow clicking through the container */
+  z-index: 10; /* Above 3D container */
 }
 
 .social-stickers-title {
