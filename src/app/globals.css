@@ -115,13 +115,28 @@ body {
   justify-content: center; /* Ensure horizontal centering */
 }
 
-/* Content sections with white background and Lora font */
+/* Content sections with graph paper background and Lora font */
 .content-section {
   min-height: 100vh;
   padding: calc(var(--navbar-height) + 3rem) 1rem 3rem;
-  background-color: #ffffff;
+  background-image: 
+    linear-gradient(var(--grid-color) var(--grid-line-width), transparent var(--grid-line-width)), 
+    linear-gradient(90deg, var(--grid-color) var(--grid-line-width), transparent var(--grid-line-width));
+  background-size: var(--grid-size) var(--grid-size);
   position: relative;
   font-family: var(--font-lora), serif; /* Apply Lora to content sections */
+}
+
+/* White content pieces that sit on top of the graph paper background */
+.content-piece {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  border: 2px solid #e5e5e5;
+  padding: 2rem;
+  margin: 2rem auto;
+  max-width: fit-content;
+  position: relative;
 }
 
 /* Container for responsive layout */

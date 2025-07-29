@@ -17,7 +17,7 @@ export default function Home() {
                <Hero />
 
                {/* Content Sections with white backgrounds */}
-                              <Section id="research" title="Research">
+               <Section id="research" title="Research">
                     <ScrollFadeIn delay={200} duration={800} direction="up">
                          <NewsArticleLayout
                               title="Spateo: Spatiotemporal modeling of molecular holograms"
