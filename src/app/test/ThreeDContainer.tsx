@@ -55,34 +55,61 @@ export default function ThreeDContainer({
     // Capture the current mount reference for cleanup
     const currentMount = mountRef.current;
 
-    // Define viewing dimensions based on camera distance
-    const viewWidth = cameraDistance * 2;
+    // Define trapezoidal viewing dimensions to combat perspective distortion
+    const viewDepth = cameraDistance * 0.4; // Depth of the viewing volume
     const viewHeight = cameraDistance * 1.2;
-    const viewDepth = cameraDistance * 0.4; // Smaller depth for more gradual z-axis changes
-
-    // Y-axis limits as a fraction of the view area
+    
+    // Create trapezoidal container: front face narrower, back face wider
+    // This compensates for perspective projection making distant objects appear smaller
+    const frontZ = 2.5 - viewDepth * 0.5; // Front of the viewing volume
+    const backZ = 2.5 + viewDepth * 0.5;  // Back of the viewing volume
+    
+    // Calculate perspective compensation factor
+    // Objects at backZ appear smaller by factor of frontZ/backZ, so we scale them up
+    const perspectiveCompensation = (cameraDistance - frontZ) / (cameraDistance - backZ);
+    
+    // Front and back face widths
+    const frontWidth = cameraDistance * 2;
+    const backWidth = frontWidth * perspectiveCompensation; // Wider back face
+    
+    // Y-axis limits as a fraction of the view area (same for front and back)
     const Y_LIMIT_FACTOR = 0.9; // Use 90% of the available height
-    const yLimit = viewHeight * Y_LIMIT_FACTOR * 0.5; // Half above, half below center
+    const frontYLimit = viewHeight * Y_LIMIT_FACTOR * 0.5;
+    const backYLimit = frontYLimit * perspectiveCompensation; // Taller back face
 
-    // Path generation functions
+    // Path generation functions for trapezoidal container
     const generateRandomPoint = (isStart: boolean) => {
-      const centerZ = 2.5;
-      const yRange = yLimit * 2;
-      const yOffset = -yLimit + Math.random() * yRange;
-      
       if (isStart) {
-        // Start points on the left side with constrained Y-axis range
+        // Start points on the left side (front face)
+        const yRange = frontYLimit * 2;
+        const yOffset = -frontYLimit + Math.random() * yRange;
+        const zOffset = frontZ + Math.random() * viewDepth;
+        
+        // Interpolate width based on z-position within the viewing volume
+        const zProgress = (zOffset - frontZ) / viewDepth;
+        const currentWidth = frontWidth + (backWidth - frontWidth) * zProgress;
+        const currentYLimit = frontYLimit + (backYLimit - frontYLimit) * zProgress;
+        
         return new THREE.Vector3(
-          -viewWidth * 0.8,
-          yOffset, // Constrained y-range based on Y_LIMIT_FACTOR
-          centerZ + (Math.random() - 0.8) * 10 // Z-axis range
+          -currentWidth * 0.8,
+          Math.max(-currentYLimit, Math.min(currentYLimit, yOffset)),
+          zOffset
         );
       } else {
-        // End points on the right side with constrained Y-axis range
+        // End points on the right side (back face)
+        const yRange = backYLimit * 2;
+        const yOffset = -backYLimit + Math.random() * yRange;
+        const zOffset = frontZ + Math.random() * viewDepth;
+        
+        // Interpolate width based on z-position within the viewing volume
+        const zProgress = (zOffset - frontZ) / viewDepth;
+        const currentWidth = frontWidth + (backWidth - frontWidth) * zProgress;
+        const currentYLimit = frontYLimit + (backYLimit - frontYLimit) * zProgress;
+        
         return new THREE.Vector3(
-          viewWidth * 0.8,
-          yOffset, // Constrained y-range based on Y_LIMIT_FACTOR
-          centerZ + (Math.random() - 0.8) * 10 // Z-axis range
+          currentWidth * 0.8,
+          Math.max(-currentYLimit, Math.min(currentYLimit, yOffset)),
+          zOffset
         );
       }
     };
@@ -135,8 +162,12 @@ export default function ThreeDContainer({
         
         basePoint.add(new THREE.Vector3(0, randomOffsetY, randomOffsetZ));
         
+        // Calculate y-limit for this z-position in the trapezoidal volume
+        const zProgress = (basePoint.z - frontZ) / viewDepth;
+        const currentYLimit = frontYLimit + (backYLimit - frontYLimit) * zProgress;
+        
         // Clamp the y-coordinate to stay within limits
-        basePoint.y = Math.max(-yLimit, Math.min(yLimit, basePoint.y));
+        basePoint.y = Math.max(-currentYLimit, Math.min(currentYLimit, basePoint.y));
         
         points.push(basePoint);
       }
@@ -154,7 +185,9 @@ export default function ThreeDContainer({
 
       // Post-process: Clamp all y-values to ensure they stay within limits
       curvePoints.forEach(point => {
-        point.y = Math.max(-yLimit, Math.min(yLimit, point.y));
+        const zProgress = (point.z - frontZ) / viewDepth;
+        const currentYLimit = frontYLimit + (backYLimit - frontYLimit) * zProgress;
+        point.y = Math.max(-currentYLimit, Math.min(currentYLimit, point.y));
       });
 
       // Final smoothing pass
@@ -172,8 +205,10 @@ export default function ThreeDContainer({
           const smoothedY = current.y * (1 - smoothingWeight) + 
                            (prev.y + next.y) * 0.5 * smoothingWeight;
           
-          // Apply smoothed Y but keep it within limits
-          smoothedPoints[i].y = Math.max(-yLimit, Math.min(yLimit, smoothedY));
+          // Calculate y-limit for this z-position and apply smoothed Y but keep it within limits
+          const zProgress = (current.z - frontZ) / viewDepth;
+          const currentYLimit = frontYLimit + (backYLimit - frontYLimit) * zProgress;
+          smoothedPoints[i].y = Math.max(-currentYLimit, Math.min(currentYLimit, smoothedY));
         }
       }
 
