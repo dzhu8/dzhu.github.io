@@ -5,9 +5,10 @@ import ThreeDContainer from "../../test/ThreeDContainer";
 interface HeroProps {
      craneScale?: number;
      wingFlapSpeed?: number;
+     pathSpeed?: number;
 }
 
-export default function Hero({ craneScale = 0.5, wingFlapSpeed = 7.5 }: HeroProps) {
+export default function Hero({ craneScale = 0.5, wingFlapSpeed = 7.5, pathSpeed = 2.0 }: HeroProps) {
      return (
           <section className="hero-section">
                {/* 3D Container for Hero Section */}
@@ -16,6 +17,7 @@ export default function Hero({ craneScale = 0.5, wingFlapSpeed = 7.5 }: HeroProp
                     isHeroSection={true}
                     craneScale={craneScale}
                     wingFlapSpeed={wingFlapSpeed}
+                    pathSpeed={pathSpeed}
                />
                
                {/* Add circular image container in the middle of the hero section */}

@@ -18,7 +18,6 @@ export default function TestAxes() {
       </h1>
       
       <ThreeDContainer 
-        showTestSpheres={false}
         showAxes={true}
         isHeroSection={false}
       />

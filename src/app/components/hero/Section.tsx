@@ -9,9 +9,10 @@ interface SectionProps {
      children?: React.ReactNode;
      craneScale?: number;
      wingFlapSpeed?: number;
+     pathSpeed?: number;
 }
 
-export default function Section({ id, title, children, craneScale = 0.5, wingFlapSpeed = 7.5 }: SectionProps) {
+export default function Section({ id, title, children, craneScale = 0.5, wingFlapSpeed = 7.5, pathSpeed = 2.0 }: SectionProps) {
      return (
           <section id={id} className="content-section">
                {/* 3D Container for Section */}
@@ -20,6 +21,7 @@ export default function Section({ id, title, children, craneScale = 0.5, wingFla
                     isHeroSection={false}
                     craneScale={craneScale}
                     wingFlapSpeed={wingFlapSpeed}
+                    pathSpeed={pathSpeed}
                />
                
                <div className="container text-center">

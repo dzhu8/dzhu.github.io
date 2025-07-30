@@ -11,6 +11,7 @@ import ScrollFadeIn from "./components/animations/ScrollFadeIn";
 export default function Home() {
      const [craneScale, setCraneScale] = useState(1.2);
      const [wingFlapSpeed, setWingFlapSpeed] = useState(3.0);
+     const [pathSpeed, setPathSpeed] = useState(2.0);
 
      return (
           <main>
@@ -56,7 +57,7 @@ export default function Home() {
                     </div>
 
                     {/* Wing Flap Speed Slider */}
-                    <div>
+                    <div style={{ marginBottom: '20px' }}>
                          <div style={{ marginBottom: '8px', fontSize: '14px', fontWeight: 'bold' }}>
                               Wing Flap Speed: {wingFlapSpeed.toFixed(1)}
                          </div>
@@ -80,13 +81,39 @@ export default function Home() {
                               <span>Fast (15)</span>
                          </div>
                     </div>
+
+                    {/* Path Speed Slider */}
+                    <div>
+                         <div style={{ marginBottom: '8px', fontSize: '14px', fontWeight: 'bold' }}>
+                              Path Speed: {pathSpeed.toFixed(1)}
+                         </div>
+                         <input
+                              type="range"
+                              min="0.5"
+                              max="10.0"
+                              step="0.5"
+                              value={pathSpeed}
+                              onChange={(e) => setPathSpeed(parseFloat(e.target.value))}
+                              style={{
+                                   width: '100%',
+                                   height: '6px',
+                                   borderRadius: '3px',
+                                   background: '#ddd',
+                                   outline: 'none'
+                              }}
+                         />
+                         <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: '#666', marginTop: '4px' }}>
+                              <span>Slow (0.5)</span>
+                              <span>Fast (10)</span>
+                         </div>
+                    </div>
                </div>
 
                {/* Hero Section with graph paper background */}
-               <Hero craneScale={craneScale} wingFlapSpeed={wingFlapSpeed} />
+               <Hero craneScale={craneScale} wingFlapSpeed={wingFlapSpeed} pathSpeed={pathSpeed} />
 
                {/* Content Sections with white backgrounds */}
-               <Section id="research" title="Research" craneScale={craneScale} wingFlapSpeed={wingFlapSpeed}>
+               <Section id="research" title="Research" craneScale={craneScale} wingFlapSpeed={wingFlapSpeed} pathSpeed={pathSpeed}>
                     <ScrollFadeIn delay={200} duration={800} direction="up">
                          <NewsArticleLayout
                               title="Spateo: Spatiotemporal modeling of molecular holograms"
@@ -111,7 +138,7 @@ export default function Home() {
                     </ScrollFadeIn>
                </Section>
 
-               <Section id="projects" title="Projects" craneScale={craneScale} wingFlapSpeed={wingFlapSpeed}>
+               <Section id="projects" title="Projects" craneScale={craneScale} wingFlapSpeed={wingFlapSpeed} pathSpeed={pathSpeed}>
                     <div className="space-y-12"> {}
                       <ScrollFadeIn delay={100} duration={700} direction="left">
                         <TextEditWindow
@@ -135,7 +162,7 @@ export default function Home() {
                     </div>
                </Section>
 
-               <Section id="hobbies" title="Hobbies" craneScale={craneScale} wingFlapSpeed={wingFlapSpeed}>
+               <Section id="hobbies" title="Hobbies" craneScale={craneScale} wingFlapSpeed={wingFlapSpeed} pathSpeed={pathSpeed}>
                     {/* Hobbies content will be added later */}
                </Section>
           </main>

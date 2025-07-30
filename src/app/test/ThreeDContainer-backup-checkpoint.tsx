@@ -12,7 +12,6 @@ interface ThreeDContainerProps {
   cameraDistance?: number;
   craneScale?: number;
   wingFlapSpeed?: number;
-  pathSpeed?: number;
 }
 
 export default function ThreeDContainer({ 
@@ -20,8 +19,7 @@ export default function ThreeDContainer({
   isHeroSection = false,
   cameraDistance = 10,
   craneScale = 1.0,
-  wingFlapSpeed = 7.5,
-  pathSpeed = 2.0
+  wingFlapSpeed = 7.5
 }: ThreeDContainerProps) {
   const mountRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<THREE.Scene | null>(null);
@@ -31,7 +29,6 @@ export default function ThreeDContainer({
   // Path and animation state
   const pathsRef = useRef<THREE.Vector3[][]>([]);
   const pathLinesRef = useRef<THREE.Line[]>([]);
-  const pathZCoordinatesRef = useRef<{startZ: number[], endZ: number[]}>({startZ: [], endZ: []});
   const cranePathDataRef = useRef<Array<{
     pathPoints: THREE.Vector3[];
     currentPathIndex: number;
@@ -63,18 +60,18 @@ export default function ThreeDContainer({
     // Path generation functions
     const generateRandomPoint = (isStart: boolean) => {
       if (isStart) {
-        // Start points on the left side with expanded Z-axis range (-5 to 5)
+        // Start points on the left side with full Z-axis variation
         return new THREE.Vector3(
           -viewWidth * 0.8,
           (Math.random() - 0.5) * viewHeight,
-          (Math.random() - 0.5) * 10 // Z-axis range from -5 to 5
+          (Math.random() - 0.5) * viewDepth // Full z variation at start
         );
       } else {
-        // End points on the right side with expanded Z-axis range (-5 to 5)
+        // End points on the right side with full Z-axis variation
         return new THREE.Vector3(
           viewWidth * 0.8,
           (Math.random() - 0.5) * viewHeight,
-          (Math.random() - 0.5) * 10 // Z-axis range from -5 to 5
+          (Math.random() - 0.5) * viewDepth // Full z variation at end
         );
       }
     };
@@ -152,18 +149,10 @@ export default function ThreeDContainer({
         isInitialAlignment: boolean;
       }> = [];
 
-      // Initialize z-coordinate storage
-      const startZCoords: number[] = [];
-      const endZCoords: number[] = [];
-
       for (let i = 0; i < craneCount; i++) {
         const startPoint = generateRandomPoint(true);
         const endPoint = generateRandomPoint(false);
         const pathPoints = createSmoothCurvedPath(startPoint, endPoint);
-        
-        // Store z-coordinates
-        startZCoords.push(Number(startPoint.z.toFixed(2)));
-        endZCoords.push(Number(endPoint.z.toFixed(2)));
         
         // Calculate initial direction vector for alignment
         const initialDirection = new THREE.Vector3().subVectors(pathPoints[1], pathPoints[0]).normalize();
@@ -182,7 +171,6 @@ export default function ThreeDContainer({
 
       pathsRef.current = paths;
       cranePathDataRef.current = cranePathData;
-      pathZCoordinatesRef.current = {startZ: startZCoords, endZ: endZCoords};
       
       return paths;
     };
@@ -312,7 +300,7 @@ export default function ThreeDContainer({
     const updateCranePositions = (deltaTime: number) => {
       if (!craneGroup || !cranesLoaded) return;
       
-      const travelSpeed = pathSpeed; // Use the pathSpeed prop instead of hardcoded value
+      const travelSpeed = 2.0; // Units per second
       const cranes = craneGroup.getCranes(); // Get all cranes
       
       // Update animation time
@@ -545,50 +533,23 @@ export default function ThreeDContainer({
         });
       }
     };
-  }, [showAxes, isHeroSection, cameraDistance, craneScale, wingFlapSpeed, pathSpeed]);
+  }, [showAxes, isHeroSection, cameraDistance, craneScale, wingFlapSpeed]);
 
   return (
-    <>
-      <div 
-        ref={mountRef} 
-        className={`three-d-container ${isHeroSection ? 'hero-3d' : 'section-3d'}`}
-        style={{
-          position: 'absolute', // Relative to parent section
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          pointerEvents: 'none',
-          zIndex: isHeroSection ? 1 : 0,
-          margin: 0,
-          padding: 0
-        }}
-      />
-      
-      {/* Z-axis coordinates display */}
-      <div style={{
-        position: 'absolute',
-        top: '20px',
-        left: '20px',
-        zIndex: 10,
-        background: 'rgba(255, 255, 255, 0.9)',
-        padding: '10px',
-        borderRadius: '6px',
-        boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-        fontSize: '12px',
-        fontFamily: 'monospace',
-        maxHeight: '300px',
-        overflowY: 'auto',
-        minWidth: '200px'
-      }}>
-        <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>Path Z-Coordinates</div>
-        <div style={{ marginBottom: '6px' }}>
-          <strong>Start Z:</strong> [{pathZCoordinatesRef.current.startZ.join(', ')}]
-        </div>
-        <div>
-          <strong>End Z:</strong> [{pathZCoordinatesRef.current.endZ.join(', ')}]
-        </div>
-      </div>
-    </>
+    <div 
+      ref={mountRef} 
+      className={`three-d-container ${isHeroSection ? 'hero-3d' : 'section-3d'}`}
+      style={{
+        position: 'absolute', // Relative to parent section
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        pointerEvents: 'none',
+        zIndex: isHeroSection ? 1 : 0,
+        margin: 0,
+        padding: 0
+      }}
+    />
   );
 }
