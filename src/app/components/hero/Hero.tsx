@@ -8,12 +8,50 @@ export default function Hero() {
                <div className="navbar-zone"></div>
                <div className="hero-image-zone"></div>
                <div className="social-stickers-zone"></div>
-               <div className="social-stickers-title-zone"></div>
+               {/*<div className="social-stickers-title-zone"></div>*/}
                <div className="hero-content-zone"></div>
+               <div className="globe-zone"></div>
+               <div className="paper-asset-zone"></div>
 
                {/* Add circular image container in the middle of the hero section */}
                <div className="hero-image-container">
                     <img src="/daniel_zhu.jpeg" alt="Daniel Zhu" className="hero-image" />
+               </div>
+
+               {/* Globe in the lower left corner */}
+               <div className="globe-container">
+                    <img src="/globe.svg" alt="Globe" className="w-full h-full" />
+               </div>
+
+               {/* Paper asset in the lower left corner */}
+               <div className="paper-asset">
+                    {/* Scotch tape on top - 3 random wrinkles */}
+                    <div className="scotch-tape-top">
+                         <div className="shadow"></div>
+                         <span></span> {/* Always hidden - placeholder for :nth-child(1) */}
+                         <span></span> {/* 2nd wrinkle - 15% left, 30deg rotation */}
+                         <span></span> {/* 3rd wrinkle - 45% left, -55deg rotation */}
+                         <span></span> {/* 4th wrinkle - 75% left, 10deg rotation */}
+                    </div>
+                    
+                    {/* Scotch tape on bottom - 2 random wrinkles */}
+                    <div className="scotch-tape-bottom">
+                         <div className="shadow"></div>
+                         <span></span> {/* Always hidden - placeholder for :nth-child(1) */}
+                         <span></span> {/* 2nd wrinkle - 25% left, -40deg rotation */}
+                         <span></span> {/* Hidden - placeholder for :nth-child(3) */}
+                         <span></span> {/* Hidden - placeholder for :nth-child(4) */}
+                         <span></span> {/* 5th wrinkle - 70% left, 65deg rotation */}
+                    </div>
+                    
+                    {/* Periodic table content */}
+                    <div className="periodic-table-container">
+                         <img 
+                              src="/periodic_table.svg" 
+                              alt="Periodic Table of Elements" 
+                              className="periodic-table-svg"
+                         />
+                    </div>
                </div>
 
                {/* Social media stickers section */}
