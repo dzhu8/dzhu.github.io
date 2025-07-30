@@ -7,19 +7,19 @@ interface ScrollFadeInProps {
      delay?: number; // Delay in milliseconds before animation starts
      duration?: number; // Duration of animation in milliseconds
      threshold?: number; // Intersection observer threshold (0-1)
-     direction?: 'up' | 'left' | 'right' | 'fade'; // Animation direction
+     direction?: "up" | "left" | "right" | "fade"; // Animation direction
      distance?: number; // Distance to animate from (in pixels)
      className?: string;
 }
 
-export default function ScrollFadeIn({ 
-     children, 
-     delay = 0, 
-     duration = 600, 
+export default function ScrollFadeIn({
+     children,
+     delay = 0,
+     duration = 600,
      threshold = 0.1,
-     direction = 'up',
+     direction = "up",
      distance = 30,
-     className = ""
+     className = "",
 }: ScrollFadeInProps) {
      const elementRef = useRef<HTMLDivElement>(null);
      const [isVisible, setIsVisible] = useState(false);
@@ -47,7 +47,7 @@ export default function ScrollFadeIn({
                },
                {
                     threshold,
-                    rootMargin: '0px 0px -50px 0px' // Trigger slightly before element is fully visible
+                    rootMargin: "0px 0px -50px 0px", // Trigger slightly before element is fully visible
                }
           );
 
@@ -68,18 +68,18 @@ export default function ScrollFadeIn({
 
      // Calculate transform based on direction
      const getTransform = () => {
-          if (isVisible) return 'translate3d(0, 0, 0)';
-          
+          if (isVisible) return "translate3d(0, 0, 0)";
+
           switch (direction) {
-               case 'up':
+               case "up":
                     return `translate3d(0, ${distance}px, 0)`;
-               case 'left':
+               case "left":
                     return `translate3d(-${distance}px, 0, 0)`;
-               case 'right':
+               case "right":
                     return `translate3d(${distance}px, 0, 0)`;
-               case 'fade':
+               case "fade":
                default:
-                    return 'translate3d(0, 0, 0)';
+                    return "translate3d(0, 0, 0)";
           }
      };
 
@@ -91,8 +91,8 @@ export default function ScrollFadeIn({
                     opacity: isVisible ? 1 : 0,
                     transform: getTransform(),
                     transitionDuration: `${duration}ms`,
-                    transitionProperty: 'opacity, transform',
-                    willChange: 'opacity, transform', // Optimize for animations
+                    transitionProperty: "opacity, transform",
+                    willChange: "opacity, transform", // Optimize for animations
                }}
           >
                {children}

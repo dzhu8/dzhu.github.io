@@ -4,6 +4,13 @@ import HandwrittenText from "../hero/HandwrittenText";
 export default function Hero() {
      return (
           <section className="hero-section">
+               {/* Zones for background masking - placed first so they're behind content */}
+               <div className="navbar-zone"></div>
+               <div className="hero-image-zone"></div>
+               <div className="social-stickers-zone"></div>
+               <div className="social-stickers-title-zone"></div>
+               <div className="hero-content-zone"></div>
+
                {/* Add circular image container in the middle of the hero section */}
                <div className="hero-image-container">
                     <img src="/daniel_zhu.jpeg" alt="Daniel Zhu" className="hero-image" />

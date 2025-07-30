@@ -33,7 +33,7 @@ body {
   backdrop-filter: blur(5px);
   border: 2px solid black;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  z-index: 100;
+  z-index: 100; /* Above both zones and content */
   font-family: var(--font-shantell-sans), sans-serif;
   border-radius: 25px; /* Rounded corners */
   display: flex; 
@@ -83,6 +83,75 @@ body {
   font-family: var(--font-shantell-sans), sans-serif;
 }
 
+/* Zone styles for background masking */
+.hero-image-zone {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 480px; /* 1.2 times larger than container (400px * 1.2) */
+  height: 480px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 1);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.navbar-zone {
+  position: fixed;
+  top: calc(var(--navbar-top-offset) - 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(90% * 1.2); /* 1.2 times larger than navbar */
+  max-width: 1440px; /* 1.2 times the navbar max-width */
+  height: calc(var(--navbar-height) * 1.2 + 20px);
+  background: rgba(255, 255, 255, 1);
+  border-radius: 30px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.social-stickers-zone {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translateY(-50%);
+  width: 360px; /* 1.2 times larger than container (300px * 1.2) */
+  height: 480px; /* 1.2 times larger than container (400px * 1.2) */
+  background: rgba(255, 255, 255, 1);
+  border-radius: 50%; /* Make it circular like the hero image zone */
+  z-index: 1;
+  pointer-events: none;
+}
+
+.hero-content-zone {
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(100% * 1.2);
+  max-width: 520px; 
+  height: 400px;
+  background: rgba(255, 255, 255, 1);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.social-stickers-title-zone {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translateY(-50%);
+  width: 276px; /* 1.2 times larger than title width (230px * 1.2) */
+  height: 84px; /* Estimated height * 1.2 */
+  background: rgba(255, 255, 255, 1);
+  border-radius: 50px; /* Rounded rectangle for text */
+  z-index: 1;
+  pointer-events: none;
+  right: -40px; /* Adjusted to match the title positioning */
+  top: -40px; /* Adjusted to match the title positioning */
+}
+
 /* Circular image holder in the middle of the front page */
 .hero-image-container {
   position: absolute;
@@ -97,6 +166,7 @@ body {
   overflow: hidden; /* Ensures the image stays within the circle */
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25); 
   background-color: white;
+  z-index: 10; /* Above the zone */
 }
 
 .hero-image {
@@ -113,6 +183,7 @@ body {
   transform: translateY(-50%);
   display: flex;
   justify-content: center; /* Ensure horizontal centering */
+  z-index: 10; /* Above the zone */
 }
 
 /* Content sections with graph paper background and Lora font */
@@ -510,6 +581,7 @@ body {
   width: 300px; /* Container width that accommodates the icons */
   height: 400px;
   pointer-events: none; /* Allow clicking through the container */
+  z-index: 10; /* Above the zone */
 }
 
 .social-stickers-title {

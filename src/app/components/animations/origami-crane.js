@@ -1667,11 +1667,7 @@ export class CraneUtilities {
      }
 
      // Process a crane instance (extract faces, edges, create wireframes)
-     static processCraneInstance(
-          crane,
-          craneScale = 2.0,
-          wireframeWidth = DEFAULT_WIREFRAME_WIDTH
-     ) {
+     static processCraneInstance(crane, craneScale = 2.0, wireframeWidth = DEFAULT_WIREFRAME_WIDTH) {
           const object = crane.craneObject;
 
           // Clear arrays for this instance

@@ -55,11 +55,11 @@ const NewsArticleLayout: React.FC<NewsArticleLayoutProps> = ({
      const article1HeaderRef = useRef<HTMLDivElement>(null);
      const article2HeaderRef = useRef<HTMLDivElement>(null);
      const [headerHeight, setHeaderHeight] = useState<number | null>(null);
-     const [currentUrl, setCurrentUrl] = useState<string>('');
+     const [currentUrl, setCurrentUrl] = useState<string>("");
 
      // Get current URL on client side
      useEffect(() => {
-          if (typeof window !== 'undefined') {
+          if (typeof window !== "undefined") {
                setCurrentUrl(window.location.href);
           }
      }, []);
@@ -145,14 +145,9 @@ const NewsArticleLayout: React.FC<NewsArticleLayoutProps> = ({
                               rel="noopener noreferrer"
                               className="w-10 h-10 rounded-full bg-violet-800 flex items-center justify-center hover:bg-violet-700 transition-colors"
                          >
-                              <Image
-                                   src="/LinkedIn_icon.svg"
-                                   alt="Share on LinkedIn"
-                                   width={20}
-                                   height={20}
-                              />
+                              <Image src="/LinkedIn_icon.svg" alt="Share on LinkedIn" width={20} height={20} />
                          </a>
-                         
+
                          {/* X (Twitter) */}
                          <a
                               href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent(title)}`}
@@ -168,22 +163,17 @@ const NewsArticleLayout: React.FC<NewsArticleLayoutProps> = ({
                                    className="invert" // Invert colors for better visibility
                               />
                          </a>
-                         
+
                          {/* Bluesky */}
                          <a
-                              href={`https://bsky.app/intent/compose?text=${encodeURIComponent(title + ' ' + currentUrl)}`}
+                              href={`https://bsky.app/intent/compose?text=${encodeURIComponent(title + " " + currentUrl)}`}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="w-10 h-10 rounded-full bg-violet-800 flex items-center justify-center hover:bg-violet-700 transition-colors"
                          >
-                              <Image
-                                   src="/Bluesky_icon.svg"
-                                   alt="Share on Bluesky"
-                                   width={16}
-                                   height={16}
-                              />
+                              <Image src="/Bluesky_icon.svg" alt="Share on Bluesky" width={16} height={16} />
                          </a>
-                         
+
                          {/* Reddit */}
                          <a
                               href={`https://www.reddit.com/submit?url=${encodeURIComponent(currentUrl)}&title=${encodeURIComponent(title)}`}
@@ -191,12 +181,7 @@ const NewsArticleLayout: React.FC<NewsArticleLayoutProps> = ({
                               rel="noopener noreferrer"
                               className="w-10 h-10 rounded-full bg-violet-800 flex items-center justify-center hover:bg-violet-700 transition-colors"
                          >
-                              <Image
-                                   src="/reddit_icon.svg"
-                                   alt="Share on Reddit"
-                                   width={20}
-                                   height={20}
-                              />
+                              <Image src="/reddit_icon.svg" alt="Share on Reddit" width={20} height={20} />
                          </a>
                     </div>
                </div>
