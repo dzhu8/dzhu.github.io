@@ -60,26 +60,34 @@ export default function ThreeDContainer({
     const viewHeight = cameraDistance * 1.2;
     const viewDepth = cameraDistance * 0.4; // Smaller depth for more gradual z-axis changes
 
+    // Y-axis limits as a fraction of the view area
+    const Y_LIMIT_FACTOR = 0.9; // Use 90% of the available height
+    const yLimit = viewHeight * Y_LIMIT_FACTOR * 0.5; // Half above, half below center
+
     // Path generation functions
     const generateRandomPoint = (isStart: boolean) => {
+      const centerZ = 2.5;
+      const yRange = yLimit * 2;
+      const yOffset = -yLimit + Math.random() * yRange;
+      
       if (isStart) {
-        // Start points on the left side with expanded Z-axis range (-5 to 5)
+        // Start points on the left side with constrained Y-axis range
         return new THREE.Vector3(
           -viewWidth * 0.8,
-          (Math.random() - 0.5) * viewHeight,
-          (Math.random() - 0.5) * 10 // Z-axis range from -5 to 5
+          yOffset, // Constrained y-range based on Y_LIMIT_FACTOR
+          centerZ + (Math.random() - 0.8) * 10 // Z-axis range
         );
       } else {
-        // End points on the right side with expanded Z-axis range (-5 to 5)
+        // End points on the right side with constrained Y-axis range
         return new THREE.Vector3(
           viewWidth * 0.8,
-          (Math.random() - 0.5) * viewHeight,
-          (Math.random() - 0.5) * 10 // Z-axis range from -5 to 5
+          yOffset, // Constrained y-range based on Y_LIMIT_FACTOR
+          centerZ + (Math.random() - 0.8) * 10 // Z-axis range
         );
       }
     };
 
-    const createSmoothCurvedPath = (startPoint: THREE.Vector3, endPoint: THREE.Vector3) => {
+    const createSmoothCurvedPath = (startPoint: THREE.Vector3, endPoint: THREE.Vector3, pathIndex: number) => {
       const points: THREE.Vector3[] = [];
       
       // Create control points for smooth Bézier-like curve
@@ -99,29 +107,36 @@ export default function ThreeDContainer({
       perpendicular1.cross(direction).normalize();
       perpendicular2.crossVectors(direction, perpendicular1).normalize();
 
-      // Curve parameters with smaller z-axis variation
+      // Curve parameters with varied concavity
       const maxCurveOffset = distance * 0.12; // Slightly smaller overall curve
       const maxZOffset = viewDepth * 0.15; // Much smaller z-axis variation
       const numControlPoints = 3;
 
+      // Determine curve direction: even indices go up, odd indices go down
+      const curveDirection = (pathIndex % 2 === 0) ? 1 : -1; // +1 for concave up, -1 for concave down
+
       // Start point
       points.push(startPoint.clone());
 
-      // Generate intermediate control points
+      // Generate intermediate control points with varied concavity
       for (let i = 1; i <= numControlPoints; i++) {
         const t = i / (numControlPoints + 1);
         
         // Linear interpolation along main direction
         const basePoint = new THREE.Vector3().lerpVectors(startPoint, endPoint, t);
         
-        // Add smooth random offset with reduced z-axis variation
+        // Add smooth offset with alternating concavity
         const offsetScale = Math.sin(t * Math.PI) * maxCurveOffset;
         const zOffsetScale = Math.sin(t * Math.PI) * maxZOffset * 0.3; // Much smaller z variation
         
-        const randomOffsetY = (Math.sin(t * Math.PI * 2 + Math.random() * Math.PI) - 0.5) * offsetScale;
+        // Apply curve direction to Y offset for concave up/down behavior
+        const randomOffsetY = (Math.sin(t * Math.PI * 2 + Math.random() * Math.PI) - 0.5) * offsetScale * curveDirection;
         const randomOffsetZ = (Math.cos(t * Math.PI * 2 + Math.random() * Math.PI) - 0.5) * zOffsetScale;
         
         basePoint.add(new THREE.Vector3(0, randomOffsetY, randomOffsetZ));
+        
+        // Clamp the y-coordinate to stay within limits
+        basePoint.y = Math.max(-yLimit, Math.min(yLimit, basePoint.y));
         
         points.push(basePoint);
       }
@@ -137,7 +152,32 @@ export default function ThreeDContainer({
       const pathResolution = 150; // Fewer points for smoother but efficient animation
       const curvePoints = curve.getPoints(pathResolution);
 
-      return curvePoints;
+      // Post-process: Clamp all y-values to ensure they stay within limits
+      curvePoints.forEach(point => {
+        point.y = Math.max(-yLimit, Math.min(yLimit, point.y));
+      });
+
+      // Final smoothing pass
+      const smoothedPoints = [...curvePoints];
+      const smoothingPasses = 2; // Number of smoothing iterations
+      const smoothingWeight = 0.3; // How much to blend with neighbors (0-1)
+
+      for (let pass = 0; pass < smoothingPasses; pass++) {
+        for (let i = 1; i < smoothedPoints.length - 1; i++) {
+          const prev = smoothedPoints[i - 1];
+          const current = smoothedPoints[i];
+          const next = smoothedPoints[i + 1];
+          
+          // Average with neighbors, but only smooth Y to preserve path direction
+          const smoothedY = current.y * (1 - smoothingWeight) + 
+                           (prev.y + next.y) * 0.5 * smoothingWeight;
+          
+          // Apply smoothed Y but keep it within limits
+          smoothedPoints[i].y = Math.max(-yLimit, Math.min(yLimit, smoothedY));
+        }
+      }
+
+      return smoothedPoints;
     };
 
     const generateCranePaths = (craneCount: number) => {
@@ -159,7 +199,7 @@ export default function ThreeDContainer({
       for (let i = 0; i < craneCount; i++) {
         const startPoint = generateRandomPoint(true);
         const endPoint = generateRandomPoint(false);
-        const pathPoints = createSmoothCurvedPath(startPoint, endPoint);
+        const pathPoints = createSmoothCurvedPath(startPoint, endPoint, i);
         
         // Store z-coordinates
         startZCoords.push(Number(startPoint.z.toFixed(2)));
