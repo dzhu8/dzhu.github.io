@@ -15,6 +15,7 @@
      --base-width: 2048; /* Base design width in pixels */
      --scale-factor: 1; /* Will be dynamically calculated by JavaScript */
      --navbar-scale-factor: 1; /* Navbar-specific scale factor (scales up but not down) */
+     --dampened-scale-factor: 1; /* Dampened scale factor for hero image and social elements */
      --viewport-width: 100vw;
      
      /* Base font sizes */
@@ -43,6 +44,9 @@
      
      /* Navbar-specific scaled font sizes (scales up but not down) */
      --navbar-scaled-font-xl: calc(var(--base-font-xl) * var(--navbar-scale-factor));
+     
+     /* Dampened scaled font sizes for social elements */
+     --dampened-scaled-font-2xl: calc(var(--base-font-2xl) * var(--dampened-scale-factor));
      
      /* Base dimensions for scalable assets */
      --base-hero-image-size: 400px;
@@ -76,6 +80,16 @@
      --scaled-scotch-tape-height: calc(var(--base-scotch-tape-height) * var(--scale-factor));
      --scaled-scotch-tape-offset: calc(var(--base-scotch-tape-offset) * var(--scale-factor));
      
+     /* Dampened scaled dimensions for hero image and social elements */
+     --dampened-hero-image-size: calc(var(--base-hero-image-size) * var(--dampened-scale-factor));
+     --dampened-hero-image-border: calc(var(--base-hero-image-border) * var(--dampened-scale-factor));
+     --dampened-hero-image-outline: calc(var(--base-hero-image-outline) * var(--dampened-scale-factor));
+     --dampened-social-container-width: calc(var(--base-social-container-width) * var(--dampened-scale-factor));
+     --dampened-social-container-height: calc(var(--base-social-container-height) * var(--dampened-scale-factor));
+     --dampened-social-sticker-size: calc(var(--base-social-sticker-size) * var(--dampened-scale-factor));
+     --dampened-social-sticker-border: calc(var(--base-social-sticker-border) * var(--dampened-scale-factor));
+     --dampened-social-sticker-outline: calc(var(--base-social-sticker-outline) * var(--dampened-scale-factor));
+     
      /* Base zone dimensions (1.2x larger than their assets) */
      --base-hero-image-zone-size: calc(var(--base-hero-image-size) * 1.2);
      --base-social-zone-width: calc(var(--base-social-container-width) * 1.2);
@@ -93,6 +107,11 @@
      --scaled-paper-zone-height: calc(var(--base-paper-zone-height) * var(--scale-factor));
      --scaled-globe-zone-width: calc(var(--base-globe-zone-width) * var(--scale-factor));
      --scaled-globe-zone-height: calc(var(--base-globe-zone-height) * var(--scale-factor));
+     
+     /* Dampened zone dimensions for hero image and social elements */
+     --dampened-hero-image-zone-size: calc(var(--base-hero-image-zone-size) * var(--dampened-scale-factor));
+     --dampened-social-zone-width: calc(var(--base-social-zone-width) * var(--dampened-scale-factor));
+     --dampened-social-zone-height: calc(var(--base-social-zone-height) * var(--dampened-scale-factor));
      
      /* Calculated scale-aware properties (examples for future use) */
      --scaled-grid-size: calc(var(--grid-size) * var(--scale-factor));
@@ -257,8 +276,8 @@ body {
      top: 40%;
      left: 50%;
      transform: translate(-50%, -50%);
-     width: var(--scaled-hero-image-zone-size);
-     height: var(--scaled-hero-image-zone-size);
+     width: var(--dampened-hero-image-zone-size);
+     height: var(--dampened-hero-image-zone-size);
      border-radius: 50%;
      background: rgba(255, 255, 255, 1);
      z-index: 1;
@@ -285,8 +304,8 @@ body {
      top: 40%;
      left: 50%;
      transform: translateY(-50%);
-     width: var(--scaled-social-zone-width);
-     height: var(--scaled-social-zone-height);
+     width: var(--dampened-social-zone-width);
+     height: var(--dampened-social-zone-height);
      background: rgba(255, 255, 255, 1);
      border-radius: 50%; /* Make it circular like the hero image zone */
      z-index: 1;
@@ -519,13 +538,13 @@ body {
      top: 40%;
      left: 50%;
      transform: translate(-50%, -50%);
-     width: var(--scaled-hero-image-size);
-     height: var(--scaled-hero-image-size);
+     width: var(--dampened-hero-image-size);
+     height: var(--dampened-hero-image-size);
      border-radius: 50%; /* Makes it circular */
-     border: var(--scaled-hero-image-border) solid white;
-     outline: var(--scaled-hero-image-outline) solid black;
+     border: var(--dampened-hero-image-border) solid white;
+     outline: var(--dampened-hero-image-outline) solid black;
      overflow: hidden; /* Ensures the image stays within the circle */
-     box-shadow: 0 calc(var(--scaled-hero-image-size) * 0.02) calc(var(--scaled-hero-image-size) * 0.04) rgba(0, 0, 0, 0.25); /* Scaled 8px 16px */
+     box-shadow: 0 calc(var(--dampened-hero-image-size) * 0.02) calc(var(--dampened-hero-image-size) * 0.04) rgba(0, 0, 0, 0.25); /* Scaled 8px 16px */
      background-color: white;
      z-index: 10; /* Above the zone */
 }
@@ -1041,21 +1060,21 @@ body {
      top: 40%;
      left: 50%;
      transform: translateY(-50%);
-     width: var(--scaled-social-container-width);
-     height: var(--scaled-social-container-height);
+     width: var(--dampened-social-container-width);
+     height: var(--dampened-social-container-height);
      pointer-events: none; /* Allow clicking through the container */
      z-index: 10; /* Above the zone */
 }
 
 .social-stickers-title {
      font-family: var(--font-shantell-sans), cursive;
-     font-size: var(--scaled-font-2xl); /* Use scaled font size */
+     font-size: var(--dampened-scaled-font-2xl); /* Use dampened scaled font size */
      text-align: center;
      color: black;
      position: absolute;
-     top: calc(var(--scaled-social-container-height) * -0.1); /* Scaled equivalent of -40px relative to 400px */
-     right: calc(var(--scaled-social-container-width) * -0.133); /* Scaled equivalent of -40px relative to 300px */
-     width: calc(var(--scaled-social-container-width) * 0.767); /* Scaled equivalent of 230px relative to 300px */
+     top: calc(var(--dampened-social-container-height) * -0.1); /* Scaled equivalent of -40px relative to 400px */
+     right: calc(var(--dampened-social-container-width) * -0.133); /* Scaled equivalent of -40px relative to 300px */
+     width: calc(var(--dampened-social-container-width) * 0.767); /* Scaled equivalent of 230px relative to 300px */
      line-height: 1.3;
      pointer-events: auto; /* Make text clickable */
 }
@@ -1068,13 +1087,13 @@ body {
 }
 
 .social-sticker {
-     width: var(--scaled-social-sticker-size);
-     height: var(--scaled-social-sticker-size);
+     width: var(--dampened-social-sticker-size);
+     height: var(--dampened-social-sticker-size);
      border-radius: 50%;
-     border: var(--scaled-social-sticker-border) solid white;
-     outline: var(--scaled-social-sticker-outline) solid black;
+     border: var(--dampened-social-sticker-border) solid white;
+     outline: var(--dampened-social-sticker-outline) solid black;
      overflow: hidden;
-     box-shadow: 0 calc(var(--scaled-social-sticker-size) * 0.057) calc(var(--scaled-social-sticker-size) * 0.114) rgba(0, 0, 0, 0.25); /* Scaled 4px 8px */
+     box-shadow: 0 calc(var(--dampened-social-sticker-size) * 0.057) calc(var(--dampened-social-sticker-size) * 0.114) rgba(0, 0, 0, 0.25); /* Scaled 4px 8px */
      background-color: white;
      display: flex;
      align-items: center;
@@ -1089,26 +1108,26 @@ body {
 /* Position icons symmetrically - two above, two below the centerline, following the curve */
 .social-sticker:nth-child(1) {
      /* GitHub */
-     right: calc(var(--scaled-social-container-width) * -0.017); /* Scaled equivalent of -5px relative to 300px */
-     top: calc(var(--scaled-social-container-height) * 0.275); /* Scaled equivalent of 110px relative to 400px */
+     right: calc(var(--dampened-social-container-width) * -0.017); /* Scaled equivalent of -5px relative to 300px */
+     top: calc(var(--dampened-social-container-height) * 0.275); /* Scaled equivalent of 110px relative to 400px */
 }
 
 .social-sticker:nth-child(2) {
      /* LinkedIn */
-     right: calc(var(--scaled-social-container-width) * 0.117); /* Scaled equivalent of 35px relative to 300px */
-     top: calc(var(--scaled-social-container-height) * 0.025); /* Scaled equivalent of 10px relative to 400px */
+     right: calc(var(--dampened-social-container-width) * 0.117); /* Scaled equivalent of 35px relative to 300px */
+     top: calc(var(--dampened-social-container-height) * 0.025); /* Scaled equivalent of 10px relative to 400px */
 }
 
 .social-sticker:nth-child(3) {
      /* Google Scholar */
-     right: calc(var(--scaled-social-container-width) * 0.117); /* Scaled equivalent of 35px relative to 300px */
-     top: calc(var(--scaled-social-container-height) * 0.8); /* Scaled equivalent of 320px relative to 400px */
+     right: calc(var(--dampened-social-container-width) * 0.117); /* Scaled equivalent of 35px relative to 300px */
+     top: calc(var(--dampened-social-container-height) * 0.8); /* Scaled equivalent of 320px relative to 400px */
 }
 
 .social-sticker:nth-child(4) {
      /* Email - bottom right */
-     right: calc(var(--scaled-social-container-width) * -0.017); /* Scaled equivalent of -5px relative to 300px */
-     top: calc(var(--scaled-social-container-height) * 0.55); /* Scaled equivalent of 220px relative to 400px */
+     right: calc(var(--dampened-social-container-width) * -0.017); /* Scaled equivalent of -5px relative to 300px */
+     top: calc(var(--dampened-social-container-height) * 0.55); /* Scaled equivalent of 220px relative to 400px */
 }
 
 /* Hobbies Cards Container - 2x2 grid layout */
