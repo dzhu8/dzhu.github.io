@@ -325,9 +325,9 @@ body {
 
 .hero-content-zone {
      position: absolute;
-     top: 80%;
+     top: calc(40% + var(--dampened-hero-image-size) / 2 + 40px * var(--dampened-scale-factor));
      left: 50%;
-     transform: translate(-50%, -50%);
+     transform: translate(-50%, -10%);
      width: var(--dampened-hero-content-zone-width);
      max-width: var(--dampened-hero-content-zone-width);
      height: var(--dampened-hero-content-zone-height);
@@ -568,10 +568,10 @@ body {
 
 /* Position hero content down the page */
 .hero-content {
-     width: 100%;
      position: absolute;
-     top: 80%; /* Pushes content down the viewport */
-     transform: translateY(-50%);
+     left: 50%;
+     top: calc(40% + var(--dampened-hero-image-size) / 2 + 40px * var(--dampened-scale-factor));
+     transform: translate(-50%, 0);
      display: flex;
      justify-content: center; /* Ensure horizontal centering */
      z-index: 10; /* Above the zone */
@@ -621,6 +621,23 @@ body {
      outline: var(--dampened-hero-image-outline) solid black;
      overflow: hidden; /* Ensures the image stays within the outline */
      box-shadow: 0 calc(var(--dampened-name-sticker-max-width) * 0.02) calc(var(--dampened-name-sticker-max-width) * 0.04) rgba(0, 0, 0, 0.25); /* Scaled shadow */
+     
+     /* Verification styling - orange box around sticker */
+     box-shadow: 
+          0 calc(var(--dampened-name-sticker-max-width) * 0.02) calc(var(--dampened-name-sticker-max-width) * 0.04) rgba(0, 0, 0, 0.25), /* Original shadow */
+          0 0 0 3px orange; /* Orange verification border */
+}
+
+/* Blue line indicator at the top of the name sticker */
+.name-sticker::before {
+     content: '';
+     position: absolute;
+     top: -10px;
+     left: -20px;
+     right: -20px;
+     height: 2px;
+     background-color: blue;
+     z-index: 1000;
 }
 
 .sticker-image {
