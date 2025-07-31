@@ -5,6 +5,7 @@ import Navbar from "./components/hero/Navbar";
 import Section from "./components/hero/Section";
 import NewsArticleLayout from "./components/subsections/ResearchNewspaperTemplate";
 import TextEditWindow from "./components/subsections/ProjectsTextEditorTemplate";
+//import HobbiesCardTemplate from "./components/subsections/HobbiesCardTemplate";
 import ScrollFadeIn from "./components/animations/ScrollFadeIn";
 
 export default function Home() {
@@ -68,7 +69,34 @@ export default function Home() {
                </Section>
 
                <Section id="hobbies" title="Hobbies">
-                    {/* Hobbies content will be added later */}
+                    <ScrollFadeIn delay={200} duration={800} direction="up">
+                         <div className="hobbies-cards-container">
+                              {/* First Row */}
+                              <div className="hobby-card-asset">
+                                   <div className="hobby-card-header"></div>
+                                   <div className="hobby-card-content">
+                                        <div className="hobby-card-image-placeholder">
+                                             Image Placeholder
+                                        </div>
+                                        <div className="hobby-card-text-placeholder">
+                                             Text Placeholder
+                                        </div>
+                                   </div>
+                              </div>
+                              
+                              <div className="hobby-card-asset">
+                                   <div className="hobby-card-header"></div>
+                                   <div className="hobby-card-content">
+                                        <div className="hobby-card-image-placeholder">
+                                             Image Placeholder
+                                        </div>
+                                        <div className="hobby-card-text-placeholder">
+                                             Text Placeholder
+                                        </div>
+                                   </div>
+                              </div>
+                         </div>
+                    </ScrollFadeIn>
                </Section>
           </main>
      );

@@ -33,7 +33,7 @@ export default function Hero() {
                          <span></span> {/* 3rd wrinkle - 45% left, -55deg rotation */}
                          <span></span> {/* 4th wrinkle - 75% left, 10deg rotation */}
                     </div>
-                    
+
                     {/* Scotch tape on bottom - 2 random wrinkles */}
                     <div className="scotch-tape-bottom">
                          <div className="shadow"></div>
@@ -43,12 +43,12 @@ export default function Hero() {
                          <span></span> {/* Hidden - placeholder for :nth-child(4) */}
                          <span></span> {/* 5th wrinkle - 70% left, 65deg rotation */}
                     </div>
-                    
+
                     {/* Periodic table content */}
                     <div className="periodic-table-container">
-                         <img 
-                              src="/periodic_table.svg" 
-                              alt="Periodic Table of Elements" 
+                         <img
+                              src="/periodic_table.svg"
+                              alt="Periodic Table of Elements"
                               className="periodic-table-svg"
                          />
                     </div>

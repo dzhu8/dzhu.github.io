@@ -169,8 +169,8 @@ body {
 /* Globe container in the top right corner - centered within zone */
 .globe-container {
      position: absolute;
-     top: -12px; 
-     right: 6px; /* (332 - 320) / 2 = 6px to center horizontally in zone */
+     top: -2px; 
+     right: -15px;
      width: 320px;
      height: 320px;
      z-index: 2;
@@ -180,8 +180,8 @@ body {
 /* Paper asset zone in the lower left corner */
 .paper-asset-zone {
      position: absolute;
-     bottom: 45px; /* Adjusted to center around paper asset (60px - 15px offset) */
-     left: 38px; /* Adjusted to center around paper asset (60px - 22px offset) */
+     bottom: 35px; 
+     left: 20px;
      width: 528px; /* 1.1 times larger than paper asset (440px * 1.2) */
      height: 360px; /* 1.1 times larger than paper asset (300px * 1.2) */
      background: rgba(255, 255, 255, 1);
@@ -237,7 +237,7 @@ body {
      width: 70%; /* 70% scale of paper width */
      height: 50px;
      background-color: rgba(220, 230, 255, 0.15);
-     border: 1px solid rgba(200, 220, 255, 0.3);
+     border: 1px solid rgba(200, 220, 255, 0.8);
      overflow: hidden;
      z-index: 6;
      border-radius: 2px;
@@ -256,7 +256,7 @@ body {
      width: 70%; /* 70% scale of paper width */
      height: 50px;
      background-color: rgba(220, 230, 255, 0.15);
-     border: 1px solid rgba(200, 220, 255, 0.3);
+     border: 1px solid rgba(200, 220, 255, 0.8);
      overflow: hidden;
      z-index: 6;
      border-radius: 2px;
@@ -939,3 +939,112 @@ body {
      right: -5px;
      top: 220px;
 }
+
+/* Hobbies Cards Container - 2x2 grid layout */
+.hobbies-cards-container {
+     display: grid;
+     grid-template-columns: repeat(2, 1fr);
+     grid-template-rows: repeat(2, 1fr);
+     gap: 3rem;
+     max-width: 1200px;
+     margin: 0 auto;
+     margin-left: -45px; /* Move the entire grid slightly left */
+     padding: 2rem;
+     justify-items: center;
+     align-items: center;
+}
+
+/* Hobby Card Asset */
+.hobby-card-asset {
+     position: relative;
+     width: 540px; 
+     height: 375px; 
+     background-color: #ffffff;
+     border: 1px solid #e5e5e5;
+     border-radius: 10px; 
+     transform: rotate(-2deg); /* Slight rotation for organic feel */
+     box-shadow: 
+          0 12px 32px rgba(0, 0, 0, 0.25), /* More distinctive shadow */
+          0 6px 16px rgba(0, 0, 0, 0.18),
+          0 2px 8px rgba(0, 0, 0, 0.12);
+     z-index: 5;
+     pointer-events: auto;
+     transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hobby-card-asset:hover {
+     transform: rotate(-1deg) translateY(-4px);
+     box-shadow: 
+          0 16px 40px rgba(0, 0, 0, 0.3),
+          0 8px 20px rgba(0, 0, 0, 0.22),
+          0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Alternate rotation for second column cards */
+.hobby-card-asset:nth-child(even) {
+     transform: rotate(2deg);
+}
+
+.hobby-card-asset:nth-child(even):hover {
+     transform: rotate(1deg) translateY(-4px);
+}
+
+/* Food header image container at the top of each card */
+.hobby-card-header {
+     position: absolute;
+     top: 0;
+     left: 0;
+     right: 0;
+     height: 80px; /* Header height */
+     background-image: url('/Food_header.png');
+     background-size: cover;
+     background-position: center;
+     background-repeat: no-repeat;
+     border-radius: 10px 10px 0 0;
+     z-index: 7;
+}
+
+/* Main content area of the hobby card */
+.hobby-card-content {
+     position: absolute;
+     top: 80px; /* Below the header */
+     left: 20px;
+     right: 20px;
+     bottom: 20px;
+     display: flex;
+     flex-direction: row; /* Change to row for side-by-side layout */
+     gap: 15px;
+     z-index: 7;
+}
+
+/* Placeholder for image content - left side */
+.hobby-card-image-placeholder {
+     flex: 1; /* Take up half the width */
+     background-color: #f8f9fa;
+     border: 2px dashed #dee2e6;
+     border-radius: 6px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     color: #6c757d;
+     font-family: var(--font-lora), serif;
+     font-size: 1rem;
+     font-style: italic;
+}
+
+/* Placeholder for text content - right side */
+.hobby-card-text-placeholder {
+     flex: 1; /* Take up half the width */
+     background-color: #f8f9fa;
+     border: 2px dashed #dee2e6;
+     border-radius: 6px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     color: #6c757d;
+     font-family: var(--font-lora), serif;
+     font-size: 0.9rem;
+     font-style: italic;
+}
+
+
