@@ -47,6 +47,7 @@
      
      /* Dampened scaled font sizes for social elements */
      --dampened-scaled-font-2xl: calc(var(--base-font-2xl) * var(--dampened-scale-factor));
+     --dampened-scaled-font-4xl: calc(var(--base-font-4xl) * var(--dampened-scale-factor));
      
      /* Base dimensions for scalable assets */
      --base-hero-image-size: 400px;
@@ -63,6 +64,9 @@
      --base-periodic-table-padding: 20px;
      --base-scotch-tape-height: 50px;
      --base-scotch-tape-offset: 25px;
+     --base-name-sticker-max-width: 400px;
+     --base-hero-content-zone-width: 480px;
+     --base-hero-content-zone-height: 340px;
      
      /* Scaled dimensions */
      --scaled-hero-image-size: calc(var(--base-hero-image-size) * var(--scale-factor));
@@ -89,6 +93,9 @@
      --dampened-social-sticker-size: calc(var(--base-social-sticker-size) * var(--dampened-scale-factor));
      --dampened-social-sticker-border: calc(var(--base-social-sticker-border) * var(--dampened-scale-factor));
      --dampened-social-sticker-outline: calc(var(--base-social-sticker-outline) * var(--dampened-scale-factor));
+     --dampened-name-sticker-max-width: calc(var(--base-name-sticker-max-width) * var(--dampened-scale-factor));
+     --dampened-hero-content-zone-width: calc(var(--base-hero-content-zone-width) * var(--dampened-scale-factor));
+     --dampened-hero-content-zone-height: calc(var(--base-hero-content-zone-height) * var(--dampened-scale-factor));
      
      /* Base zone dimensions (1.2x larger than their assets) */
      --base-hero-image-zone-size: calc(var(--base-hero-image-size) * 1.2);
@@ -98,6 +105,8 @@
      --base-paper-zone-height: calc(var(--base-paper-height) * 1.2);
      --base-globe-zone-width: 288px;
      --base-globe-zone-height: 332px;
+     --base-hero-content-zone-width: calc(var(--base-hero-content-zone-width) * 1.2);
+     --base-hero-content-zone-height: calc(var(--base-hero-content-zone-height) * 1.2);
      
      /* Scaled zone dimensions */
      --scaled-hero-image-zone-size: calc(var(--base-hero-image-zone-size) * var(--scale-factor));
@@ -112,6 +121,8 @@
      --dampened-hero-image-zone-size: calc(var(--base-hero-image-zone-size) * var(--dampened-scale-factor));
      --dampened-social-zone-width: calc(var(--base-social-zone-width) * var(--dampened-scale-factor));
      --dampened-social-zone-height: calc(var(--base-social-zone-height) * var(--dampened-scale-factor));
+     --dampened-hero-content-zone-width: calc(var(--base-hero-content-zone-width) * var(--dampened-scale-factor));
+     --dampened-hero-content-zone-height: calc(var(--base-hero-content-zone-height) * var(--dampened-scale-factor));
      
      /* Calculated scale-aware properties (examples for future use) */
      --scaled-grid-size: calc(var(--grid-size) * var(--scale-factor));
@@ -317,9 +328,9 @@ body {
      top: 80%;
      left: 50%;
      transform: translate(-50%, -50%);
-     width: calc(100% * 1.2);
-     max-width: 480px;
-     height: 340px;
+     width: var(--dampened-hero-content-zone-width);
+     max-width: var(--dampened-hero-content-zone-width);
+     height: var(--dampened-hero-content-zone-height);
      background: rgba(255, 255, 255, 1);
      z-index: 1;
      pointer-events: none;
@@ -602,9 +613,14 @@ body {
 .name-sticker {
      position: relative;
      display: inline-block;
-     max-width: 400px;
+     max-width: var(--dampened-name-sticker-max-width);
      width: 100%;
      margin: 0 auto; /* Center horizontally */
+     border-radius: 15px; /* Rounded corners to match sticker shape */
+     border: var(--dampened-hero-image-border) solid white;
+     outline: var(--dampened-hero-image-outline) solid black;
+     overflow: hidden; /* Ensures the image stays within the outline */
+     box-shadow: 0 calc(var(--dampened-name-sticker-max-width) * 0.02) calc(var(--dampened-name-sticker-max-width) * 0.04) rgba(0, 0, 0, 0.25); /* Scaled shadow */
 }
 
 .sticker-image {
@@ -631,7 +647,7 @@ body {
      font-family: var(--font-shantell-sans), cursive;
      color: #000;
      line-height: 1.2;
-     font-size: var(--scaled-font-4xl); /* Use scaled font size for main heading */
+     font-size: var(--dampened-scaled-font-4xl); /* Use dampened scaled font size for main heading */
      font-weight: bold;
      margin-bottom: 0.25rem;
 }
@@ -651,7 +667,7 @@ body {
 
 .handwritten-text {
      display: inline-block;
-     font-size: var(--scaled-font-2xl); /* Use scaled font size */
+     font-size: var(--dampened-scaled-font-2xl); /* Use dampened scaled font size */
      font-weight: 400;
      transition: opacity 0.8s ease;
 }
