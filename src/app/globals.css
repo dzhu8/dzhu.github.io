@@ -16,6 +16,30 @@
      --scale-factor: 1; /* Will be dynamically calculated by JavaScript */
      --viewport-width: 100vw;
      
+     /* Base font sizes */
+     --base-font-xs: 0.75rem;    /* 12px */
+     --base-font-sm: 0.875rem;   /* 14px */
+     --base-font-base: 1rem;     /* 16px */
+     --base-font-lg: 1.125rem;   /* 18px */
+     --base-font-xl: 1.25rem;    /* 20px */
+     --base-font-2xl: 1.5rem;    /* 24px */
+     --base-font-3xl: 1.875rem;  /* 30px */
+     --base-font-4xl: 2.25rem;   /* 36px */
+     --base-font-5xl: 3rem;      /* 48px */
+     --base-font-6xl: 3.75rem;   /* 60px */
+     
+     /* Scaled font sizes */
+     --scaled-font-xs: calc(var(--base-font-xs) * var(--scale-factor));
+     --scaled-font-sm: calc(var(--base-font-sm) * var(--scale-factor));
+     --scaled-font-base: calc(var(--base-font-base) * var(--scale-factor));
+     --scaled-font-lg: calc(var(--base-font-lg) * var(--scale-factor));
+     --scaled-font-xl: calc(var(--base-font-xl) * var(--scale-factor));
+     --scaled-font-2xl: calc(var(--base-font-2xl) * var(--scale-factor));
+     --scaled-font-3xl: calc(var(--base-font-3xl) * var(--scale-factor));
+     --scaled-font-4xl: calc(var(--base-font-4xl) * var(--scale-factor));
+     --scaled-font-5xl: calc(var(--base-font-5xl) * var(--scale-factor));
+     --scaled-font-6xl: calc(var(--base-font-6xl) * var(--scale-factor));
+     
      /* Calculated scale-aware properties (examples for future use) */
      --scaled-grid-size: calc(var(--grid-size) * var(--scale-factor));
      --scaled-navbar-height: calc(var(--navbar-height) * var(--scale-factor));
@@ -65,7 +89,7 @@ body {
      justify-content: center; /* Center content horizontally */
      gap: 0.5rem;
      font-weight: 500;
-     font-size: 1.25rem;
+     font-size: var(--scaled-font-xl); /* Use scaled font size */
      color: var(--foreground);
      text-decoration: none;
      padding: 0.25rem 0.75rem;
@@ -454,6 +478,9 @@ body {
      font-family: var(--font-shantell-sans), cursive;
      color: #000;
      line-height: 1.2;
+     font-size: var(--scaled-font-4xl); /* Use scaled font size for main heading */
+     font-weight: bold;
+     margin-bottom: 0.25rem;
 }
 
 .handwritten-subtitle {
@@ -471,7 +498,7 @@ body {
 
 .handwritten-text {
      display: inline-block;
-     font-size: 1.5rem;
+     font-size: var(--scaled-font-2xl); /* Use scaled font size */
      font-weight: 400;
      transition: opacity 0.8s ease;
 }
@@ -888,7 +915,7 @@ body {
 
 .social-stickers-title {
      font-family: var(--font-shantell-sans), cursive;
-     font-size: 1.5rem;
+     font-size: var(--scaled-font-2xl); /* Use scaled font size */
      text-align: center;
      color: black;
      position: absolute;
@@ -1038,7 +1065,7 @@ body {
      justify-content: center;
      color: #6c757d;
      font-family: var(--font-lora), serif;
-     font-size: 1rem;
+     font-size: var(--scaled-font-base); /* Use scaled font size */
      font-style: italic;
 }
 
@@ -1053,7 +1080,7 @@ body {
      justify-content: center;
      color: #6c757d;
      font-family: var(--font-lora), serif;
-     font-size: 0.9rem;
+     font-size: var(--scaled-font-sm); /* Use scaled font size */
      font-style: italic;
 }
 
@@ -1082,7 +1109,7 @@ body {
 }
 
 .scale-label {
-     font-size: 0.85rem;
+     font-size: var(--scaled-font-sm); /* Use scaled font size */
      font-weight: 500;
      opacity: 0.8;
      text-transform: uppercase;
@@ -1090,14 +1117,14 @@ body {
 }
 
 .scale-value {
-     font-size: 1.5rem;
+     font-size: var(--scaled-font-2xl); /* Use scaled font size */
      font-weight: bold;
      color: #4ade80;
      font-family: monospace;
 }
 
 .viewport-info {
-     font-size: 0.75rem;
+     font-size: var(--scaled-font-xs); /* Use scaled font size */
      opacity: 0.7;
      font-family: monospace;
 }
