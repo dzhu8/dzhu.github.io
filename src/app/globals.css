@@ -10,6 +10,16 @@
      --font-mono: var(--font-lora), serif;
      --navbar-height: 45px;
      --navbar-top-offset: 10px; /* Offset from top of page */
+     
+     /* Scale Factor System */
+     --base-width: 2048; /* Base design width in pixels */
+     --scale-factor: 1; /* Will be dynamically calculated by JavaScript */
+     --viewport-width: 100vw;
+     
+     /* Calculated scale-aware properties (examples for future use) */
+     --scaled-grid-size: calc(var(--grid-size) * var(--scale-factor));
+     --scaled-navbar-height: calc(var(--navbar-height) * var(--scale-factor));
+     --scaled-navbar-offset: calc(var(--navbar-top-offset) * var(--scale-factor));
 }
 
 body {
@@ -1045,6 +1055,69 @@ body {
      font-family: var(--font-lora), serif;
      font-size: 0.9rem;
      font-style: italic;
+}
+
+/* Scale Tracker Styles */
+.scale-tracker {
+     position: fixed;
+     top: 20px;
+     right: 20px;
+     background-color: rgba(0, 0, 0, 0.8);
+     color: white;
+     padding: 15px 20px;
+     border-radius: 10px;
+     font-family: var(--font-sans);
+     z-index: 1000;
+     backdrop-filter: blur(10px);
+     border: 1px solid rgba(255, 255, 255, 0.2);
+     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+     min-width: 180px;
+}
+
+.scale-info {
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     gap: 5px;
+}
+
+.scale-label {
+     font-size: 0.85rem;
+     font-weight: 500;
+     opacity: 0.8;
+     text-transform: uppercase;
+     letter-spacing: 0.5px;
+}
+
+.scale-value {
+     font-size: 1.5rem;
+     font-weight: bold;
+     color: #4ade80;
+     font-family: monospace;
+}
+
+.viewport-info {
+     font-size: 0.75rem;
+     opacity: 0.7;
+     font-family: monospace;
+}
+
+/* Responsive adjustments for scale tracker */
+@media (max-width: 768px) {
+     .scale-tracker {
+          top: 10px;
+          right: 10px;
+          padding: 10px 15px;
+          min-width: 150px;
+     }
+     
+     .scale-value {
+          font-size: 1.2rem;
+     }
+     
+     .viewport-info {
+          font-size: 0.7rem;
+     }
 }
 
 
