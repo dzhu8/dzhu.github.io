@@ -44,6 +44,56 @@
      /* Navbar-specific scaled font sizes (scales up but not down) */
      --navbar-scaled-font-xl: calc(var(--base-font-xl) * var(--navbar-scale-factor));
      
+     /* Base dimensions for scalable assets */
+     --base-hero-image-size: 400px;
+     --base-hero-image-border: 8px;
+     --base-hero-image-outline: 3px;
+     --base-globe-size: 320px;
+     --base-paper-width: 440px;
+     --base-paper-height: 300px;
+     --base-social-container-width: 300px;
+     --base-social-container-height: 400px;
+     --base-social-sticker-size: 70px;
+     --base-social-sticker-border: 4px;
+     --base-social-sticker-outline: 2px;
+     --base-periodic-table-padding: 20px;
+     --base-scotch-tape-height: 50px;
+     --base-scotch-tape-offset: 25px;
+     
+     /* Scaled dimensions */
+     --scaled-hero-image-size: calc(var(--base-hero-image-size) * var(--scale-factor));
+     --scaled-hero-image-border: calc(var(--base-hero-image-border) * var(--scale-factor));
+     --scaled-hero-image-outline: calc(var(--base-hero-image-outline) * var(--scale-factor));
+     --scaled-globe-size: calc(var(--base-globe-size) * var(--scale-factor));
+     --scaled-paper-width: calc(var(--base-paper-width) * var(--scale-factor));
+     --scaled-paper-height: calc(var(--base-paper-height) * var(--scale-factor));
+     --scaled-social-container-width: calc(var(--base-social-container-width) * var(--scale-factor));
+     --scaled-social-container-height: calc(var(--base-social-container-height) * var(--scale-factor));
+     --scaled-social-sticker-size: calc(var(--base-social-sticker-size) * var(--scale-factor));
+     --scaled-social-sticker-border: calc(var(--base-social-sticker-border) * var(--scale-factor));
+     --scaled-social-sticker-outline: calc(var(--base-social-sticker-outline) * var(--scale-factor));
+     --scaled-periodic-table-padding: calc(var(--base-periodic-table-padding) * var(--scale-factor));
+     --scaled-scotch-tape-height: calc(var(--base-scotch-tape-height) * var(--scale-factor));
+     --scaled-scotch-tape-offset: calc(var(--base-scotch-tape-offset) * var(--scale-factor));
+     
+     /* Base zone dimensions (1.2x larger than their assets) */
+     --base-hero-image-zone-size: calc(var(--base-hero-image-size) * 1.2);
+     --base-social-zone-width: calc(var(--base-social-container-width) * 1.2);
+     --base-social-zone-height: calc(var(--base-social-container-height) * 1.2);
+     --base-paper-zone-width: calc(var(--base-paper-width) * 1.2);
+     --base-paper-zone-height: calc(var(--base-paper-height) * 1.2);
+     --base-globe-zone-width: 288px;
+     --base-globe-zone-height: 332px;
+     
+     /* Scaled zone dimensions */
+     --scaled-hero-image-zone-size: calc(var(--base-hero-image-zone-size) * var(--scale-factor));
+     --scaled-social-zone-width: calc(var(--base-social-zone-width) * var(--scale-factor));
+     --scaled-social-zone-height: calc(var(--base-social-zone-height) * var(--scale-factor));
+     --scaled-paper-zone-width: calc(var(--base-paper-zone-width) * var(--scale-factor));
+     --scaled-paper-zone-height: calc(var(--base-paper-zone-height) * var(--scale-factor));
+     --scaled-globe-zone-width: calc(var(--base-globe-zone-width) * var(--scale-factor));
+     --scaled-globe-zone-height: calc(var(--base-globe-zone-height) * var(--scale-factor));
+     
      /* Calculated scale-aware properties (examples for future use) */
      --scaled-grid-size: calc(var(--grid-size) * var(--scale-factor));
      --scaled-navbar-height: calc(var(--navbar-height) * var(--scale-factor));
@@ -207,8 +257,8 @@ body {
      top: 40%;
      left: 50%;
      transform: translate(-50%, -50%);
-     width: 480px; /* 1.2 times larger than container (400px * 1.2) */
-     height: 480px;
+     width: var(--scaled-hero-image-zone-size);
+     height: var(--scaled-hero-image-zone-size);
      border-radius: 50%;
      background: rgba(255, 255, 255, 1);
      z-index: 1;
@@ -235,8 +285,8 @@ body {
      top: 40%;
      left: 50%;
      transform: translateY(-50%);
-     width: 360px; /* 1.2 times larger than container (300px * 1.2) */
-     height: 480px; /* 1.2 times larger than container (400px * 1.2) */
+     width: var(--scaled-social-zone-width);
+     height: var(--scaled-social-zone-height);
      background: rgba(255, 255, 255, 1);
      border-radius: 50%; /* Make it circular like the hero image zone */
      z-index: 1;
@@ -276,8 +326,8 @@ body {
      position: absolute;
      top: 0;
      right: 0;
-     width: 288px;
-     height: 332px;
+     width: var(--scaled-globe-zone-width);
+     height: var(--scaled-globe-zone-height);
      background: rgba(255, 255, 255, 1);
      border-radius: 50%; /* Circular for globe */
      z-index: 1;
@@ -287,10 +337,10 @@ body {
 /* Globe container in the top right corner - centered within zone */
 .globe-container {
      position: absolute;
-     top: -2px; 
-     right: -15px;
-     width: 320px;
-     height: 320px;
+     top: calc(var(--scaled-globe-size) * -0.006); /* Scaled equivalent of -2px */
+     right: calc(var(--scaled-globe-size) * -0.047); /* Scaled equivalent of -15px */
+     width: var(--scaled-globe-size);
+     height: var(--scaled-globe-size);
      z-index: 2;
      pointer-events: none;
 }
@@ -298,12 +348,12 @@ body {
 /* Paper asset zone in the lower left corner */
 .paper-asset-zone {
      position: absolute;
-     bottom: 35px; 
-     left: 20px;
-     width: 528px; /* 1.1 times larger than paper asset (440px * 1.2) */
-     height: 360px; /* 1.1 times larger than paper asset (300px * 1.2) */
+     bottom: calc(var(--scaled-paper-height) * 0.117); /* Scaled equivalent of 35px relative to 300px base height */
+     left: calc(var(--scaled-paper-width) * 0.045); /* Scaled equivalent of 20px relative to 440px base width */
+     width: var(--scaled-paper-zone-width);
+     height: var(--scaled-paper-zone-height);
      background: rgba(255, 255, 255, 1);
-     border-radius: 9px; /* Slightly larger than paper asset radius (8px * 1.1) */
+     border-radius: calc(var(--scaled-paper-width) * 0.02); /* Scaled equivalent of 9px relative to 440px */
      transform: rotate(5deg); /* Match paper asset rotation */
      z-index: 1;
      pointer-events: none;
@@ -312,17 +362,17 @@ body {
 /* Paper asset in the lower left corner */
 .paper-asset {
      position: absolute;
-     bottom: 60px;
-     left: 60px;
-     width: 440px;
-     height: 300px; /* Reasonable height for paper proportions */
+     bottom: calc(var(--scaled-paper-height) * 0.2); /* Scaled equivalent of 60px relative to 300px base height */
+     left: calc(var(--scaled-paper-width) * 0.136); /* Scaled equivalent of 60px relative to 440px base width */
+     width: var(--scaled-paper-width);
+     height: var(--scaled-paper-height);
      background-color: #ffffff;
-     border: 1px solid #e5e5e5;
-     border-radius: 8px;
+     border: calc(var(--scaled-paper-width) * 0.0023) solid #e5e5e5; /* Scaled equivalent of 1px */
+     border-radius: calc(var(--scaled-paper-width) * 0.018); /* Scaled equivalent of 8px */
      transform: rotate(5deg);
      box-shadow: 
-          0 8px 16px rgba(0, 0, 0, 0.15),
-          0 4px 8px rgba(0, 0, 0, 0.1);
+          0 calc(var(--scaled-paper-height) * 0.027) calc(var(--scaled-paper-height) * 0.053) rgba(0, 0, 0, 0.15), /* Scaled 8px 16px */
+          0 calc(var(--scaled-paper-height) * 0.013) calc(var(--scaled-paper-height) * 0.027) rgba(0, 0, 0, 0.1); /* Scaled 4px 8px */
      z-index: 5;
      pointer-events: auto;
 }
@@ -330,10 +380,10 @@ body {
 /* Periodic table on paper asset */
 .periodic-table-container {
      position: absolute;
-     top: 20px;
-     left: 20px;
-     right: 20px;
-     bottom: 20px;
+     top: var(--scaled-periodic-table-padding);
+     left: var(--scaled-periodic-table-padding);
+     right: var(--scaled-periodic-table-padding);
+     bottom: var(--scaled-periodic-table-padding);
      z-index: 7;
      display: flex;
      align-items: center;
@@ -349,38 +399,38 @@ body {
 /* Scotch tape on paper asset - top */
 .scotch-tape-top {
      position: absolute;
-     top: -25px;
+     top: calc(var(--scaled-scotch-tape-offset) * -1);
      left: 50%;
      transform: translateX(-50%) rotate(-2deg);
      width: 70%; /* 70% scale of paper width */
-     height: 50px;
+     height: var(--scaled-scotch-tape-height);
      background-color: rgba(220, 230, 255, 0.15);
-     border: 1px solid rgba(200, 220, 255, 0.8);
+     border: calc(var(--scaled-paper-width) * 0.0023) solid rgba(200, 220, 255, 0.8); /* Scaled equivalent of 1px */
      overflow: hidden;
      z-index: 6;
-     border-radius: 2px;
+     border-radius: calc(var(--scaled-paper-width) * 0.0045); /* Scaled equivalent of 2px */
      box-shadow: 
-          0 2px 4px rgba(0, 0, 0, 0.1),
-          inset 0 1px 0 rgba(235, 242, 255, 0.4);
+          0 calc(var(--scaled-scotch-tape-height) * 0.04) calc(var(--scaled-scotch-tape-height) * 0.08) rgba(0, 0, 0, 0.1), /* Scaled 2px 4px */
+          inset 0 calc(var(--scaled-scotch-tape-height) * 0.02) 0 rgba(235, 242, 255, 0.4); /* Scaled 1px */
      backdrop-filter: blur(1px);
 }
 
 /* Scotch tape on paper asset - bottom */
 .scotch-tape-bottom {
      position: absolute;
-     bottom: -25px;
+     bottom: calc(var(--scaled-scotch-tape-offset) * -1);
      left: 50%;
      transform: translateX(-50%) rotate(3deg);
      width: 70%; /* 70% scale of paper width */
-     height: 50px;
+     height: var(--scaled-scotch-tape-height);
      background-color: rgba(220, 230, 255, 0.15);
-     border: 1px solid rgba(200, 220, 255, 0.8);
+     border: calc(var(--scaled-paper-width) * 0.0023) solid rgba(200, 220, 255, 0.8); /* Scaled equivalent of 1px */
      overflow: hidden;
      z-index: 6;
-     border-radius: 2px;
+     border-radius: calc(var(--scaled-paper-width) * 0.0045); /* Scaled equivalent of 2px */
      box-shadow: 
-          0 2px 4px rgba(0, 0, 0, 0.1),
-          inset 0 1px 0 rgba(240, 245, 255, 0.4);
+          0 calc(var(--scaled-scotch-tape-height) * 0.04) calc(var(--scaled-scotch-tape-height) * 0.08) rgba(0, 0, 0, 0.1), /* Scaled 2px 4px */
+          inset 0 calc(var(--scaled-scotch-tape-height) * 0.02) 0 rgba(240, 245, 255, 0.4); /* Scaled 1px */
      backdrop-filter: blur(1px);
 }
 
@@ -469,13 +519,13 @@ body {
      top: 40%;
      left: 50%;
      transform: translate(-50%, -50%);
-     width: 400px; /* Size of the circular container */
-     height: 400px;
+     width: var(--scaled-hero-image-size);
+     height: var(--scaled-hero-image-size);
      border-radius: 50%; /* Makes it circular */
-     border: 8px solid white;
-     outline: 3px solid black;
+     border: var(--scaled-hero-image-border) solid white;
+     outline: var(--scaled-hero-image-outline) solid black;
      overflow: hidden; /* Ensures the image stays within the circle */
-     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+     box-shadow: 0 calc(var(--scaled-hero-image-size) * 0.02) calc(var(--scaled-hero-image-size) * 0.04) rgba(0, 0, 0, 0.25); /* Scaled 8px 16px */
      background-color: white;
      z-index: 10; /* Above the zone */
 }
@@ -991,8 +1041,8 @@ body {
      top: 40%;
      left: 50%;
      transform: translateY(-50%);
-     width: 300px; /* Container width that accommodates the icons */
-     height: 400px;
+     width: var(--scaled-social-container-width);
+     height: var(--scaled-social-container-height);
      pointer-events: none; /* Allow clicking through the container */
      z-index: 10; /* Above the zone */
 }
@@ -1003,9 +1053,9 @@ body {
      text-align: center;
      color: black;
      position: absolute;
-     top: -40px;
-     right: -40px;
-     width: 230px;
+     top: calc(var(--scaled-social-container-height) * -0.1); /* Scaled equivalent of -40px relative to 400px */
+     right: calc(var(--scaled-social-container-width) * -0.133); /* Scaled equivalent of -40px relative to 300px */
+     width: calc(var(--scaled-social-container-width) * 0.767); /* Scaled equivalent of 230px relative to 300px */
      line-height: 1.3;
      pointer-events: auto; /* Make text clickable */
 }
@@ -1018,13 +1068,13 @@ body {
 }
 
 .social-sticker {
-     width: 70px;
-     height: 70px;
+     width: var(--scaled-social-sticker-size);
+     height: var(--scaled-social-sticker-size);
      border-radius: 50%;
-     border: 4px solid white;
-     outline: 2px solid black;
+     border: var(--scaled-social-sticker-border) solid white;
+     outline: var(--scaled-social-sticker-outline) solid black;
      overflow: hidden;
-     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+     box-shadow: 0 calc(var(--scaled-social-sticker-size) * 0.057) calc(var(--scaled-social-sticker-size) * 0.114) rgba(0, 0, 0, 0.25); /* Scaled 4px 8px */
      background-color: white;
      display: flex;
      align-items: center;
@@ -1039,26 +1089,26 @@ body {
 /* Position icons symmetrically - two above, two below the centerline, following the curve */
 .social-sticker:nth-child(1) {
      /* GitHub */
-     right: -5px;
-     top: 110px;
+     right: calc(var(--scaled-social-container-width) * -0.017); /* Scaled equivalent of -5px relative to 300px */
+     top: calc(var(--scaled-social-container-height) * 0.275); /* Scaled equivalent of 110px relative to 400px */
 }
 
 .social-sticker:nth-child(2) {
      /* LinkedIn */
-     right: 35px;
-     top: 10px;
+     right: calc(var(--scaled-social-container-width) * 0.117); /* Scaled equivalent of 35px relative to 300px */
+     top: calc(var(--scaled-social-container-height) * 0.025); /* Scaled equivalent of 10px relative to 400px */
 }
 
 .social-sticker:nth-child(3) {
      /* Google Scholar */
-     right: 35px;
-     top: 320px;
+     right: calc(var(--scaled-social-container-width) * 0.117); /* Scaled equivalent of 35px relative to 300px */
+     top: calc(var(--scaled-social-container-height) * 0.8); /* Scaled equivalent of 320px relative to 400px */
 }
 
 .social-sticker:nth-child(4) {
      /* Email - bottom right */
-     right: -5px;
-     top: 220px;
+     right: calc(var(--scaled-social-container-width) * -0.017); /* Scaled equivalent of -5px relative to 300px */
+     top: calc(var(--scaled-social-container-height) * 0.55); /* Scaled equivalent of 220px relative to 400px */
 }
 
 /* Hobbies Cards Container - 2x2 grid layout */
