@@ -14,6 +14,7 @@
      /* Scale Factor System */
      --base-width: 2048; /* Base design width in pixels */
      --scale-factor: 1; /* Will be dynamically calculated by JavaScript */
+     --navbar-scale-factor: 1; /* Navbar-specific scale factor (scales up but not down) */
      --viewport-width: 100vw;
      
      /* Base font sizes */
@@ -39,6 +40,9 @@
      --scaled-font-4xl: calc(var(--base-font-4xl) * var(--scale-factor));
      --scaled-font-5xl: calc(var(--base-font-5xl) * var(--scale-factor));
      --scaled-font-6xl: calc(var(--base-font-6xl) * var(--scale-factor));
+     
+     /* Navbar-specific scaled font sizes (scales up but not down) */
+     --navbar-scaled-font-xl: calc(var(--base-font-xl) * var(--navbar-scale-factor));
      
      /* Calculated scale-aware properties (examples for future use) */
      --scaled-grid-size: calc(var(--grid-size) * var(--scale-factor));
@@ -89,7 +93,7 @@ body {
      justify-content: center; /* Center content horizontally */
      gap: 0.5rem;
      font-weight: 500;
-     font-size: var(--scaled-font-xl); /* Use scaled font size */
+     font-size: var(--navbar-scaled-font-xl); /* Use navbar-specific scaled font size */
      color: var(--foreground);
      text-decoration: none;
      padding: 0.25rem 0.75rem;
@@ -100,6 +104,86 @@ body {
 
 .nav-item:hover {
      background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Navbar dropdown menu styles */
+.navbar-menu-button {
+     display: none; /* Hidden by default */
+     align-items: center;
+     justify-content: center;
+     font-weight: 500;
+     font-size: var(--navbar-scaled-font-xl);
+     color: var(--foreground);
+     text-decoration: none;
+     padding: 0.25rem 0.75rem;
+     border-radius: 0.25rem;
+     transition: background-color 0.2s;
+     height: 100%;
+     background: none;
+     border: none;
+     cursor: pointer;
+     gap: 0.5rem;
+}
+
+.navbar-menu-button:hover {
+     background-color: rgba(0, 0, 0, 0.05);
+}
+
+.navbar-dropdown {
+     position: absolute;
+     top: calc(100% + 5px);
+     right: 0;
+     background-color: rgba(255, 255, 255, 0.95);
+     backdrop-filter: blur(10px);
+     border: 2px solid black;
+     border-radius: 15px;
+     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+     min-width: 150px;
+     z-index: 1000;
+     opacity: 0;
+     visibility: hidden;
+     transform: translateY(-10px);
+     transition: all 0.2s ease;
+}
+
+.navbar-dropdown.open {
+     opacity: 1;
+     visibility: visible;
+     transform: translateY(0);
+}
+
+.navbar-dropdown-item {
+     display: flex;
+     align-items: center;
+     gap: 0.5rem;
+     padding: 0.75rem 1rem;
+     color: var(--foreground);
+     text-decoration: none;
+     font-size: var(--navbar-scaled-font-xl);
+     font-weight: 500;
+     transition: background-color 0.2s;
+     border-radius: 0;
+}
+
+.navbar-dropdown-item:first-child {
+     border-radius: 13px 13px 0 0;
+}
+
+.navbar-dropdown-item:last-child {
+     border-radius: 0 0 13px 13px;
+}
+
+.navbar-dropdown-item:hover {
+     background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Hide regular nav items when in mobile mode */
+.navbar.mobile-mode .nav-item {
+     display: none;
+}
+
+.navbar.mobile-mode .navbar-menu-button {
+     display: flex;
 }
 
 /* Hero section with graph paper background and Shantell Sans font */
