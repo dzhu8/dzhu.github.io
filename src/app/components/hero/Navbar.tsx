@@ -1,28 +1,102 @@
 "use client";
 
-import { Home, BookOpen, Code, Sparkles } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Home, BookOpen, Code, Sparkles, Menu } from "lucide-react";
 
 export default function Navbar() {
+     const [isMobileMode, setIsMobileMode] = useState(false);
+     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+     useEffect(() => {
+          const updateNavbarMode = () => {
+               const currentWidth = window.innerWidth;
+               const baseWidth = 2048;
+               const scale = currentWidth / baseWidth;
+               setIsMobileMode(scale < 0.4);
+               
+               // Close dropdown when switching modes
+               if (scale >= 0.4) {
+                    setIsDropdownOpen(false);
+               }
+          };
+
+          const handleClickOutside = (event: MouseEvent) => {
+               const target = event.target as Element;
+               if (!target.closest('.navbar-dropdown') && !target.closest('.navbar-menu-button')) {
+                    setIsDropdownOpen(false);
+               }
+          };
+
+          // Initial check
+          updateNavbarMode();
+
+          // Listen for resize events
+          window.addEventListener('resize', updateNavbarMode);
+          
+          // Listen for clicks outside dropdown
+          document.addEventListener('click', handleClickOutside);
+
+          return () => {
+               window.removeEventListener('resize', updateNavbarMode);
+               document.removeEventListener('click', handleClickOutside);
+          };
+     }, []);
+
+     const toggleDropdown = () => {
+          setIsDropdownOpen(!isDropdownOpen);
+     };
+
+     const navItems = [
+          { href: "#top", icon: Home, label: "Home" },
+          { href: "#research", icon: BookOpen, label: "Research" },
+          { href: "#projects", icon: Code, label: "Projects" },
+          { href: "#hobbies", icon: Sparkles, label: "Hobbies" }
+     ];
+
      return (
-          <nav className="navbar">
+          <nav className={`navbar ${isMobileMode ? 'mobile-mode' : ''}`}>
                <div className="container">
                     <div className="navbar-content">
-                         <a href="#top" className="nav-item" aria-label="Home">
-                              <Home size={18} />
-                              <span>Home</span>
-                         </a>
-                         <a href="#research" className="nav-item" aria-label="Research">
-                              <BookOpen size={18} />
-                              <span>Research</span>
-                         </a>
-                         <a href="#projects" className="nav-item" aria-label="Projects">
-                              <Code size={18} />
-                              <span>Projects</span>
-                         </a>
-                         <a href="#hobbies" className="nav-item" aria-label="Hobbies">
-                              <Sparkles size={18} />
-                              <span>Hobbies</span>
-                         </a>
+                         {!isMobileMode ? (
+                              // Regular navbar items
+                              navItems.map((item) => (
+                                   <a 
+                                        key={item.href}
+                                        href={item.href} 
+                                        className="nav-item" 
+                                        aria-label={item.label}
+                                   >
+                                        <item.icon size={18} />
+                                        <span>{item.label}</span>
+                                   </a>
+                              ))
+                         ) : (
+                              // Mobile dropdown menu
+                              <div style={{ position: 'relative' }}>
+                                   <button
+                                        onClick={toggleDropdown}
+                                        className="navbar-menu-button"
+                                        aria-label="Menu"
+                                   >
+                                        <Menu size={18} />
+                                        <span>Menu</span>
+                                   </button>
+                                   
+                                   <div className={`navbar-dropdown ${isDropdownOpen ? 'open' : ''}`}>
+                                        {navItems.map((item) => (
+                                             <a
+                                                  key={item.href}
+                                                  href={item.href}
+                                                  className="navbar-dropdown-item"
+                                                  onClick={() => setIsDropdownOpen(false)}
+                                             >
+                                                  <item.icon size={16} />
+                                                  <span>{item.label}</span>
+                                             </a>
+                                        ))}
+                                   </div>
+                              </div>
+                         )}
                     </div>
                </div>
           </nav>

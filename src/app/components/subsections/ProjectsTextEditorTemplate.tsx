@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 
 interface TextEditWindowProps {
@@ -14,6 +14,9 @@ const TextEditWindow: React.FC<TextEditWindowProps> = ({
      imagePath = "/JS_monitor_logo.png", // default to the JS monitor logo for now
      languages = ["js", "react", "html", "css"],
 }) => {
+     // State for scale factor tracking
+     const [scaleFactor, setScaleFactor] = useState(1);
+     
      // State for text formatting
      const [fontFamily, setFontFamily] = useState("Helvetica");
      const [fontStyle, setFontStyle] = useState("Regular");
@@ -28,6 +31,29 @@ const TextEditWindow: React.FC<TextEditWindowProps> = ({
 
      // State for dropdown visibility
      const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+
+     // Track scale factor changes
+     useEffect(() => {
+          const updateScale = () => {
+               const scaleFactorValue = parseFloat(
+                    getComputedStyle(document.documentElement).getPropertyValue('--scale-factor') || '1'
+               );
+               setScaleFactor(scaleFactorValue);
+          };
+
+          // Initial scale update
+          updateScale();
+
+          // Listen for resize events to update scale
+          window.addEventListener('resize', updateScale);
+          
+          return () => {
+               window.removeEventListener('resize', updateScale);
+          };
+     }, []);
+
+     // Determine if we should use compact layout
+     const isCompactLayout = scaleFactor < 0.6;
 
      // Generate text style based on current settings
      const getTextStyle = () => {
@@ -102,20 +128,20 @@ const TextEditWindow: React.FC<TextEditWindowProps> = ({
      };
 
      return (
-          <div className="w-full max-w-6xl mx-auto flex gap-6">
+          <div className={`w-full max-w-6xl mx-auto ${isCompactLayout ? 'flex-col space-y-4' : 'flex gap-6'}`}>
                {/* Polaroid frame */}
-               <div className="flex-none w-64 flex flex-col">
+               <div className={`${isCompactLayout ? 'w-full max-w-md mx-auto' : 'flex-none w-64'} flex flex-col`}>
                     <div className="bg-white p-4 shadow-lg flex flex-col border-2 border-gray-300 rounded-sm h-full flex-grow">
                          {/* Image area */}
                          <div
                               className="bg-gray-100 mb-4 flex items-center justify-center overflow-hidden border border-gray-300 flex-grow"
-                              style={{ minHeight: "200px" }}
+                              style={{ minHeight: isCompactLayout ? "150px" : "200px" }}
                          >
                               <Image
                                    src={imagePath}
                                    alt="Project Screenshot"
-                                   width={250}
-                                   height={250}
+                                   width={isCompactLayout ? 200 : 250}
+                                   height={isCompactLayout ? 200 : 250}
                                    style={{ objectFit: "contain" }}
                               />
                          </div>
@@ -124,7 +150,7 @@ const TextEditWindow: React.FC<TextEditWindowProps> = ({
                          <div className="flex flex-wrap gap-2 justify-center pt-2 border-t border-gray-300">
                               {languages.map((lang, index) => (
                                    <div key={index} className="flex items-center" title={lang}>
-                                        <span className="text-2xl">{getLanguageIcon(lang)}</span>
+                                        <span className={`${isCompactLayout ? 'text-xl' : 'text-2xl'}`}>{getLanguageIcon(lang)}</span>
                                         <span className="ml-1 text-xs text-gray-600">{lang}</span>
                                    </div>
                               ))}
@@ -149,185 +175,277 @@ const TextEditWindow: React.FC<TextEditWindowProps> = ({
                          </div>
 
                          {/* Toolbar */}
-                         <div className="h-12 bg-gradient-to-b from-gray-50 to-gray-100 flex items-center px-2 border-b border-gray-300">
-                              {/* Font family dropdown */}
-                              <div className="relative mx-1">
-                                   <button
-                                        className="px-2 py-1 text-xs border border-gray-300 rounded bg-gradient-to-b from-white to-gray-100 flex items-center justify-between w-24"
-                                        onClick={() => toggleDropdown("fontFamily")}
-                                   >
-                                        {fontFamily} <span className="ml-1">▼</span>
-                                   </button>
-                                   {openDropdown === "fontFamily" && (
-                                        <div className="absolute top-full left-0 w-full bg-white border border-gray-300 rounded shadow-md z-10">
-                                             {fontFamilyOptions.map((font) => (
-                                                  <div
-                                                       key={font}
-                                                       className="px-2 py-1 text-xs hover:bg-gray-100 cursor-pointer"
-                                                       onClick={() => {
-                                                            setFontFamily(font);
-                                                            setOpenDropdown(null);
-                                                       }}
-                                                  >
-                                                       {font}
+                         <div className={`${isCompactLayout ? 'min-h-20' : 'h-12'} bg-gradient-to-b from-gray-50 to-gray-100 px-2 border-b border-gray-300`}>
+                              <div className={`${isCompactLayout ? 'flex flex-wrap gap-1 py-1' : 'flex items-center h-full'}`}>
+                                   {/* First row of controls in compact mode, or main row in normal mode */}
+                                   <div className={`${isCompactLayout ? 'flex flex-wrap gap-1 w-full' : 'flex items-center'}`}>
+                                        {/* Font family dropdown */}
+                                        <div className="relative mx-1">
+                                             <button
+                                                  className={`px-2 py-1 text-xs border border-gray-300 rounded bg-gradient-to-b from-white to-gray-100 flex items-center justify-between ${isCompactLayout ? 'w-20' : 'w-24'}`}
+                                                  onClick={() => toggleDropdown("fontFamily")}
+                                             >
+                                                  {isCompactLayout ? fontFamily.slice(0, 3) : fontFamily} <span className="ml-1">▼</span>
+                                             </button>
+                                             {openDropdown === "fontFamily" && (
+                                                  <div className="absolute top-full left-0 w-full bg-white border border-gray-300 rounded shadow-md z-10">
+                                                       {fontFamilyOptions.map((font) => (
+                                                            <div
+                                                                 key={font}
+                                                                 className="px-2 py-1 text-xs hover:bg-gray-100 cursor-pointer"
+                                                                 onClick={() => {
+                                                                      setFontFamily(font);
+                                                                      setOpenDropdown(null);
+                                                                 }}
+                                                            >
+                                                                 {font}
+                                                            </div>
+                                                       ))}
                                                   </div>
-                                             ))}
+                                             )}
                                         </div>
-                                   )}
-                              </div>
 
-                              {/* Font style dropdown */}
-                              <div className="relative mx-1">
-                                   <button
-                                        className="px-2 py-1 text-xs border border-gray-300 rounded bg-gradient-to-b from-white to-gray-100 flex items-center justify-between w-20"
-                                        onClick={() => toggleDropdown("fontStyle")}
-                                   >
-                                        {fontStyle} <span className="ml-1">▼</span>
-                                   </button>
-                                   {openDropdown === "fontStyle" && (
-                                        <div className="absolute top-full left-0 w-full bg-white border border-gray-300 rounded shadow-md z-10">
-                                             {fontStyleOptions.map((style) => (
-                                                  <div
-                                                       key={style}
-                                                       className="px-2 py-1 text-xs hover:bg-gray-100 cursor-pointer"
-                                                       onClick={() => {
-                                                            setFontStyle(style);
-                                                            setIsBold(style.includes("Bold"));
-                                                            setIsItalic(style.includes("Italic"));
-                                                            setOpenDropdown(null);
-                                                       }}
-                                                  >
-                                                       {style}
+                                        {/* Font style dropdown */}
+                                        <div className="relative mx-1">
+                                             <button
+                                                  className={`px-2 py-1 text-xs border border-gray-300 rounded bg-gradient-to-b from-white to-gray-100 flex items-center justify-between ${isCompactLayout ? 'w-16' : 'w-20'}`}
+                                                  onClick={() => toggleDropdown("fontStyle")}
+                                             >
+                                                  {isCompactLayout ? fontStyle.slice(0, 3) : fontStyle} <span className="ml-1">▼</span>
+                                             </button>
+                                             {openDropdown === "fontStyle" && (
+                                                  <div className="absolute top-full left-0 w-full bg-white border border-gray-300 rounded shadow-md z-10">
+                                                       {fontStyleOptions.map((style) => (
+                                                            <div
+                                                                 key={style}
+                                                                 className="px-2 py-1 text-xs hover:bg-gray-100 cursor-pointer"
+                                                                 onClick={() => {
+                                                                      setFontStyle(style);
+                                                                      setIsBold(style.includes("Bold"));
+                                                                      setIsItalic(style.includes("Italic"));
+                                                                      setOpenDropdown(null);
+                                                                 }}
+                                                            >
+                                                                 {style}
+                                                            </div>
+                                                       ))}
                                                   </div>
-                                             ))}
+                                             )}
                                         </div>
-                                   )}
-                              </div>
 
-                              {/* Font size dropdown */}
-                              <div className="relative mx-1">
-                                   <button
-                                        className="px-2 py-1 text-xs border border-gray-300 rounded bg-gradient-to-b from-white to-gray-100 flex items-center justify-between w-12"
-                                        onClick={() => toggleDropdown("fontSize")}
-                                   >
-                                        {fontSize} <span className="ml-1">▼</span>
-                                   </button>
-                                   {openDropdown === "fontSize" && (
-                                        <div className="absolute top-full left-0 w-full bg-white border border-gray-300 rounded shadow-md z-10">
-                                             {fontSizeOptions.map((size) => (
-                                                  <div
-                                                       key={size}
-                                                       className="px-2 py-1 text-xs hover:bg-gray-100 cursor-pointer"
-                                                       onClick={() => {
-                                                            setFontSize(size);
-                                                            setOpenDropdown(null);
-                                                       }}
-                                                  >
-                                                       {size}
+                                        {/* Font size dropdown */}
+                                        <div className="relative mx-1">
+                                             <button
+                                                  className="px-2 py-1 text-xs border border-gray-300 rounded bg-gradient-to-b from-white to-gray-100 flex items-center justify-between w-12"
+                                                  onClick={() => toggleDropdown("fontSize")}
+                                             >
+                                                  {fontSize} <span className="ml-1">▼</span>
+                                             </button>
+                                             {openDropdown === "fontSize" && (
+                                                  <div className="absolute top-full left-0 w-full bg-white border border-gray-300 rounded shadow-md z-10">
+                                                       {fontSizeOptions.map((size) => (
+                                                            <div
+                                                                 key={size}
+                                                                 className="px-2 py-1 text-xs hover:bg-gray-100 cursor-pointer"
+                                                                 onClick={() => {
+                                                                      setFontSize(size);
+                                                                      setOpenDropdown(null);
+                                                                 }}
+                                                            >
+                                                                 {size}
+                                                            </div>
+                                                       ))}
                                                   </div>
-                                             ))}
+                                             )}
                                         </div>
-                                   )}
-                              </div>
 
-                              {/* Text color */}
-                              <button
-                                   className="w-8 h-8 mx-1 border border-gray-300 rounded flex items-center justify-center"
-                                   onClick={() => setTextColor(textColor === "#000000" ? "#0000FF" : "#000000")}
-                              >
-                                   <div className="w-4 h-4 rounded" style={{ backgroundColor: textColor }}></div>
-                              </button>
+                                        {/* Text color */}
+                                        <button
+                                             className="w-8 h-8 mx-1 border border-gray-300 rounded flex items-center justify-center"
+                                             onClick={() => setTextColor(textColor === "#000000" ? "#0000FF" : "#000000")}
+                                        >
+                                             <div className="w-4 h-4 rounded" style={{ backgroundColor: textColor }}></div>
+                                        </button>
 
-                              {/* Strikethrough */}
-                              <button
-                                   className={`w-8 h-8 mx-1 border rounded flex items-center justify-center ${isStrikethrough ? "bg-gray-200 border-gray-400" : "border-gray-300"}`}
-                                   onClick={() => setIsStrikethrough(!isStrikethrough)}
-                              >
-                                   <span className="text-sm" style={{ textDecoration: "line-through" }}>
-                                        a
-                                   </span>
-                              </button>
-
-                              {/* Bold */}
-                              <button
-                                   className={`w-8 h-8 mx-1 border rounded flex items-center justify-center ${isBold ? "bg-gray-200 border-gray-400" : "border-gray-300"}`}
-                                   onClick={() => setIsBold(!isBold)}
-                              >
-                                   <span className="text-sm font-bold">B</span>
-                              </button>
-
-                              {/* Italic */}
-                              <button
-                                   className={`w-8 h-8 mx-1 border rounded flex items-center justify-center ${isItalic ? "bg-gray-200 border-gray-400" : "border-gray-300"}`}
-                                   onClick={() => setIsItalic(!isItalic)}
-                              >
-                                   <span className="text-sm italic">I</span>
-                              </button>
-
-                              {/* Underline */}
-                              <button
-                                   className={`w-8 h-8 mx-1 border rounded flex items-center justify-center ${isUnderline ? "bg-gray-200 border-gray-400" : "border-gray-300"}`}
-                                   onClick={() => setIsUnderline(!isUnderline)}
-                              >
-                                   <span className="text-sm underline">U</span>
-                              </button>
-
-                              {/* Divider */}
-                              <div className="h-6 w-px bg-gray-300 mx-2"></div>
-
-                              {/* Alignment buttons */}
-                              <div className="flex border border-gray-300 rounded overflow-hidden">
-                                   <button
-                                        className={`w-8 h-8 flex items-center justify-center ${alignment === "left" ? "bg-gray-200" : "bg-gradient-to-b from-white to-gray-100"}`}
-                                        onClick={() => setAlignment("left")}
-                                   >
-                                        <span className="text-xs">≡</span>
-                                   </button>
-                                   <button
-                                        className={`w-8 h-8 flex items-center justify-center border-l border-gray-300 ${alignment === "center" ? "bg-gray-200" : "bg-gradient-to-b from-white to-gray-100"}`}
-                                        onClick={() => setAlignment("center")}
-                                   >
-                                        <span className="text-xs">≡</span>
-                                   </button>
-                                   <button
-                                        className={`w-8 h-8 flex items-center justify-center border-l border-gray-300 ${alignment === "right" ? "bg-gray-200" : "bg-gradient-to-b from-white to-gray-100"}`}
-                                        onClick={() => setAlignment("right")}
-                                   >
-                                        <span className="text-xs">≡</span>
-                                   </button>
-                                   <button
-                                        className={`w-8 h-8 flex items-center justify-center border-l border-gray-300 ${alignment === "justify" ? "bg-gray-200" : "bg-gradient-to-b from-white to-gray-100"}`}
-                                        onClick={() => setAlignment("justify")}
-                                   >
-                                        <span className="text-xs">≡</span>
-                                   </button>
-                              </div>
-
-                              {/* Divider */}
-                              <div className="h-6 w-px bg-gray-300 mx-2"></div>
-
-                              {/* Line spacing dropdown */}
-                              <div className="relative mx-1">
-                                   <button
-                                        className="px-2 py-1 text-xs border border-gray-300 rounded bg-gradient-to-b from-white to-gray-100 flex items-center justify-between w-12"
-                                        onClick={() => toggleDropdown("lineSpacing")}
-                                   >
-                                        {lineSpacing} <span className="ml-1">▼</span>
-                                   </button>
-                                   {openDropdown === "lineSpacing" && (
-                                        <div className="absolute top-full left-0 w-full bg-white border border-gray-300 rounded shadow-md z-10">
-                                             {lineSpacingOptions.map((spacing) => (
-                                                  <div
-                                                       key={spacing}
-                                                       className="px-2 py-1 text-xs hover:bg-gray-100 cursor-pointer"
-                                                       onClick={() => {
-                                                            setLineSpacing(spacing);
-                                                            setOpenDropdown(null);
-                                                       }}
+                                        {!isCompactLayout && (
+                                             <>
+                                                  {/* Formatting buttons - shown inline in normal mode */}
+                                                  <button
+                                                       className={`w-8 h-8 mx-1 border rounded flex items-center justify-center ${isStrikethrough ? "bg-gray-200 border-gray-400" : "border-gray-300"}`}
+                                                       onClick={() => setIsStrikethrough(!isStrikethrough)}
                                                   >
-                                                       {spacing}
+                                                       <span className="text-sm" style={{ textDecoration: "line-through" }}>a</span>
+                                                  </button>
+
+                                                  <button
+                                                       className={`w-8 h-8 mx-1 border rounded flex items-center justify-center ${isBold ? "bg-gray-200 border-gray-400" : "border-gray-300"}`}
+                                                       onClick={() => setIsBold(!isBold)}
+                                                  >
+                                                       <span className="text-sm font-bold">B</span>
+                                                  </button>
+
+                                                  <button
+                                                       className={`w-8 h-8 mx-1 border rounded flex items-center justify-center ${isItalic ? "bg-gray-200 border-gray-400" : "border-gray-300"}`}
+                                                       onClick={() => setIsItalic(!isItalic)}
+                                                  >
+                                                       <span className="text-sm italic">I</span>
+                                                  </button>
+
+                                                  <button
+                                                       className={`w-8 h-8 mx-1 border rounded flex items-center justify-center ${isUnderline ? "bg-gray-200 border-gray-400" : "border-gray-300"}`}
+                                                       onClick={() => setIsUnderline(!isUnderline)}
+                                                  >
+                                                       <span className="text-sm underline">U</span>
+                                                  </button>
+
+                                                  {/* Divider */}
+                                                  <div className="h-6 w-px bg-gray-300 mx-2"></div>
+
+                                                  {/* Alignment buttons */}
+                                                  <div className="flex border border-gray-300 rounded overflow-hidden">
+                                                       <button
+                                                            className={`w-8 h-8 flex items-center justify-center ${alignment === "left" ? "bg-gray-200" : "bg-gradient-to-b from-white to-gray-100"}`}
+                                                            onClick={() => setAlignment("left")}
+                                                       >
+                                                            <span className="text-xs">≡</span>
+                                                       </button>
+                                                       <button
+                                                            className={`w-8 h-8 flex items-center justify-center border-l border-gray-300 ${alignment === "center" ? "bg-gray-200" : "bg-gradient-to-b from-white to-gray-100"}`}
+                                                            onClick={() => setAlignment("center")}
+                                                       >
+                                                            <span className="text-xs">≡</span>
+                                                       </button>
+                                                       <button
+                                                            className={`w-8 h-8 flex items-center justify-center border-l border-gray-300 ${alignment === "right" ? "bg-gray-200" : "bg-gradient-to-b from-white to-gray-100"}`}
+                                                            onClick={() => setAlignment("right")}
+                                                       >
+                                                            <span className="text-xs">≡</span>
+                                                       </button>
+                                                       <button
+                                                            className={`w-8 h-8 flex items-center justify-center border-l border-gray-300 ${alignment === "justify" ? "bg-gray-200" : "bg-gradient-to-b from-white to-gray-100"}`}
+                                                            onClick={() => setAlignment("justify")}
+                                                       >
+                                                            <span className="text-xs">≡</span>
+                                                       </button>
                                                   </div>
-                                             ))}
+
+                                                  {/* Divider */}
+                                                  <div className="h-6 w-px bg-gray-300 mx-2"></div>
+
+                                                  {/* Line spacing dropdown */}
+                                                  <div className="relative mx-1">
+                                                       <button
+                                                            className="px-2 py-1 text-xs border border-gray-300 rounded bg-gradient-to-b from-white to-gray-100 flex items-center justify-between w-12"
+                                                            onClick={() => toggleDropdown("lineSpacing")}
+                                                       >
+                                                            {lineSpacing} <span className="ml-1">▼</span>
+                                                       </button>
+                                                       {openDropdown === "lineSpacing" && (
+                                                            <div className="absolute top-full left-0 w-full bg-white border border-gray-300 rounded shadow-md z-10">
+                                                                 {lineSpacingOptions.map((spacing) => (
+                                                                      <div
+                                                                           key={spacing}
+                                                                           className="px-2 py-1 text-xs hover:bg-gray-100 cursor-pointer"
+                                                                           onClick={() => {
+                                                                                setLineSpacing(spacing);
+                                                                                setOpenDropdown(null);
+                                                                           }}
+                                                                      >
+                                                                           {spacing}
+                                                                      </div>
+                                                                 ))}
+                                                            </div>
+                                                       )}
+                                                  </div>
+                                             </>
+                                        )}
+                                   </div>
+
+                                   {/* Second row for compact mode */}
+                                   {isCompactLayout && (
+                                        <div className="flex flex-wrap gap-1 w-full mt-1">
+                                             {/* Formatting buttons - wrapped to second row in compact mode */}
+                                             <button
+                                                  className={`w-8 h-8 mx-1 border rounded flex items-center justify-center ${isStrikethrough ? "bg-gray-200 border-gray-400" : "border-gray-300"}`}
+                                                  onClick={() => setIsStrikethrough(!isStrikethrough)}
+                                             >
+                                                  <span className="text-sm" style={{ textDecoration: "line-through" }}>a</span>
+                                             </button>
+
+                                             <button
+                                                  className={`w-8 h-8 mx-1 border rounded flex items-center justify-center ${isBold ? "bg-gray-200 border-gray-400" : "border-gray-300"}`}
+                                                  onClick={() => setIsBold(!isBold)}
+                                             >
+                                                  <span className="text-sm font-bold">B</span>
+                                             </button>
+
+                                             <button
+                                                  className={`w-8 h-8 mx-1 border rounded flex items-center justify-center ${isItalic ? "bg-gray-200 border-gray-400" : "border-gray-300"}`}
+                                                  onClick={() => setIsItalic(!isItalic)}
+                                             >
+                                                  <span className="text-sm italic">I</span>
+                                             </button>
+
+                                             <button
+                                                  className={`w-8 h-8 mx-1 border rounded flex items-center justify-center ${isUnderline ? "bg-gray-200 border-gray-400" : "border-gray-300"}`}
+                                                  onClick={() => setIsUnderline(!isUnderline)}
+                                             >
+                                                  <span className="text-sm underline">U</span>
+                                             </button>
+
+                                             {/* Alignment buttons - compact */}
+                                             <div className="flex border border-gray-300 rounded overflow-hidden mx-1">
+                                                  <button
+                                                       className={`w-6 h-8 flex items-center justify-center ${alignment === "left" ? "bg-gray-200" : "bg-gradient-to-b from-white to-gray-100"}`}
+                                                       onClick={() => setAlignment("left")}
+                                                  >
+                                                       <span className="text-xs">≡</span>
+                                                  </button>
+                                                  <button
+                                                       className={`w-6 h-8 flex items-center justify-center border-l border-gray-300 ${alignment === "center" ? "bg-gray-200" : "bg-gradient-to-b from-white to-gray-100"}`}
+                                                       onClick={() => setAlignment("center")}
+                                                  >
+                                                       <span className="text-xs">≡</span>
+                                                  </button>
+                                                  <button
+                                                       className={`w-6 h-8 flex items-center justify-center border-l border-gray-300 ${alignment === "right" ? "bg-gray-200" : "bg-gradient-to-b from-white to-gray-100"}`}
+                                                       onClick={() => setAlignment("right")}
+                                                  >
+                                                       <span className="text-xs">≡</span>
+                                                  </button>
+                                                  <button
+                                                       className={`w-6 h-8 flex items-center justify-center border-l border-gray-300 ${alignment === "justify" ? "bg-gray-200" : "bg-gradient-to-b from-white to-gray-100"}`}
+                                                       onClick={() => setAlignment("justify")}
+                                                  >
+                                                       <span className="text-xs">≡</span>
+                                                  </button>
+                                             </div>
+
+                                             {/* Line spacing dropdown - compact */}
+                                             <div className="relative mx-1">
+                                                  <button
+                                                       className="px-2 py-1 text-xs border border-gray-300 rounded bg-gradient-to-b from-white to-gray-100 flex items-center justify-between w-12"
+                                                       onClick={() => toggleDropdown("lineSpacing")}
+                                                  >
+                                                       {lineSpacing} <span className="ml-1">▼</span>
+                                                  </button>
+                                                  {openDropdown === "lineSpacing" && (
+                                                       <div className="absolute top-full left-0 w-full bg-white border border-gray-300 rounded shadow-md z-10">
+                                                            {lineSpacingOptions.map((spacing) => (
+                                                                 <div
+                                                                      key={spacing}
+                                                                      className="px-2 py-1 text-xs hover:bg-gray-100 cursor-pointer"
+                                                                      onClick={() => {
+                                                                           setLineSpacing(spacing);
+                                                                           setOpenDropdown(null);
+                                                                      }}
+                                                                 >
+                                                                      {spacing}
+                                                                 </div>
+                                                            ))}
+                                                       </div>
+                                                  )}
+                                             </div>
                                         </div>
                                    )}
                               </div>
@@ -356,7 +474,7 @@ const TextEditWindow: React.FC<TextEditWindowProps> = ({
                          </div>
 
                          {/* Text area */}
-                         <div className="h-64 p-4 bg-white w-full" style={getTextStyle()}>
+                         <div className={`${isCompactLayout ? 'h-48' : 'h-64'} p-4 bg-white w-full`} style={getTextStyle()}>
                               {content}
                          </div>
                     </div>

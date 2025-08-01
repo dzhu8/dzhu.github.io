@@ -103,7 +103,7 @@ export default function Hero() {
                               className="sticker-image"
                          />
                          <div className="sticker-content">
-                              <h1 className="text-4xl md:text-5xl font-bold mb-1 handwritten">Daniel Zhu</h1>
+                              <h1 className="handwritten">Daniel Zhu</h1>
                               <div className="handwritten-subtitle">
                                    <HandwrittenText
                                         phrases={[

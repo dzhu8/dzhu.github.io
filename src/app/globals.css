@@ -1,3 +1,4 @@
+@import url(https://db.onlinewebfonts.com/c/1fed4454352f201d52b65ca5480afb2d?family=Playlist-Script);
 @import "tailwindcss";
 
 :root {
@@ -10,6 +11,124 @@
      --font-mono: var(--font-lora), serif;
      --navbar-height: 45px;
      --navbar-top-offset: 10px; /* Offset from top of page */
+     
+     /* Scale Factor System */
+     --base-width: 2048; /* Base design width in pixels */
+     --scale-factor: 1; /* Will be dynamically calculated by JavaScript */
+     --navbar-scale-factor: 1; /* Navbar-specific scale factor (scales up but not down) */
+     --dampened-scale-factor: 1; /* Dampened scale factor for hero image and social elements */
+     --viewport-width: 100vw;
+     
+     /* Base font sizes */
+     --base-font-xs: 0.75rem;    /* 12px */
+     --base-font-sm: 0.875rem;   /* 14px */
+     --base-font-base: 1rem;     /* 16px */
+     --base-font-lg: 1.125rem;   /* 18px */
+     --base-font-xl: 1.25rem;    /* 20px */
+     --base-font-2xl: 1.5rem;    /* 24px */
+     --base-font-3xl: 1.875rem;  /* 30px */
+     --base-font-4xl: 2.25rem;   /* 36px */
+     --base-font-5xl: 3rem;      /* 48px */
+     --base-font-6xl: 3.75rem;   /* 60px */
+     
+     /* Scaled font sizes */
+     --scaled-font-xs: calc(var(--base-font-xs) * var(--scale-factor));
+     --scaled-font-sm: calc(var(--base-font-sm) * var(--scale-factor));
+     --scaled-font-base: calc(var(--base-font-base) * var(--scale-factor));
+     --scaled-font-lg: calc(var(--base-font-lg) * var(--scale-factor));
+     --scaled-font-xl: calc(var(--base-font-xl) * var(--scale-factor));
+     --scaled-font-2xl: calc(var(--base-font-2xl) * var(--scale-factor));
+     --scaled-font-3xl: calc(var(--base-font-3xl) * var(--scale-factor));
+     --scaled-font-4xl: calc(var(--base-font-4xl) * var(--scale-factor));
+     --scaled-font-5xl: calc(var(--base-font-5xl) * var(--scale-factor));
+     --scaled-font-6xl: calc(var(--base-font-6xl) * var(--scale-factor));
+     
+     /* Navbar-specific scaled font sizes (scales up but not down) */
+     --navbar-scaled-font-xl: calc(var(--base-font-xl) * var(--navbar-scale-factor));
+     
+     /* Dampened scaled font sizes for social elements */
+     --dampened-scaled-font-2xl: calc(var(--base-font-2xl) * var(--dampened-scale-factor));
+     --dampened-scaled-font-4xl: calc(var(--base-font-4xl) * var(--dampened-scale-factor));
+     
+     /* Base dimensions for scalable assets */
+     --base-hero-image-size: 400px;
+     --base-hero-image-border: 8px;
+     --base-hero-image-outline: 3px;
+     --base-globe-size: 320px;
+     --base-paper-width: 440px;
+     --base-paper-height: 300px;
+     --base-social-container-width: 300px;
+     --base-social-container-height: 400px;
+     --base-social-sticker-size: 70px;
+     --base-social-sticker-border: 4px;
+     --base-social-sticker-outline: 2px;
+     --base-periodic-table-padding: 20px;
+     --base-scotch-tape-height: 50px;
+     --base-scotch-tape-offset: 25px;
+     --base-name-sticker-max-width: 400px;
+     --base-hero-content-zone-width: 480px;
+     --base-hero-content-zone-height: 340px;
+     
+     /* Scaled dimensions */
+     --scaled-hero-image-size: calc(var(--base-hero-image-size) * var(--scale-factor));
+     --scaled-hero-image-border: calc(var(--base-hero-image-border) * var(--scale-factor));
+     --scaled-hero-image-outline: calc(var(--base-hero-image-outline) * var(--scale-factor));
+     --scaled-globe-size: calc(var(--base-globe-size) * var(--scale-factor));
+     --scaled-paper-width: calc(var(--base-paper-width) * var(--scale-factor));
+     --scaled-paper-height: calc(var(--base-paper-height) * var(--scale-factor));
+     --scaled-social-container-width: calc(var(--base-social-container-width) * var(--scale-factor));
+     --scaled-social-container-height: calc(var(--base-social-container-height) * var(--scale-factor));
+     --scaled-social-sticker-size: calc(var(--base-social-sticker-size) * var(--scale-factor));
+     --scaled-social-sticker-border: calc(var(--base-social-sticker-border) * var(--scale-factor));
+     --scaled-social-sticker-outline: calc(var(--base-social-sticker-outline) * var(--scale-factor));
+     --scaled-periodic-table-padding: calc(var(--base-periodic-table-padding) * var(--scale-factor));
+     --scaled-scotch-tape-height: calc(var(--base-scotch-tape-height) * var(--scale-factor));
+     --scaled-scotch-tape-offset: calc(var(--base-scotch-tape-offset) * var(--scale-factor));
+     
+     /* Dampened scaled dimensions for hero image and social elements */
+     --dampened-hero-image-size: calc(var(--base-hero-image-size) * var(--dampened-scale-factor));
+     --dampened-hero-image-border: calc(var(--base-hero-image-border) * var(--dampened-scale-factor));
+     --dampened-hero-image-outline: calc(var(--base-hero-image-outline) * var(--dampened-scale-factor));
+     --dampened-social-container-width: calc(var(--base-social-container-width) * var(--dampened-scale-factor));
+     --dampened-social-container-height: calc(var(--base-social-container-height) * var(--dampened-scale-factor));
+     --dampened-social-sticker-size: calc(var(--base-social-sticker-size) * var(--dampened-scale-factor));
+     --dampened-social-sticker-border: calc(var(--base-social-sticker-border) * var(--dampened-scale-factor));
+     --dampened-social-sticker-outline: calc(var(--base-social-sticker-outline) * var(--dampened-scale-factor));
+     --dampened-name-sticker-max-width: calc(var(--base-name-sticker-max-width) * var(--dampened-scale-factor));
+     --dampened-hero-content-zone-width: calc(var(--base-hero-content-zone-width) * var(--dampened-scale-factor));
+     --dampened-hero-content-zone-height: calc(var(--base-hero-content-zone-height) * var(--dampened-scale-factor));
+     
+     /* Base zone dimensions (1.2x larger than their assets) */
+     --base-hero-image-zone-size: calc(var(--base-hero-image-size) * 1.2);
+     --base-social-zone-width: calc(var(--base-social-container-width) * 1.2);
+     --base-social-zone-height: calc(var(--base-social-container-height) * 1.2);
+     --base-paper-zone-width: calc(var(--base-paper-width) * 1.2);
+     --base-paper-zone-height: calc(var(--base-paper-height) * 1.2);
+     --base-globe-zone-width: 288px;
+     --base-globe-zone-height: 332px;
+     --base-hero-content-zone-width: calc(var(--base-hero-content-zone-width) * 1.2);
+     --base-hero-content-zone-height: calc(var(--base-hero-content-zone-height) * 1.2);
+     
+     /* Scaled zone dimensions */
+     --scaled-hero-image-zone-size: calc(var(--base-hero-image-zone-size) * var(--scale-factor));
+     --scaled-social-zone-width: calc(var(--base-social-zone-width) * var(--scale-factor));
+     --scaled-social-zone-height: calc(var(--base-social-zone-height) * var(--scale-factor));
+     --scaled-paper-zone-width: calc(var(--base-paper-zone-width) * var(--scale-factor));
+     --scaled-paper-zone-height: calc(var(--base-paper-zone-height) * var(--scale-factor));
+     --scaled-globe-zone-width: calc(var(--base-globe-zone-width) * var(--scale-factor));
+     --scaled-globe-zone-height: calc(var(--base-globe-zone-height) * var(--scale-factor));
+     
+     /* Dampened zone dimensions for hero image and social elements */
+     --dampened-hero-image-zone-size: calc(var(--base-hero-image-zone-size) * var(--dampened-scale-factor));
+     --dampened-social-zone-width: calc(var(--base-social-zone-width) * var(--dampened-scale-factor));
+     --dampened-social-zone-height: calc(var(--base-social-zone-height) * var(--dampened-scale-factor));
+     --dampened-hero-content-zone-width: calc(var(--base-hero-content-zone-width) * var(--dampened-scale-factor));
+     --dampened-hero-content-zone-height: calc(var(--base-hero-content-zone-height) * var(--dampened-scale-factor));
+     
+     /* Calculated scale-aware properties (examples for future use) */
+     --scaled-grid-size: calc(var(--grid-size) * var(--scale-factor));
+     --scaled-navbar-height: calc(var(--navbar-height) * var(--scale-factor));
+     --scaled-navbar-offset: calc(var(--navbar-top-offset) * var(--scale-factor));
 }
 
 body {
@@ -55,7 +174,7 @@ body {
      justify-content: center; /* Center content horizontally */
      gap: 0.5rem;
      font-weight: 500;
-     font-size: 1.25rem;
+     font-size: var(--navbar-scaled-font-xl); /* Use navbar-specific scaled font size */
      color: var(--foreground);
      text-decoration: none;
      padding: 0.25rem 0.75rem;
@@ -66,6 +185,86 @@ body {
 
 .nav-item:hover {
      background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Navbar dropdown menu styles */
+.navbar-menu-button {
+     display: none; /* Hidden by default */
+     align-items: center;
+     justify-content: center;
+     font-weight: 500;
+     font-size: var(--navbar-scaled-font-xl);
+     color: var(--foreground);
+     text-decoration: none;
+     padding: 0.25rem 0.75rem;
+     border-radius: 0.25rem;
+     transition: background-color 0.2s;
+     height: 100%;
+     background: none;
+     border: none;
+     cursor: pointer;
+     gap: 0.5rem;
+}
+
+.navbar-menu-button:hover {
+     background-color: rgba(0, 0, 0, 0.05);
+}
+
+.navbar-dropdown {
+     position: absolute;
+     top: calc(100% + 5px);
+     right: 0;
+     background-color: rgba(255, 255, 255, 0.95);
+     backdrop-filter: blur(10px);
+     border: 2px solid black;
+     border-radius: 15px;
+     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+     min-width: 150px;
+     z-index: 1000;
+     opacity: 0;
+     visibility: hidden;
+     transform: translateY(-10px);
+     transition: all 0.2s ease;
+}
+
+.navbar-dropdown.open {
+     opacity: 1;
+     visibility: visible;
+     transform: translateY(0);
+}
+
+.navbar-dropdown-item {
+     display: flex;
+     align-items: center;
+     gap: 0.5rem;
+     padding: 0.75rem 1rem;
+     color: var(--foreground);
+     text-decoration: none;
+     font-size: var(--navbar-scaled-font-xl);
+     font-weight: 500;
+     transition: background-color 0.2s;
+     border-radius: 0;
+}
+
+.navbar-dropdown-item:first-child {
+     border-radius: 13px 13px 0 0;
+}
+
+.navbar-dropdown-item:last-child {
+     border-radius: 0 0 13px 13px;
+}
+
+.navbar-dropdown-item:hover {
+     background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Hide regular nav items when in mobile mode */
+.navbar.mobile-mode .nav-item {
+     display: none;
+}
+
+.navbar.mobile-mode .navbar-menu-button {
+     display: flex;
 }
 
 /* Hero section with graph paper background and Shantell Sans font */
@@ -89,8 +288,8 @@ body {
      top: 40%;
      left: 50%;
      transform: translate(-50%, -50%);
-     width: 480px; /* 1.2 times larger than container (400px * 1.2) */
-     height: 480px;
+     width: var(--dampened-hero-image-zone-size);
+     height: var(--dampened-hero-image-zone-size);
      border-radius: 50%;
      background: rgba(255, 255, 255, 1);
      z-index: 1;
@@ -117,8 +316,8 @@ body {
      top: 40%;
      left: 50%;
      transform: translateY(-50%);
-     width: 360px; /* 1.2 times larger than container (300px * 1.2) */
-     height: 480px; /* 1.2 times larger than container (400px * 1.2) */
+     width: var(--dampened-social-zone-width);
+     height: var(--dampened-social-zone-height);
      background: rgba(255, 255, 255, 1);
      border-radius: 50%; /* Make it circular like the hero image zone */
      z-index: 1;
@@ -127,12 +326,12 @@ body {
 
 .hero-content-zone {
      position: absolute;
-     top: 80%;
+     top: calc(40% + var(--dampened-hero-image-size) / 2 + 40px * var(--dampened-scale-factor));
      left: 50%;
-     transform: translate(-50%, -50%);
-     width: calc(100% * 1.2);
-     max-width: 480px;
-     height: 340px;
+     transform: translate(-50%, -10%);
+     width: var(--dampened-hero-content-zone-width);
+     max-width: var(--dampened-hero-content-zone-width);
+     height: var(--dampened-hero-content-zone-height);
      background: rgba(255, 255, 255, 1);
      z-index: 1;
      pointer-events: none;
@@ -158,8 +357,8 @@ body {
      position: absolute;
      top: 0;
      right: 0;
-     width: 288px;
-     height: 332px;
+     width: var(--scaled-globe-zone-width);
+     height: var(--scaled-globe-zone-height);
      background: rgba(255, 255, 255, 1);
      border-radius: 50%; /* Circular for globe */
      z-index: 1;
@@ -169,10 +368,10 @@ body {
 /* Globe container in the top right corner - centered within zone */
 .globe-container {
      position: absolute;
-     top: -2px; 
-     right: -15px;
-     width: 320px;
-     height: 320px;
+     top: calc(var(--scaled-globe-size) * -0.006); /* Scaled equivalent of -2px */
+     right: calc(var(--scaled-globe-size) * -0.047); /* Scaled equivalent of -15px */
+     width: var(--scaled-globe-size);
+     height: var(--scaled-globe-size);
      z-index: 2;
      pointer-events: none;
 }
@@ -180,12 +379,12 @@ body {
 /* Paper asset zone in the lower left corner */
 .paper-asset-zone {
      position: absolute;
-     bottom: 35px; 
-     left: 20px;
-     width: 528px; /* 1.1 times larger than paper asset (440px * 1.2) */
-     height: 360px; /* 1.1 times larger than paper asset (300px * 1.2) */
+     bottom: calc(var(--scaled-paper-height) * 0.117); /* Scaled equivalent of 35px relative to 300px base height */
+     left: calc(var(--scaled-paper-width) * 0.045); /* Scaled equivalent of 20px relative to 440px base width */
+     width: var(--scaled-paper-zone-width);
+     height: var(--scaled-paper-zone-height);
      background: rgba(255, 255, 255, 1);
-     border-radius: 9px; /* Slightly larger than paper asset radius (8px * 1.1) */
+     border-radius: calc(var(--scaled-paper-width) * 0.02); /* Scaled equivalent of 9px relative to 440px */
      transform: rotate(5deg); /* Match paper asset rotation */
      z-index: 1;
      pointer-events: none;
@@ -194,17 +393,17 @@ body {
 /* Paper asset in the lower left corner */
 .paper-asset {
      position: absolute;
-     bottom: 60px;
-     left: 60px;
-     width: 440px;
-     height: 300px; /* Reasonable height for paper proportions */
+     bottom: calc(var(--scaled-paper-height) * 0.2); /* Scaled equivalent of 60px relative to 300px base height */
+     left: calc(var(--scaled-paper-width) * 0.136); /* Scaled equivalent of 60px relative to 440px base width */
+     width: var(--scaled-paper-width);
+     height: var(--scaled-paper-height);
      background-color: #ffffff;
-     border: 1px solid #e5e5e5;
-     border-radius: 8px;
+     border: calc(var(--scaled-paper-width) * 0.0023) solid #e5e5e5; /* Scaled equivalent of 1px */
+     border-radius: calc(var(--scaled-paper-width) * 0.018); /* Scaled equivalent of 8px */
      transform: rotate(5deg);
      box-shadow: 
-          0 8px 16px rgba(0, 0, 0, 0.15),
-          0 4px 8px rgba(0, 0, 0, 0.1);
+          0 calc(var(--scaled-paper-height) * 0.027) calc(var(--scaled-paper-height) * 0.053) rgba(0, 0, 0, 0.15), /* Scaled 8px 16px */
+          0 calc(var(--scaled-paper-height) * 0.013) calc(var(--scaled-paper-height) * 0.027) rgba(0, 0, 0, 0.1); /* Scaled 4px 8px */
      z-index: 5;
      pointer-events: auto;
 }
@@ -212,10 +411,10 @@ body {
 /* Periodic table on paper asset */
 .periodic-table-container {
      position: absolute;
-     top: 20px;
-     left: 20px;
-     right: 20px;
-     bottom: 20px;
+     top: var(--scaled-periodic-table-padding);
+     left: var(--scaled-periodic-table-padding);
+     right: var(--scaled-periodic-table-padding);
+     bottom: var(--scaled-periodic-table-padding);
      z-index: 7;
      display: flex;
      align-items: center;
@@ -231,38 +430,38 @@ body {
 /* Scotch tape on paper asset - top */
 .scotch-tape-top {
      position: absolute;
-     top: -25px;
+     top: calc(var(--scaled-scotch-tape-offset) * -1);
      left: 50%;
      transform: translateX(-50%) rotate(-2deg);
      width: 70%; /* 70% scale of paper width */
-     height: 50px;
+     height: var(--scaled-scotch-tape-height);
      background-color: rgba(220, 230, 255, 0.15);
-     border: 1px solid rgba(200, 220, 255, 0.8);
+     border: calc(var(--scaled-paper-width) * 0.0023) solid rgba(200, 220, 255, 0.8); /* Scaled equivalent of 1px */
      overflow: hidden;
      z-index: 6;
-     border-radius: 2px;
+     border-radius: calc(var(--scaled-paper-width) * 0.0045); /* Scaled equivalent of 2px */
      box-shadow: 
-          0 2px 4px rgba(0, 0, 0, 0.1),
-          inset 0 1px 0 rgba(235, 242, 255, 0.4);
+          0 calc(var(--scaled-scotch-tape-height) * 0.04) calc(var(--scaled-scotch-tape-height) * 0.08) rgba(0, 0, 0, 0.1), /* Scaled 2px 4px */
+          inset 0 calc(var(--scaled-scotch-tape-height) * 0.02) 0 rgba(235, 242, 255, 0.4); /* Scaled 1px */
      backdrop-filter: blur(1px);
 }
 
 /* Scotch tape on paper asset - bottom */
 .scotch-tape-bottom {
      position: absolute;
-     bottom: -25px;
+     bottom: calc(var(--scaled-scotch-tape-offset) * -1);
      left: 50%;
      transform: translateX(-50%) rotate(3deg);
      width: 70%; /* 70% scale of paper width */
-     height: 50px;
+     height: var(--scaled-scotch-tape-height);
      background-color: rgba(220, 230, 255, 0.15);
-     border: 1px solid rgba(200, 220, 255, 0.8);
+     border: calc(var(--scaled-paper-width) * 0.0023) solid rgba(200, 220, 255, 0.8); /* Scaled equivalent of 1px */
      overflow: hidden;
      z-index: 6;
-     border-radius: 2px;
+     border-radius: calc(var(--scaled-paper-width) * 0.0045); /* Scaled equivalent of 2px */
      box-shadow: 
-          0 2px 4px rgba(0, 0, 0, 0.1),
-          inset 0 1px 0 rgba(240, 245, 255, 0.4);
+          0 calc(var(--scaled-scotch-tape-height) * 0.04) calc(var(--scaled-scotch-tape-height) * 0.08) rgba(0, 0, 0, 0.1), /* Scaled 2px 4px */
+          inset 0 calc(var(--scaled-scotch-tape-height) * 0.02) 0 rgba(240, 245, 255, 0.4); /* Scaled 1px */
      backdrop-filter: blur(1px);
 }
 
@@ -351,13 +550,13 @@ body {
      top: 40%;
      left: 50%;
      transform: translate(-50%, -50%);
-     width: 400px; /* Size of the circular container */
-     height: 400px;
+     width: var(--dampened-hero-image-size);
+     height: var(--dampened-hero-image-size);
      border-radius: 50%; /* Makes it circular */
-     border: 8px solid white;
-     outline: 3px solid black;
+     border: var(--dampened-hero-image-border) solid white;
+     outline: var(--dampened-hero-image-outline) solid black;
      overflow: hidden; /* Ensures the image stays within the circle */
-     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+     box-shadow: 0 calc(var(--dampened-hero-image-size) * 0.02) calc(var(--dampened-hero-image-size) * 0.04) rgba(0, 0, 0, 0.25); /* Scaled 8px 16px */
      background-color: white;
      z-index: 10; /* Above the zone */
 }
@@ -370,10 +569,10 @@ body {
 
 /* Position hero content down the page */
 .hero-content {
-     width: 100%;
      position: absolute;
-     top: 80%; /* Pushes content down the viewport */
-     transform: translateY(-50%);
+     left: 50%;
+     top: calc(40% + var(--dampened-hero-image-size) / 2 + 40px * var(--dampened-scale-factor));
+     transform: translate(-50%, 0);
      display: flex;
      justify-content: center; /* Ensure horizontal centering */
      z-index: 10; /* Above the zone */
@@ -415,9 +614,26 @@ body {
 .name-sticker {
      position: relative;
      display: inline-block;
-     max-width: 400px;
+     max-width: var(--dampened-name-sticker-max-width);
      width: 100%;
      margin: 0 auto; /* Center horizontally */
+     border-radius: 15px; /* Rounded corners to match sticker shape */
+     border: var(--dampened-hero-image-border) solid white;
+     outline: var(--dampened-hero-image-outline) solid black;
+     overflow: hidden; /* Ensures the image stays within the outline */
+     box-shadow: 0 calc(var(--dampened-name-sticker-max-width) * 0.02) calc(var(--dampened-name-sticker-max-width) * 0.04) rgba(0, 0, 0, 0.25); /* Scaled shadow */
+}
+
+/* Blue line indicator at the top of the name sticker */
+.name-sticker::before {
+     content: '';
+     position: absolute;
+     top: -10px;
+     left: -20px;
+     right: -20px;
+     height: 2px;
+     background-color: blue;
+     z-index: 1000;
 }
 
 .sticker-image {
@@ -444,6 +660,9 @@ body {
      font-family: var(--font-shantell-sans), cursive;
      color: #000;
      line-height: 1.2;
+     font-size: var(--dampened-scaled-font-4xl); /* Use dampened scaled font size for main heading */
+     font-weight: bold;
+     margin-bottom: 0.25rem;
 }
 
 .handwritten-subtitle {
@@ -461,7 +680,7 @@ body {
 
 .handwritten-text {
      display: inline-block;
-     font-size: 1.5rem;
+     font-size: var(--dampened-scaled-font-2xl); /* Use dampened scaled font size */
      font-weight: 400;
      transition: opacity 0.8s ease;
 }
@@ -870,21 +1089,21 @@ body {
      top: 40%;
      left: 50%;
      transform: translateY(-50%);
-     width: 300px; /* Container width that accommodates the icons */
-     height: 400px;
+     width: var(--dampened-social-container-width);
+     height: var(--dampened-social-container-height);
      pointer-events: none; /* Allow clicking through the container */
      z-index: 10; /* Above the zone */
 }
 
 .social-stickers-title {
      font-family: var(--font-shantell-sans), cursive;
-     font-size: 1.5rem;
+     font-size: var(--dampened-scaled-font-2xl); /* Use dampened scaled font size */
      text-align: center;
      color: black;
      position: absolute;
-     top: -40px;
-     right: -40px;
-     width: 230px;
+     top: calc(var(--dampened-social-container-height) * -0.1); /* Scaled equivalent of -40px relative to 400px */
+     right: calc(var(--dampened-social-container-width) * -0.133); /* Scaled equivalent of -40px relative to 300px */
+     width: calc(var(--dampened-social-container-width) * 0.767); /* Scaled equivalent of 230px relative to 300px */
      line-height: 1.3;
      pointer-events: auto; /* Make text clickable */
 }
@@ -897,13 +1116,13 @@ body {
 }
 
 .social-sticker {
-     width: 70px;
-     height: 70px;
+     width: var(--dampened-social-sticker-size);
+     height: var(--dampened-social-sticker-size);
      border-radius: 50%;
-     border: 4px solid white;
-     outline: 2px solid black;
+     border: var(--dampened-social-sticker-border) solid white;
+     outline: var(--dampened-social-sticker-outline) solid black;
      overflow: hidden;
-     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+     box-shadow: 0 calc(var(--dampened-social-sticker-size) * 0.057) calc(var(--dampened-social-sticker-size) * 0.114) rgba(0, 0, 0, 0.25); /* Scaled 4px 8px */
      background-color: white;
      display: flex;
      align-items: center;
@@ -918,47 +1137,66 @@ body {
 /* Position icons symmetrically - two above, two below the centerline, following the curve */
 .social-sticker:nth-child(1) {
      /* GitHub */
-     right: -5px;
-     top: 110px;
+     right: calc(var(--dampened-social-container-width) * -0.017); /* Scaled equivalent of -5px relative to 300px */
+     top: calc(var(--dampened-social-container-height) * 0.275); /* Scaled equivalent of 110px relative to 400px */
 }
 
 .social-sticker:nth-child(2) {
      /* LinkedIn */
-     right: 35px;
-     top: 10px;
+     right: calc(var(--dampened-social-container-width) * 0.117); /* Scaled equivalent of 35px relative to 300px */
+     top: calc(var(--dampened-social-container-height) * 0.025); /* Scaled equivalent of 10px relative to 400px */
 }
 
 .social-sticker:nth-child(3) {
      /* Google Scholar */
-     right: 35px;
-     top: 320px;
+     right: calc(var(--dampened-social-container-width) * 0.117); /* Scaled equivalent of 35px relative to 300px */
+     top: calc(var(--dampened-social-container-height) * 0.8); /* Scaled equivalent of 320px relative to 400px */
 }
 
 .social-sticker:nth-child(4) {
      /* Email - bottom right */
-     right: -5px;
-     top: 220px;
+     right: calc(var(--dampened-social-container-width) * -0.017); /* Scaled equivalent of -5px relative to 300px */
+     top: calc(var(--dampened-social-container-height) * 0.55); /* Scaled equivalent of 220px relative to 400px */
 }
 
-/* Hobbies Cards Container - 2x2 grid layout */
+/* Hobbies Cards Container - Two column layout */
 .hobbies-cards-container {
      display: grid;
-     grid-template-columns: repeat(2, 1fr);
-     grid-template-rows: repeat(2, 1fr);
+     grid-template-columns: 1fr 1fr; /* Two equal columns */
      gap: 3rem;
-     max-width: 1200px;
+     max-width: 1216px; /* 1152px content + 64px padding (2rem * 2) to match Research section content width */
      margin: 0 auto;
-     margin-left: -45px; /* Move the entire grid slightly left */
      padding: 2rem;
-     justify-items: center;
      align-items: center;
+}
+
+/* Intelligent Hobbies Cards Container - Dynamically responsive */
+.hobbies-cards-container-intelligent {
+     /* Styles are applied via React inline styles for dynamic responsiveness */
+     /* This allows for real-time calculation based on scale factor and viewport */
+     transition: grid-template-columns 0.3s ease; /* Smooth transition when switching layouts */
+}
+
+/* Responsive Hobbies Cards Container - Built into HobbiesCardTemplate */
+.hobbies-cards-container-responsive {
+     /* Styles are applied via React inline styles for dynamic responsiveness */
+     /* This allows for real-time calculation based on scale factor and viewport */
+     transition: grid-template-columns 0.3s ease; /* Smooth transition when switching layouts */
+}
+
+/* Responsive layout for smaller screens */
+@media (max-width: 768px) {
+     .hobbies-cards-container {
+          grid-template-columns: 1fr; /* Single column on small screens */
+          gap: 2rem;
+     }
 }
 
 /* Hobby Card Asset */
 .hobby-card-asset {
      position: relative;
-     width: 540px; 
-     height: 375px; 
+     width: 500px; /* Fixed width - no scaling */
+     height: 400px; /* Fixed height - no scaling */
      background-color: #ffffff;
      border: 1px solid #e5e5e5;
      border-radius: 10px; 
@@ -995,7 +1233,7 @@ body {
      top: 0;
      left: 0;
      right: 0;
-     height: 80px; /* Header height */
+     height: 80px; /* Fixed header height */
      background-image: url('/Food_header.png');
      background-size: cover;
      background-position: center;
@@ -1004,17 +1242,52 @@ body {
      z-index: 7;
 }
 
+/* Card title - positioned below the header */
+.hobby-card-title {
+     position: absolute;
+     top: 90px; /* Fixed positioning - 80px header + 10px spacing */
+     left: 20px;
+     right: 20px;
+     height: 40px; /* Fixed height */
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     color: #2c3e50;
+     font-family: 'Playlist-Script';
+     font-size: 20px; /* Fixed font size */
+     text-align: center;
+     z-index: 7;
+}
+
+/* Responsive font size for medium screens and above */
+@media (min-width: 768px) {
+     .hobby-card-title {
+          font-size: 24px; /* Fixed larger font size on md+ screens */
+     }
+}
+
 /* Main content area of the hobby card */
 .hobby-card-content {
      position: absolute;
-     top: 80px; /* Below the header */
+     top: 140px; /* Fixed positioning - 80px header + 40px title + 20px spacing */
      left: 20px;
      right: 20px;
      bottom: 20px;
      display: flex;
-     flex-direction: row; /* Change to row for side-by-side layout */
+     flex-direction: row; /* Default: side-by-side layout */
      gap: 15px;
      z-index: 7;
+}
+
+/* Container query for responsive layout when cards get too narrow */
+.hobby-card-asset {
+     container-type: inline-size;
+}
+
+@container (max-width: 400px) {
+     .hobby-card-content {
+          flex-direction: column;
+     }
 }
 
 /* Placeholder for image content - left side */
@@ -1028,7 +1301,7 @@ body {
      justify-content: center;
      color: #6c757d;
      font-family: var(--font-lora), serif;
-     font-size: 1rem;
+     font-size: var(--scaled-font-base); /* Use scaled font size */
      font-style: italic;
 }
 
@@ -1043,8 +1316,71 @@ body {
      justify-content: center;
      color: #6c757d;
      font-family: var(--font-lora), serif;
-     font-size: 0.9rem;
+     font-size: var(--scaled-font-sm); /* Use scaled font size */
      font-style: italic;
+}
+
+/* Scale Tracker Styles */
+.scale-tracker {
+     position: fixed;
+     top: 20px;
+     right: 20px;
+     background-color: rgba(0, 0, 0, 0.8);
+     color: white;
+     padding: 15px 20px;
+     border-radius: 10px;
+     font-family: var(--font-sans);
+     z-index: 1000;
+     backdrop-filter: blur(10px);
+     border: 1px solid rgba(255, 255, 255, 0.2);
+     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+     min-width: 180px;
+}
+
+.scale-info {
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     gap: 5px;
+}
+
+.scale-label {
+     font-size: var(--scaled-font-sm); /* Use scaled font size */
+     font-weight: 500;
+     opacity: 0.8;
+     text-transform: uppercase;
+     letter-spacing: 0.5px;
+}
+
+.scale-value {
+     font-size: var(--scaled-font-2xl); /* Use scaled font size */
+     font-weight: bold;
+     color: #4ade80;
+     font-family: monospace;
+}
+
+.viewport-info {
+     font-size: var(--scaled-font-xs); /* Use scaled font size */
+     opacity: 0.7;
+     font-family: monospace;
+}
+
+/* Responsive adjustments for scale tracker */
+@media (max-width: 768px) {
+     .scale-tracker {
+          top: 10px;
+          right: 10px;
+          padding: 10px 15px;
+          min-width: 150px;
+     }
+     
+     .scale-value {
+          font-size: 1.2rem;
+     }
+     
+     .viewport-info {
+          font-size: 0.7rem;
+     }
 }
 
 
