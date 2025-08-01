@@ -1,3 +1,4 @@
+@import url(https://db.onlinewebfonts.com/c/1fed4454352f201d52b65ca5480afb2d?family=Playlist-Script);
 @import "tailwindcss";
 
 :root {
@@ -621,11 +622,6 @@ body {
      outline: var(--dampened-hero-image-outline) solid black;
      overflow: hidden; /* Ensures the image stays within the outline */
      box-shadow: 0 calc(var(--dampened-name-sticker-max-width) * 0.02) calc(var(--dampened-name-sticker-max-width) * 0.04) rgba(0, 0, 0, 0.25); /* Scaled shadow */
-     
-     /* Verification styling - orange box around sticker */
-     box-shadow: 
-          0 calc(var(--dampened-name-sticker-max-width) * 0.02) calc(var(--dampened-name-sticker-max-width) * 0.04) rgba(0, 0, 0, 0.25), /* Original shadow */
-          0 0 0 3px orange; /* Orange verification border */
 }
 
 /* Blue line indicator at the top of the name sticker */
@@ -1163,25 +1159,44 @@ body {
      top: calc(var(--dampened-social-container-height) * 0.55); /* Scaled equivalent of 220px relative to 400px */
 }
 
-/* Hobbies Cards Container - 2x2 grid layout */
+/* Hobbies Cards Container - Two column layout */
 .hobbies-cards-container {
      display: grid;
-     grid-template-columns: repeat(2, 1fr);
-     grid-template-rows: repeat(2, 1fr);
+     grid-template-columns: 1fr 1fr; /* Two equal columns */
      gap: 3rem;
-     max-width: 1200px;
+     max-width: 1216px; /* 1152px content + 64px padding (2rem * 2) to match Research section content width */
      margin: 0 auto;
-     margin-left: -45px; /* Move the entire grid slightly left */
      padding: 2rem;
-     justify-items: center;
      align-items: center;
+}
+
+/* Intelligent Hobbies Cards Container - Dynamically responsive */
+.hobbies-cards-container-intelligent {
+     /* Styles are applied via React inline styles for dynamic responsiveness */
+     /* This allows for real-time calculation based on scale factor and viewport */
+     transition: grid-template-columns 0.3s ease; /* Smooth transition when switching layouts */
+}
+
+/* Responsive Hobbies Cards Container - Built into HobbiesCardTemplate */
+.hobbies-cards-container-responsive {
+     /* Styles are applied via React inline styles for dynamic responsiveness */
+     /* This allows for real-time calculation based on scale factor and viewport */
+     transition: grid-template-columns 0.3s ease; /* Smooth transition when switching layouts */
+}
+
+/* Responsive layout for smaller screens */
+@media (max-width: 768px) {
+     .hobbies-cards-container {
+          grid-template-columns: 1fr; /* Single column on small screens */
+          gap: 2rem;
+     }
 }
 
 /* Hobby Card Asset */
 .hobby-card-asset {
      position: relative;
-     width: 540px; 
-     height: 375px; 
+     width: 500px; /* Fixed width - no scaling */
+     height: 400px; /* Fixed height - no scaling */
      background-color: #ffffff;
      border: 1px solid #e5e5e5;
      border-radius: 10px; 
@@ -1218,7 +1233,7 @@ body {
      top: 0;
      left: 0;
      right: 0;
-     height: 80px; /* Header height */
+     height: 80px; /* Fixed header height */
      background-image: url('/Food_header.png');
      background-size: cover;
      background-position: center;
@@ -1227,17 +1242,52 @@ body {
      z-index: 7;
 }
 
+/* Card title - positioned below the header */
+.hobby-card-title {
+     position: absolute;
+     top: 90px; /* Fixed positioning - 80px header + 10px spacing */
+     left: 20px;
+     right: 20px;
+     height: 40px; /* Fixed height */
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     color: #2c3e50;
+     font-family: 'Playlist-Script';
+     font-size: 20px; /* Fixed font size */
+     text-align: center;
+     z-index: 7;
+}
+
+/* Responsive font size for medium screens and above */
+@media (min-width: 768px) {
+     .hobby-card-title {
+          font-size: 24px; /* Fixed larger font size on md+ screens */
+     }
+}
+
 /* Main content area of the hobby card */
 .hobby-card-content {
      position: absolute;
-     top: 80px; /* Below the header */
+     top: 140px; /* Fixed positioning - 80px header + 40px title + 20px spacing */
      left: 20px;
      right: 20px;
      bottom: 20px;
      display: flex;
-     flex-direction: row; /* Change to row for side-by-side layout */
+     flex-direction: row; /* Default: side-by-side layout */
      gap: 15px;
      z-index: 7;
+}
+
+/* Container query for responsive layout when cards get too narrow */
+.hobby-card-asset {
+     container-type: inline-size;
+}
+
+@container (max-width: 400px) {
+     .hobby-card-content {
+          flex-direction: column;
+     }
 }
 
 /* Placeholder for image content - left side */

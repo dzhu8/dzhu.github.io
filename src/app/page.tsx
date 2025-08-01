@@ -2,18 +2,15 @@
 
 import Hero from "./components/hero/Hero";
 import Navbar from "./components/hero/Navbar";
-import ScaleTracker from "./components/ScaleTracker";
 import Section from "./components/hero/Section";
 import ScrollFadeIn from "./components/animations/ScrollFadeIn";
 import NewsArticleLayout from "./components/subsections/ResearchNewspaperTemplate";
 import TextEditWindow from "./components/subsections/ProjectsTextEditorTemplate";
+import { HobbiesContainer } from "./components/subsections/HobbiesCardTemplate";
 
 export default function Home() {
      return (
           <main>
-               {/* Scale Tracker for development/testing */}
-               <ScaleTracker />
-
                {/* Fixed navigation bar at the top */}
                <Navbar />
 
@@ -66,6 +63,24 @@ and an import scanner that checks codebases for import statements that are not y
                               />
                          </ScrollFadeIn>
                     </div>
+               </Section>
+
+               <Section id="hobbies" title="Hobbies">
+                    <ScrollFadeIn delay={200} duration={800} direction="up">
+                         <HobbiesContainer 
+                              showDebugInfo={false}
+                              hobbies={[
+                                   {
+                                        title: "Test",
+                                        description: "Test."
+                                   },
+                                   {
+                                        title: "Test", 
+                                        description: "Test."
+                                   }
+                              ]}
+                         />
+                    </ScrollFadeIn>
                </Section>
           </main>
      );
