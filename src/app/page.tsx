@@ -54,7 +54,7 @@ export default function Home() {
                                    title="JSMonitor"
                                    imagePath="/JS_monitor_logo.png"
                                    languages={["python"]}
-                                   content={`A suite of terminal commands for quickly managing JavaScript/TypeScript project dependencies that I created out of pure laziness. Currently, this contains two tools: a dependency updater that fetches the latest versions of dependencies and devDependencies and installs them if outdated,
+                                   content={`A suite of terminal commands for quickly managing JavaScript/TypeScript project dependencies. Currently, this contains two tools: a dependency updater that fetches the latest versions of dependencies and devDependencies and installs them if outdated,
 and an import scanner that checks codebases for import statements that are not yet installed. These packages are installed, and the package file is updated accordingly. Stay tuned for further updates!`}
                               />
                          </ScrollFadeIn>

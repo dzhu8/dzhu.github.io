@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
+import PolaroidFrame from "../PolaroidFrame";
 
 interface TextEditWindowProps {
      content?: string;
@@ -130,24 +130,15 @@ const TextEditWindow: React.FC<TextEditWindowProps> = ({
      return (
           <div className={`w-full max-w-6xl mx-auto ${isCompactLayout ? "flex-col space-y-4" : "flex gap-6"}`}>
                {/* Polaroid frame */}
-               <div className={`${isCompactLayout ? "w-full max-w-md mx-auto" : "flex-none w-64"} flex flex-col`}>
-                    <div className="bg-white p-4 shadow-lg flex flex-col border-2 border-gray-300 rounded-sm h-full flex-grow">
-                         {/* Image area */}
-                         <div
-                              className="bg-gray-100 mb-4 flex items-center justify-center overflow-hidden border border-gray-300 flex-grow"
-                              style={{ minHeight: isCompactLayout ? "150px" : "200px" }}
-                         >
-                              <Image
-                                   src={imagePath}
-                                   alt="Project Screenshot"
-                                   width={isCompactLayout ? 200 : 250}
-                                   height={isCompactLayout ? 200 : 250}
-                                   style={{ objectFit: "contain" }}
-                              />
-                         </div>
-
+               <div className={`${isCompactLayout ? "w-full max-w-md mx-auto" : "flex-none"}`}>
+                    <PolaroidFrame
+                         imagePath={imagePath}
+                         width={isCompactLayout ? 300 : 256}
+                         height={isCompactLayout ? 375 : 320}
+                         imageRatio={0.75}
+                    >
                          {/* Language icons */}
-                         <div className="flex flex-wrap gap-2 justify-center pt-2 border-t border-gray-300">
+                         <div className="flex flex-wrap gap-2 justify-center">
                               {languages.map((lang, index) => (
                                    <div key={index} className="flex items-center" title={lang}>
                                         <span className={`${isCompactLayout ? "text-xl" : "text-2xl"}`}>
@@ -157,7 +148,7 @@ const TextEditWindow: React.FC<TextEditWindowProps> = ({
                                    </div>
                               ))}
                          </div>
-                    </div>
+                    </PolaroidFrame>
                </div>
 
                {/* Text editor */}
