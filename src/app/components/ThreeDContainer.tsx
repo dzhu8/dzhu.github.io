@@ -35,6 +35,7 @@ export default function ThreeDContainer({
      const pathZCoordinatesRef = useRef<{ startZ: number[]; endZ: number[] }>({ startZ: [], endZ: [] });
      const cranePathDataRef = useRef<PathData[]>([]);
      const animationTimeRef = useRef<number>(0);
+     const pathGeneratorRef = useRef<PathGenerator | null>(null);
 
      // Alignment constants (similar to origami-flock)
      const REALIGNMENT_INTERVAL = 0.1; // Seconds between re-alignments
@@ -50,6 +51,7 @@ export default function ThreeDContainer({
 
           // Create path generator
           const pathGenerator = new PathGenerator({ cameraDistance, craneCount: 10 });
+          pathGeneratorRef.current = pathGenerator;
 
           // Scene setup
           const scene = new THREE.Scene();
@@ -176,6 +178,18 @@ export default function ThreeDContainer({
                     const crane = cranes[index];
                     if (!crane || !crane.craneObject || !pathData.pathPoints.length) return;
 
+                    // Handle initial delay
+                    if (pathData.isDelayActive) {
+                         pathData.delayTimer -= deltaTime;
+                         if (pathData.delayTimer <= 0) {
+                              pathData.isDelayActive = false;
+                              pathData.delayTimer = 0;
+                         } else {
+                              // Crane is still in delay phase, don't move it
+                              return;
+                         }
+                    }
+
                     // Update progress along current path segment
                     pathData.pathProgress += travelSpeed * deltaTime;
 
@@ -184,10 +198,15 @@ export default function ThreeDContainer({
                          pathData.currentPathIndex++;
                          pathData.pathProgress = 0.0;
 
-                         // If we've reached the end, restart from beginning
+                         // If we've reached the end, regenerate path and restart from beginning
                          if (pathData.currentPathIndex >= pathData.pathPoints.length - 1) {
-                              pathData.currentPathIndex = 0;
-                              pathData.pathProgress = Math.random() * 0.5; // Add some variety to restart timing
+                              // Regenerate a new random path for this crane
+                              if (pathGeneratorRef.current) {
+                                   pathGeneratorRef.current.regenerateSinglePath(pathData, index);
+                              }
+                              
+                              // Add some variety to restart timing
+                              pathData.pathProgress = Math.random() * 0.1;
                          }
                     }
 

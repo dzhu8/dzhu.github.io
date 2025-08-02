@@ -13,6 +13,9 @@ export interface PathData {
      referenceVector: THREE.Vector3;
      derivativeHistory: THREE.Vector3[];
      isInitialAlignment: boolean;
+     initialDelay: number; // Delay in seconds before starting animation
+     delayTimer: number; // Current delay countdown timer
+     isDelayActive: boolean; // Whether the crane is still in delay phase
 }
 
 export interface PathGenerationResult {
@@ -221,6 +224,9 @@ export class PathGenerator {
                // Calculate initial direction vector for alignment
                const initialDirection = new THREE.Vector3().subVectors(pathPoints[1], pathPoints[0]).normalize();
 
+               // Generate random initial delay between 0 and 5 seconds
+               const initialDelay = Math.random() * 5.0;
+
                paths.push(pathPoints);
                pathData.push({
                     pathPoints,
@@ -230,6 +236,9 @@ export class PathGenerator {
                     referenceVector: initialDirection.clone(),
                     derivativeHistory: [],
                     isInitialAlignment: true,
+                    initialDelay: initialDelay,
+                    delayTimer: initialDelay,
+                    isDelayActive: true,
                });
           }
 
@@ -238,6 +247,29 @@ export class PathGenerator {
                pathData,
                zCoordinates: { startZ: startZCoords, endZ: endZCoords },
           };
+     }
+
+     public regenerateSinglePath(pathData: PathData, pathIndex: number): void {
+          // Generate new start and end points
+          const startPoint = this.generateRandomPoint(true);
+          const endPoint = this.generateRandomPoint(false);
+          const newPathPoints = this.createSmoothCurvedPath(startPoint, endPoint, pathIndex);
+
+          // Calculate new initial direction vector for alignment
+          const initialDirection = new THREE.Vector3().subVectors(newPathPoints[1], newPathPoints[0]).normalize();
+
+          // Update the pathData with the new path
+          pathData.pathPoints = newPathPoints;
+          pathData.currentPathIndex = 0;
+          pathData.pathProgress = 0;
+          pathData.currentPosition.copy(newPathPoints[0]);
+          pathData.referenceVector.copy(initialDirection);
+          pathData.derivativeHistory = [];
+          pathData.isInitialAlignment = true;
+          
+          // Don't reset delay properties - crane should start moving immediately after regeneration
+          pathData.isDelayActive = false;
+          pathData.delayTimer = 0;
      }
 
      public static visualizePaths(scene: THREE.Scene, paths: THREE.Vector3[][], pathLines: THREE.Line[]): THREE.Line[] {
