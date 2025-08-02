@@ -20,7 +20,7 @@ export default function Section({ id, title, children, craneScale, wingFlapSpeed
           <section id={id} className="content-section">
                {/* 3D Container for Section - only if parameters are provided */}
                {shouldRender3D && (
-                    <ThreeDContainer 
+                    <ThreeDContainer
                          showAxes={false}
                          isHeroSection={false}
                          craneScale={craneScale}
@@ -28,7 +28,7 @@ export default function Section({ id, title, children, craneScale, wingFlapSpeed
                          pathSpeed={pathSpeed}
                     />
                )}
-               
+
                <div className="container text-center">
                     <div className="content-piece">
                          <ScrollFadeIn delay={0} duration={600} threshold={0.3}>

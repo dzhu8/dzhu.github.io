@@ -266,7 +266,7 @@ export class PathGenerator {
           pathData.referenceVector.copy(initialDirection);
           pathData.derivativeHistory = [];
           pathData.isInitialAlignment = true;
-          
+
           // Don't reset delay properties - crane should start moving immediately after regeneration
           pathData.isDelayActive = false;
           pathData.delayTimer = 0;

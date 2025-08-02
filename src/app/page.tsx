@@ -6,6 +6,7 @@ import Section from "./components/hero/Section";
 import ScrollFadeIn from "./components/animations/ScrollFadeIn";
 import NewsArticleLayout from "./components/subsections/ResearchNewspaperTemplate";
 import TextEditWindow from "./components/subsections/ProjectsTextEditorTemplate";
+import CraneAnimatedProjectCard from "./components/subsections/CraneAnimatedProjectCard";
 import { HobbiesContainer } from "./components/subsections/HobbiesCardTemplate";
 import ScaleTracker from "./components/ScaleTracker";
 
@@ -14,16 +15,12 @@ export default function Home() {
           <main>
                {/* Scale Factor Controller */}
                <ScaleTracker />
-               
+
                {/* Fixed navigation bar at the top */}
                <Navbar />
 
                {/* Hero Section with graph paper background */}
-               <Hero 
-                    craneScale={1.2}
-                    wingFlapSpeed={2.8}
-                    pathSpeed={11.0}
-               />
+               <Hero craneScale={1.2} wingFlapSpeed={2.8} pathSpeed={11.0} />
 
                {/* Content Sections with white backgrounds */}
                <Section id="research" title="Research" craneScale={1.2} wingFlapSpeed={2.8} pathSpeed={11.0}>
@@ -68,6 +65,13 @@ and an import scanner that checks codebases for import statements that are not y
                                    languages={["python"]}
                                    content={`A command-line tool for formatting and organizing JavaScript/TypeScript files and additional common file types found in JS/TS projects. Formats files with extensions .js, .jsx, .ts, .tsx, .vue, .html, and .json by default. Allows for custom Prettier config and ignore files to be used,
 (by specifying the path to --config flag) with fallback to a default configuration if none is provided.`}
+                              />
+                         </ScrollFadeIn>
+                         <ScrollFadeIn delay={100} duration={700} direction="right">
+                              <CraneAnimatedProjectCard
+                                   title="3D Animation Toolbox"
+                                   languages={["javascript", "typescript"]}
+                                   content={`A set of 3D asset objects and examples of animations involving 3D assets. Currently, includes basic particle animations (rain, snowflakes, fire, etc.), an interactive flock of birds, and an animation of origami cranes in flight (which was utilized in this website!). This is not yet complete; additional examples and usage tutorials will be added in the future.`}
                               />
                          </ScrollFadeIn>
                     </div>

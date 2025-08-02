@@ -204,7 +204,7 @@ export default function ThreeDContainer({
                               if (pathGeneratorRef.current) {
                                    pathGeneratorRef.current.regenerateSinglePath(pathData, index);
                               }
-                              
+
                               // Add some variety to restart timing
                               pathData.pathProgress = Math.random() * 0.1;
                          }

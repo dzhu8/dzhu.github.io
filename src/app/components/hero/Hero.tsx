@@ -12,14 +12,14 @@ export default function Hero({ craneScale = 1.2, wingFlapSpeed = 2.8, pathSpeed 
      return (
           <section className="hero-section">
                {/* 3D Container for Hero Section */}
-               <ThreeDContainer 
+               <ThreeDContainer
                     showAxes={false}
                     isHeroSection={true}
                     craneScale={craneScale}
                     wingFlapSpeed={wingFlapSpeed}
                     pathSpeed={pathSpeed}
                />
-               
+
                {/* Zones for background masking - placed first so they're behind content */}
                <div className="navbar-zone"></div>
                <div className="hero-image-zone"></div>

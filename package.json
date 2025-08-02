@@ -10,6 +10,8 @@
      },
      "dependencies": {
           "@types/three": "^0.178.1",
+          "@types/gif.js": "^0.2.5",
+          "gif.js": "^0.2.0",
           "lucide-react": "^0.485.0",
           "next": "15.2.4",
           "react": "^19.0.0",

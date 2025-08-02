@@ -35,7 +35,5 @@ export default function ScaleTracker() {
           };
      }, []);
 
-     return (
-          null // No UI rendered, but scale calculations still run
-     );
+     return null; // No UI rendered, but scale calculations still run
 }
