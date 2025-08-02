@@ -26,8 +26,45 @@ const PolaroidFrame: React.FC<PolaroidFrameProps> = ({
      const imageSize = Math.min(width * 0.8, imageAreaHeight * 0.8); // Image size with some padding
 
      return (
-          <div className="flex flex-col" style={frameStyle}>
-               <div className="bg-white p-4 shadow-lg flex flex-col border-2 border-gray-300 rounded-sm h-full">
+          <div className="flex flex-col relative" style={frameStyle}>
+               <div className="bg-white p-4 shadow-lg flex flex-col border-2 border-gray-300 rounded-sm h-full relative">
+                    {/* Photo corners */}
+                    <div className="absolute -top-3 -left-3 w-9 h-9 z-10">
+                         <div
+                              className="w-0 h-0 border-t-[36px] border-t-sky-400 border-r-[36px] border-r-transparent"
+                              style={{
+                                   filter: "drop-shadow(2px 2px 3px rgba(0,0,0,0.25))",
+                              }}
+                         ></div>
+                    </div>
+
+                    <div className="absolute -top-3 -right-3 w-9 h-9 z-10">
+                         <div
+                              className="w-0 h-0 border-t-[36px] border-t-sky-400 border-l-[36px] border-l-transparent"
+                              style={{
+                                   filter: "drop-shadow(-2px 2px 3px rgba(0,0,0,0.25))",
+                              }}
+                         ></div>
+                    </div>
+
+                    <div className="absolute -bottom-3 -left-3 w-9 h-9 z-10">
+                         <div
+                              className="w-0 h-0 border-b-[36px] border-b-sky-400 border-r-[36px] border-r-transparent"
+                              style={{
+                                   filter: "drop-shadow(2px -2px 3px rgba(0,0,0,0.25))",
+                              }}
+                         ></div>
+                    </div>
+
+                    <div className="absolute -bottom-3 -right-3 w-9 h-9 z-10">
+                         <div
+                              className="w-0 h-0 border-b-[36px] border-b-sky-400 border-l-[36px] border-l-transparent"
+                              style={{
+                                   filter: "drop-shadow(-2px -2px 3px rgba(0,0,0,0.25))",
+                              }}
+                         ></div>
+                    </div>
+
                     {/* Image area */}
                     <div
                          className="bg-gray-100 mb-4 flex items-center justify-center overflow-hidden border border-gray-300 flex-grow"

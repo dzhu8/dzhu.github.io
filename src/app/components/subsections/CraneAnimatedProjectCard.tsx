@@ -130,8 +130,47 @@ const CraneAnimatedProjectCard: React.FC<CraneAnimatedProjectCardProps> = ({
      return (
           <div className={`w-full max-w-6xl mx-auto ${isCompactLayout ? "flex-col space-y-4" : "flex gap-6"}`}>
                {/* Animated crane display instead of static image */}
-               <div className={`${isCompactLayout ? "w-full max-w-md mx-auto" : "flex-none w-64"} flex flex-col`}>
-                    <div className="bg-white p-4 shadow-lg flex flex-col border-2 border-gray-300 rounded-sm h-full flex-grow">
+               <div
+                    className={`${isCompactLayout ? "w-full max-w-md mx-auto" : "flex-none w-64"} flex flex-col relative`}
+               >
+                    <div className="bg-white p-4 shadow-lg flex flex-col border-2 border-gray-300 rounded-sm h-full flex-grow relative">
+                         {/* Photo corners */}
+                         <div className="absolute -top-3 -left-3 w-9 h-9 z-10">
+                              <div
+                                   className="w-0 h-0 border-t-[36px] border-t-sky-400 border-r-[36px] border-r-transparent"
+                                   style={{
+                                        filter: "drop-shadow(2px 2px 3px rgba(0,0,0,0.25))",
+                                   }}
+                              ></div>
+                         </div>
+
+                         <div className="absolute -top-3 -right-3 w-9 h-9 z-10">
+                              <div
+                                   className="w-0 h-0 border-t-[36px] border-t-sky-400 border-l-[36px] border-l-transparent"
+                                   style={{
+                                        filter: "drop-shadow(-2px 2px 3px rgba(0,0,0,0.25))",
+                                   }}
+                              ></div>
+                         </div>
+
+                         <div className="absolute -bottom-3 -left-3 w-9 h-9 z-10">
+                              <div
+                                   className="w-0 h-0 border-b-[36px] border-b-sky-400 border-r-[36px] border-r-transparent"
+                                   style={{
+                                        filter: "drop-shadow(2px -2px 3px rgba(0,0,0,0.25))",
+                                   }}
+                              ></div>
+                         </div>
+
+                         <div className="absolute -bottom-3 -right-3 w-9 h-9 z-10">
+                              <div
+                                   className="w-0 h-0 border-b-[36px] border-b-sky-400 border-l-[36px] border-l-transparent"
+                                   style={{
+                                        filter: "drop-shadow(-2px -2px 3px rgba(0,0,0,0.25))",
+                                   }}
+                              ></div>
+                         </div>
+
                          {/* Animated crane area */}
                          <div
                               className="bg-gray-100 mb-4 flex items-center justify-center overflow-hidden border border-gray-300 flex-grow"
