@@ -48,12 +48,12 @@ const NewsArticleLayout: React.FC<NewsArticleLayoutProps> = ({
      const [mainContent, setMainContent] = useState("");
      const [secondaryContent, setSecondaryContent] = useState("");
      const [currentUrl, setCurrentUrl] = useState<string>("");
-     
+
      // Refs for measuring header heights
      const article1HeaderRef = useRef<HTMLDivElement>(null);
      const article2HeaderRef = useRef<HTMLDivElement>(null);
      const [headerHeight, setHeaderHeight] = useState<number | null>(null);
-     
+
      // Refs for text measurement
      const measurementRef = useRef<HTMLDivElement>(null);
      const leftColumnRef = useRef<HTMLDivElement>(null);
@@ -71,18 +71,18 @@ const NewsArticleLayout: React.FC<NewsArticleLayoutProps> = ({
           const calculateHeaderHeight = () => {
                if (article1HeaderRef.current && article2HeaderRef.current) {
                     // Reset height to auto to get natural height
-                    article1HeaderRef.current.style.minHeight = 'auto';
-                    article2HeaderRef.current.style.minHeight = 'auto';
-                    
+                    article1HeaderRef.current.style.minHeight = "auto";
+                    article2HeaderRef.current.style.minHeight = "auto";
+
                     // Get natural heights
                     const height1 = article1HeaderRef.current.offsetHeight;
                     const height2 = article2HeaderRef.current.offsetHeight;
                     const maxHeight = Math.max(height1, height2);
-                    
+
                     // Add padding to prevent overlap - scale with font size
                     const scaleFactor = Math.max(mainContentFontSize / 16, 0.5); // Minimum 0.5x scale
-                    const paddedHeight = maxHeight + (20 * scaleFactor); // 20px base padding scaled
-                    
+                    const paddedHeight = maxHeight + 20 * scaleFactor; // 20px base padding scaled
+
                     setHeaderHeight(paddedHeight);
                }
           };
@@ -91,7 +91,7 @@ const NewsArticleLayout: React.FC<NewsArticleLayoutProps> = ({
           const timer = requestAnimationFrame(() => {
                setTimeout(calculateHeaderHeight, 50);
           });
-          
+
           window.addEventListener("resize", calculateHeaderHeight);
 
           return () => {
@@ -104,68 +104,68 @@ const NewsArticleLayout: React.FC<NewsArticleLayoutProps> = ({
      const calculateOptimalSplit = React.useCallback(() => {
           if (!fullText || !leftColumnRef.current || !rightColumnRef.current) return;
 
-          const words = fullText.split(' ');
+          const words = fullText.split(" ");
           const totalWords = words.length;
-          
+
           // Get column dimensions
           const leftColumnWidth = leftColumnRef.current.clientWidth;
           const rightColumnWidth = rightColumnRef.current.clientWidth;
-          
+
           // Use binary search to find optimal split point
           let left = 0;
           let right = totalWords;
           let bestSplit = Math.floor(totalWords / 2);
           let bestHeightDifference = Infinity;
-          
+
           // Create temporary measurement element
-          const tempElement = document.createElement('div');
-          tempElement.style.position = 'absolute';
-          tempElement.style.visibility = 'hidden';
+          const tempElement = document.createElement("div");
+          tempElement.style.position = "absolute";
+          tempElement.style.visibility = "hidden";
           tempElement.style.fontSize = `${mainContentFontSize}px`;
           tempElement.style.fontFamily = getComputedStyle(leftColumnRef.current).fontFamily;
           tempElement.style.lineHeight = getComputedStyle(leftColumnRef.current).lineHeight;
-          tempElement.style.padding = '0.5rem';
+          tempElement.style.padding = "0.5rem";
           document.body.appendChild(tempElement);
-          
+
           while (left <= right) {
                const mid = Math.floor((left + right) / 2);
-               const leftText = words.slice(0, mid).join(' ');
-               const rightText = words.slice(mid).join(' ');
-               
+               const leftText = words.slice(0, mid).join(" ");
+               const rightText = words.slice(mid).join(" ");
+
                // Measure left column height
                tempElement.style.width = `${leftColumnWidth}px`;
                tempElement.innerHTML = `<span style="float:left; font-size:4.5rem; line-height:1; margin-right:0.5rem; margin-top:0.25rem;">${leftText.charAt(0)}</span>${leftText.substring(1)}`;
                const leftTextHeight = tempElement.scrollHeight;
-               
+
                // Measure right column height
                tempElement.style.width = `${rightColumnWidth}px`;
                tempElement.innerHTML = rightText;
                const rightTextHeight = tempElement.scrollHeight;
-               
+
                const heightDifference = Math.abs(leftTextHeight - rightTextHeight);
-               
+
                if (heightDifference < bestHeightDifference) {
                     bestHeightDifference = heightDifference;
                     bestSplit = mid;
                }
-               
+
                // Adjust search based on which column is taller
                if (leftTextHeight > rightTextHeight) {
                     right = mid - 1;
                } else {
                     left = mid + 1;
                }
-               
+
                // Break if we've found a very good split
                if (heightDifference < 10) break;
           }
-          
+
           document.body.removeChild(tempElement);
-          
+
           // Set the split content
-          const splitMainContent = words.slice(0, bestSplit).join(' ');
-          const splitSecondaryContent = words.slice(bestSplit).join(' ');
-          
+          const splitMainContent = words.slice(0, bestSplit).join(" ");
+          const splitSecondaryContent = words.slice(bestSplit).join(" ");
+
           setMainContent(splitMainContent);
           setSecondaryContent(splitSecondaryContent);
      }, [fullText, mainContentFontSize]);
@@ -180,11 +180,11 @@ const NewsArticleLayout: React.FC<NewsArticleLayoutProps> = ({
                setTimeout(calculateOptimalSplit, 100);
           };
 
-          window.addEventListener('resize', handleResize);
-          
+          window.addEventListener("resize", handleResize);
+
           return () => {
                clearTimeout(timer);
-               window.removeEventListener('resize', handleResize);
+               window.removeEventListener("resize", handleResize);
           };
      }, [calculateOptimalSplit]);
 
@@ -264,13 +264,7 @@ const NewsArticleLayout: React.FC<NewsArticleLayoutProps> = ({
                               rel="noopener noreferrer"
                               className="w-10 h-10 rounded-full bg-violet-800 flex items-center justify-center hover:bg-violet-700 transition-colors"
                          >
-                              <Image
-                                   src="/X_icon.svg"
-                                   alt="Share on X"
-                                   width={16}
-                                   height={16}
-                                   className="invert"
-                              />
+                              <Image src="/X_icon.svg" alt="Share on X" width={16} height={16} className="invert" />
                          </a>
 
                          {/* Bluesky */}
@@ -342,14 +336,16 @@ const NewsArticleLayout: React.FC<NewsArticleLayoutProps> = ({
                          <div
                               ref={article1HeaderRef}
                               className="flex-shrink-0 p-3 md:p-4 bg-gray-100 border-b-2 border-gray-400"
-                              style={{ 
-                                   minHeight: headerHeight ? `${headerHeight}px` : 'auto',
-                                   display: 'flex',
-                                   flexDirection: 'column',
-                                   justifyContent: 'space-between'
+                              style={{
+                                   minHeight: headerHeight ? `${headerHeight}px` : "auto",
+                                   display: "flex",
+                                   flexDirection: "column",
+                                   justifyContent: "space-between",
                               }}
                          >
-                              <h2 className="text-xl md:text-2xl font-bold text-center mb-2 flex-shrink-0">{article1Title}</h2>
+                              <h2 className="text-xl md:text-2xl font-bold text-center mb-2 flex-shrink-0">
+                                   {article1Title}
+                              </h2>
                               {article1PdfPath && (
                                    <div className="flex justify-center flex-shrink-0">
                                         <Link href={article1PdfPath} target="_blank" rel="noopener noreferrer">
@@ -368,10 +364,13 @@ const NewsArticleLayout: React.FC<NewsArticleLayoutProps> = ({
                               )}
                          </div>
                          <div className="flex-grow p-3 md:p-4 overflow-hidden bg-gray-50">
-                              <p className="text-justify leading-relaxed" style={{ 
-                                   fontSize: `${Math.max(article1ContentFontSize, 12)}px`,
-                                   lineHeight: '1.6'
-                              }}>
+                              <p
+                                   className="text-justify leading-relaxed"
+                                   style={{
+                                        fontSize: `${Math.max(article1ContentFontSize, 12)}px`,
+                                        lineHeight: "1.6",
+                                   }}
+                              >
                                    {article1Content}
                               </p>
                          </div>
@@ -382,14 +381,16 @@ const NewsArticleLayout: React.FC<NewsArticleLayoutProps> = ({
                          <div
                               ref={article2HeaderRef}
                               className="flex-shrink-0 p-3 md:p-4 bg-gray-100 border-b-2 border-gray-400"
-                              style={{ 
-                                   minHeight: headerHeight ? `${headerHeight}px` : 'auto',
-                                   display: 'flex',
-                                   flexDirection: 'column',
-                                   justifyContent: 'space-between'
+                              style={{
+                                   minHeight: headerHeight ? `${headerHeight}px` : "auto",
+                                   display: "flex",
+                                   flexDirection: "column",
+                                   justifyContent: "space-between",
                               }}
                          >
-                              <h2 className="text-xl md:text-2xl font-bold text-center mb-2 flex-shrink-0">{article2Title}</h2>
+                              <h2 className="text-xl md:text-2xl font-bold text-center mb-2 flex-shrink-0">
+                                   {article2Title}
+                              </h2>
                               {article2PdfPath && (
                                    <div className="flex justify-center flex-shrink-0">
                                         <Link href={article2PdfPath} target="_blank" rel="noopener noreferrer">
@@ -408,10 +409,13 @@ const NewsArticleLayout: React.FC<NewsArticleLayoutProps> = ({
                               )}
                          </div>
                          <div className="flex-grow p-3 md:p-4 overflow-hidden bg-gray-50">
-                              <p className="text-justify leading-relaxed" style={{ 
-                                   fontSize: `${Math.max(article2ContentFontSize, 12)}px`,
-                                   lineHeight: '1.6'
-                              }}>
+                              <p
+                                   className="text-justify leading-relaxed"
+                                   style={{
+                                        fontSize: `${Math.max(article2ContentFontSize, 12)}px`,
+                                        lineHeight: "1.6",
+                                   }}
+                              >
                                    {article2Content}
                               </p>
                          </div>
@@ -419,7 +423,10 @@ const NewsArticleLayout: React.FC<NewsArticleLayoutProps> = ({
                </div>
 
                {/* Hidden measurement div */}
-               <div ref={measurementRef} style={{ position: 'absolute', visibility: 'hidden', height: 'auto', width: 'auto' }} />
+               <div
+                    ref={measurementRef}
+                    style={{ position: "absolute", visibility: "hidden", height: "auto", width: "auto" }}
+               />
           </div>
      );
 };

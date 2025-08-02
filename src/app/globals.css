@@ -11,26 +11,26 @@
      --font-mono: var(--font-lora), serif;
      --navbar-height: 45px;
      --navbar-top-offset: 10px; /* Offset from top of page */
-     
+
      /* Scale Factor System */
      --base-width: 2048; /* Base design width in pixels */
      --scale-factor: 1; /* Will be dynamically calculated by JavaScript */
      --navbar-scale-factor: 1; /* Navbar-specific scale factor (scales up but not down) */
      --dampened-scale-factor: 1; /* Dampened scale factor for hero image and social elements */
      --viewport-width: 100vw;
-     
+
      /* Base font sizes */
-     --base-font-xs: 0.75rem;    /* 12px */
-     --base-font-sm: 0.875rem;   /* 14px */
-     --base-font-base: 1rem;     /* 16px */
-     --base-font-lg: 1.125rem;   /* 18px */
-     --base-font-xl: 1.25rem;    /* 20px */
-     --base-font-2xl: 1.5rem;    /* 24px */
-     --base-font-3xl: 1.875rem;  /* 30px */
-     --base-font-4xl: 2.25rem;   /* 36px */
-     --base-font-5xl: 3rem;      /* 48px */
-     --base-font-6xl: 3.75rem;   /* 60px */
-     
+     --base-font-xs: 0.75rem; /* 12px */
+     --base-font-sm: 0.875rem; /* 14px */
+     --base-font-base: 1rem; /* 16px */
+     --base-font-lg: 1.125rem; /* 18px */
+     --base-font-xl: 1.25rem; /* 20px */
+     --base-font-2xl: 1.5rem; /* 24px */
+     --base-font-3xl: 1.875rem; /* 30px */
+     --base-font-4xl: 2.25rem; /* 36px */
+     --base-font-5xl: 3rem; /* 48px */
+     --base-font-6xl: 3.75rem; /* 60px */
+
      /* Scaled font sizes */
      --scaled-font-xs: calc(var(--base-font-xs) * var(--scale-factor));
      --scaled-font-sm: calc(var(--base-font-sm) * var(--scale-factor));
@@ -42,14 +42,14 @@
      --scaled-font-4xl: calc(var(--base-font-4xl) * var(--scale-factor));
      --scaled-font-5xl: calc(var(--base-font-5xl) * var(--scale-factor));
      --scaled-font-6xl: calc(var(--base-font-6xl) * var(--scale-factor));
-     
+
      /* Navbar-specific scaled font sizes (scales up but not down) */
      --navbar-scaled-font-xl: calc(var(--base-font-xl) * var(--navbar-scale-factor));
-     
+
      /* Dampened scaled font sizes for social elements */
      --dampened-scaled-font-2xl: calc(var(--base-font-2xl) * var(--dampened-scale-factor));
      --dampened-scaled-font-4xl: calc(var(--base-font-4xl) * var(--dampened-scale-factor));
-     
+
      /* Base dimensions for scalable assets */
      --base-hero-image-size: 400px;
      --base-hero-image-border: 8px;
@@ -68,7 +68,7 @@
      --base-name-sticker-max-width: 400px;
      --base-hero-content-zone-width: 480px;
      --base-hero-content-zone-height: 340px;
-     
+
      /* Scaled dimensions */
      --scaled-hero-image-size: calc(var(--base-hero-image-size) * var(--scale-factor));
      --scaled-hero-image-border: calc(var(--base-hero-image-border) * var(--scale-factor));
@@ -84,7 +84,7 @@
      --scaled-periodic-table-padding: calc(var(--base-periodic-table-padding) * var(--scale-factor));
      --scaled-scotch-tape-height: calc(var(--base-scotch-tape-height) * var(--scale-factor));
      --scaled-scotch-tape-offset: calc(var(--base-scotch-tape-offset) * var(--scale-factor));
-     
+
      /* Dampened scaled dimensions for hero image and social elements */
      --dampened-hero-image-size: calc(var(--base-hero-image-size) * var(--dampened-scale-factor));
      --dampened-hero-image-border: calc(var(--base-hero-image-border) * var(--dampened-scale-factor));
@@ -97,7 +97,7 @@
      --dampened-name-sticker-max-width: calc(var(--base-name-sticker-max-width) * var(--dampened-scale-factor));
      --dampened-hero-content-zone-width: calc(var(--base-hero-content-zone-width) * var(--dampened-scale-factor));
      --dampened-hero-content-zone-height: calc(var(--base-hero-content-zone-height) * var(--dampened-scale-factor));
-     
+
      /* Base zone dimensions (1.2x larger than their assets) */
      --base-hero-image-zone-size: calc(var(--base-hero-image-size) * 1.2);
      --base-social-zone-width: calc(var(--base-social-container-width) * 1.2);
@@ -108,7 +108,7 @@
      --base-globe-zone-height: 332px;
      --base-hero-content-zone-width: calc(var(--base-hero-content-zone-width) * 1.2);
      --base-hero-content-zone-height: calc(var(--base-hero-content-zone-height) * 1.2);
-     
+
      /* Scaled zone dimensions */
      --scaled-hero-image-zone-size: calc(var(--base-hero-image-zone-size) * var(--scale-factor));
      --scaled-social-zone-width: calc(var(--base-social-zone-width) * var(--scale-factor));
@@ -117,14 +117,14 @@
      --scaled-paper-zone-height: calc(var(--base-paper-zone-height) * var(--scale-factor));
      --scaled-globe-zone-width: calc(var(--base-globe-zone-width) * var(--scale-factor));
      --scaled-globe-zone-height: calc(var(--base-globe-zone-height) * var(--scale-factor));
-     
+
      /* Dampened zone dimensions for hero image and social elements */
      --dampened-hero-image-zone-size: calc(var(--base-hero-image-zone-size) * var(--dampened-scale-factor));
      --dampened-social-zone-width: calc(var(--base-social-zone-width) * var(--dampened-scale-factor));
      --dampened-social-zone-height: calc(var(--base-social-zone-height) * var(--dampened-scale-factor));
      --dampened-hero-content-zone-width: calc(var(--base-hero-content-zone-width) * var(--dampened-scale-factor));
      --dampened-hero-content-zone-height: calc(var(--base-hero-content-zone-height) * var(--dampened-scale-factor));
-     
+
      /* Calculated scale-aware properties (examples for future use) */
      --scaled-grid-size: calc(var(--grid-size) * var(--scale-factor));
      --scaled-navbar-height: calc(var(--navbar-height) * var(--scale-factor));
@@ -401,9 +401,10 @@ body {
      border: calc(var(--scaled-paper-width) * 0.0023) solid #e5e5e5; /* Scaled equivalent of 1px */
      border-radius: calc(var(--scaled-paper-width) * 0.018); /* Scaled equivalent of 8px */
      transform: rotate(5deg);
-     box-shadow: 
-          0 calc(var(--scaled-paper-height) * 0.027) calc(var(--scaled-paper-height) * 0.053) rgba(0, 0, 0, 0.15), /* Scaled 8px 16px */
-          0 calc(var(--scaled-paper-height) * 0.013) calc(var(--scaled-paper-height) * 0.027) rgba(0, 0, 0, 0.1); /* Scaled 4px 8px */
+     box-shadow:
+          0 calc(var(--scaled-paper-height) * 0.027) calc(var(--scaled-paper-height) * 0.053) rgba(0, 0, 0, 0.15),
+          /* Scaled 8px 16px */ 0 calc(var(--scaled-paper-height) * 0.013) calc(var(--scaled-paper-height) * 0.027)
+               rgba(0, 0, 0, 0.1); /* Scaled 4px 8px */
      z-index: 5;
      pointer-events: auto;
 }
@@ -440,9 +441,10 @@ body {
      overflow: hidden;
      z-index: 6;
      border-radius: calc(var(--scaled-paper-width) * 0.0045); /* Scaled equivalent of 2px */
-     box-shadow: 
-          0 calc(var(--scaled-scotch-tape-height) * 0.04) calc(var(--scaled-scotch-tape-height) * 0.08) rgba(0, 0, 0, 0.1), /* Scaled 2px 4px */
-          inset 0 calc(var(--scaled-scotch-tape-height) * 0.02) 0 rgba(235, 242, 255, 0.4); /* Scaled 1px */
+     box-shadow:
+          0 calc(var(--scaled-scotch-tape-height) * 0.04) calc(var(--scaled-scotch-tape-height) * 0.08)
+               rgba(0, 0, 0, 0.1),
+          /* Scaled 2px 4px */ inset 0 calc(var(--scaled-scotch-tape-height) * 0.02) 0 rgba(235, 242, 255, 0.4); /* Scaled 1px */
      backdrop-filter: blur(1px);
 }
 
@@ -459,9 +461,10 @@ body {
      overflow: hidden;
      z-index: 6;
      border-radius: calc(var(--scaled-paper-width) * 0.0045); /* Scaled equivalent of 2px */
-     box-shadow: 
-          0 calc(var(--scaled-scotch-tape-height) * 0.04) calc(var(--scaled-scotch-tape-height) * 0.08) rgba(0, 0, 0, 0.1), /* Scaled 2px 4px */
-          inset 0 calc(var(--scaled-scotch-tape-height) * 0.02) 0 rgba(240, 245, 255, 0.4); /* Scaled 1px */
+     box-shadow:
+          0 calc(var(--scaled-scotch-tape-height) * 0.04) calc(var(--scaled-scotch-tape-height) * 0.08)
+               rgba(0, 0, 0, 0.1),
+          /* Scaled 2px 4px */ inset 0 calc(var(--scaled-scotch-tape-height) * 0.02) 0 rgba(240, 245, 255, 0.4); /* Scaled 1px */
      backdrop-filter: blur(1px);
 }
 
@@ -481,9 +484,10 @@ body {
 .scotch-tape-top span,
 .scotch-tape-bottom span {
      position: absolute;
-     background: linear-gradient(30deg, transparent 30%, rgba(230, 240, 255, 0.4) 32%, transparent 33%), 
-                 radial-gradient(circle at 60% 40%, transparent 8px, rgba(220, 235, 255, 0.3) 10px, transparent 12px) 
-                 rgba(200, 220, 255, 0.02);
+     background:
+          linear-gradient(30deg, transparent 30%, rgba(230, 240, 255, 0.4) 32%, transparent 33%),
+          radial-gradient(circle at 60% 40%, transparent 8px, rgba(220, 235, 255, 0.3) 10px, transparent 12px)
+               rgba(200, 220, 255, 0.02);
      box-shadow: 0 0 1px rgba(220, 235, 255, 0.3);
      top: 50%;
      transform-origin: center;
@@ -497,7 +501,57 @@ body {
      margin-top: -14px;
      margin-left: -17.5px;
      transform: rotate(30deg);
-     clip-path: polygon(1% 0%, 19% 1%, 30% 0%, 38% 0%, 48% 1%, 58% 3%, 62% 3%, 79% 3%, 73% 1%, 84% 0%, 87% 0%, 91% 4%, 92% 2%, 99% 0%, 96% 5%, 96% 20%, 100% 34%, 100% 46%, 99% 54%, 95% 57%, 87% 69%, 100% 77%, 100% 82%, 100% 89%, 100% 96%, 90% 99%, 76% 100%, 71% 97%, 63% 100%, 54% 99%, 51% 100%, 37% 98%, 34% 100%, 21% 99%, 17% 100%, 14% 98%, 10% 100%, 3% 98%, 3% 100%, 0% 85%, 4% 80%, 0% 74%, 4% 55%, 6% 45%, 3% 40%, 0% 34%, 6% 25%, 4% 16%, 1% 13%);
+     clip-path: polygon(
+          1% 0%,
+          19% 1%,
+          30% 0%,
+          38% 0%,
+          48% 1%,
+          58% 3%,
+          62% 3%,
+          79% 3%,
+          73% 1%,
+          84% 0%,
+          87% 0%,
+          91% 4%,
+          92% 2%,
+          99% 0%,
+          96% 5%,
+          96% 20%,
+          100% 34%,
+          100% 46%,
+          99% 54%,
+          95% 57%,
+          87% 69%,
+          100% 77%,
+          100% 82%,
+          100% 89%,
+          100% 96%,
+          90% 99%,
+          76% 100%,
+          71% 97%,
+          63% 100%,
+          54% 99%,
+          51% 100%,
+          37% 98%,
+          34% 100%,
+          21% 99%,
+          17% 100%,
+          14% 98%,
+          10% 100%,
+          3% 98%,
+          3% 100%,
+          0% 85%,
+          4% 80%,
+          0% 74%,
+          4% 55%,
+          6% 45%,
+          3% 40%,
+          0% 34%,
+          6% 25%,
+          4% 16%,
+          1% 13%
+     );
 }
 
 .scotch-tape-top span:nth-child(3) {
@@ -508,7 +562,37 @@ body {
      margin-left: -15px;
      transform: rotate(-55deg);
      background-size: 120% 150%;
-     clip-path: polygon(0 0, 13% 2%, 22% 0%, 28% 0%, 34% 2%, 46% 2%, 60% 2%, 69% 3%, 79% 1%, 80% 0%, 90% 0%, 93% 3%, 100% 4%, 99% 98%, 97% 100%, 87% 99%, 80% 100%, 74% 99%, 68% 100%, 60% 99%, 50% 100%, 43% 97%, 33% 96%, 31% 98%, 24% 99%, 20% 100%, 14% 98%, 9% 100%, 0% 100%);
+     clip-path: polygon(
+          0 0,
+          13% 2%,
+          22% 0%,
+          28% 0%,
+          34% 2%,
+          46% 2%,
+          60% 2%,
+          69% 3%,
+          79% 1%,
+          80% 0%,
+          90% 0%,
+          93% 3%,
+          100% 4%,
+          99% 98%,
+          97% 100%,
+          87% 99%,
+          80% 100%,
+          74% 99%,
+          68% 100%,
+          60% 99%,
+          50% 100%,
+          43% 97%,
+          33% 96%,
+          31% 98%,
+          24% 99%,
+          20% 100%,
+          14% 98%,
+          9% 100%,
+          0% 100%
+     );
 }
 
 .scotch-tape-top span:nth-child(4) {
@@ -530,7 +614,37 @@ body {
      margin-left: -19px;
      transform: rotate(-40deg);
      background-size: 150% 200%;
-     clip-path: polygon(0 0, 13% 2%, 22% 0%, 28% 0%, 34% 2%, 46% 2%, 60% 2%, 69% 3%, 79% 1%, 80% 0%, 90% 0%, 93% 3%, 100% 4%, 99% 98%, 97% 100%, 87% 99%, 80% 100%, 74% 99%, 68% 100%, 60% 99%, 50% 100%, 43% 97%, 33% 96%, 31% 98%, 24% 99%, 20% 100%, 14% 98%, 9% 100%, 0% 100%);
+     clip-path: polygon(
+          0 0,
+          13% 2%,
+          22% 0%,
+          28% 0%,
+          34% 2%,
+          46% 2%,
+          60% 2%,
+          69% 3%,
+          79% 1%,
+          80% 0%,
+          90% 0%,
+          93% 3%,
+          100% 4%,
+          99% 98%,
+          97% 100%,
+          87% 99%,
+          80% 100%,
+          74% 99%,
+          68% 100%,
+          60% 99%,
+          50% 100%,
+          43% 97%,
+          33% 96%,
+          31% 98%,
+          24% 99%,
+          20% 100%,
+          14% 98%,
+          9% 100%,
+          0% 100%
+     );
 }
 
 .scotch-tape-bottom span:nth-child(5) {
@@ -541,7 +655,37 @@ body {
      margin-left: -14px;
      transform: rotate(65deg);
      background-size: 90% 110%;
-     clip-path: polygon(0 0, 13% 2%, 22% 0%, 28% 0%, 34% 2%, 46% 2%, 60% 2%, 69% 3%, 79% 1%, 80% 0%, 90% 0%, 93% 3%, 100% 4%, 99% 98%, 97% 100%, 87% 99%, 80% 100%, 74% 99%, 68% 100%, 60% 99%, 50% 100%, 43% 97%, 33% 96%, 31% 98%, 24% 99%, 20% 100%, 14% 98%, 9% 100%, 0% 100%);
+     clip-path: polygon(
+          0 0,
+          13% 2%,
+          22% 0%,
+          28% 0%,
+          34% 2%,
+          46% 2%,
+          60% 2%,
+          69% 3%,
+          79% 1%,
+          80% 0%,
+          90% 0%,
+          93% 3%,
+          100% 4%,
+          99% 98%,
+          97% 100%,
+          87% 99%,
+          80% 100%,
+          74% 99%,
+          68% 100%,
+          60% 99%,
+          50% 100%,
+          43% 97%,
+          33% 96%,
+          31% 98%,
+          24% 99%,
+          20% 100%,
+          14% 98%,
+          9% 100%,
+          0% 100%
+     );
 }
 
 /* Circular image holder in the middle of the front page */
@@ -556,7 +700,8 @@ body {
      border: var(--dampened-hero-image-border) solid white;
      outline: var(--dampened-hero-image-outline) solid black;
      overflow: hidden; /* Ensures the image stays within the circle */
-     box-shadow: 0 calc(var(--dampened-hero-image-size) * 0.02) calc(var(--dampened-hero-image-size) * 0.04) rgba(0, 0, 0, 0.25); /* Scaled 8px 16px */
+     box-shadow: 0 calc(var(--dampened-hero-image-size) * 0.02) calc(var(--dampened-hero-image-size) * 0.04)
+          rgba(0, 0, 0, 0.25); /* Scaled 8px 16px */
      background-color: white;
      z-index: 10; /* Above the zone */
 }
@@ -621,12 +766,13 @@ body {
      border: var(--dampened-hero-image-border) solid white;
      outline: var(--dampened-hero-image-outline) solid black;
      overflow: hidden; /* Ensures the image stays within the outline */
-     box-shadow: 0 calc(var(--dampened-name-sticker-max-width) * 0.02) calc(var(--dampened-name-sticker-max-width) * 0.04) rgba(0, 0, 0, 0.25); /* Scaled shadow */
+     box-shadow: 0 calc(var(--dampened-name-sticker-max-width) * 0.02)
+          calc(var(--dampened-name-sticker-max-width) * 0.04) rgba(0, 0, 0, 0.25); /* Scaled shadow */
 }
 
 /* Blue line indicator at the top of the name sticker */
 .name-sticker::before {
-     content: '';
+     content: "";
      position: absolute;
      top: -10px;
      left: -20px;
@@ -1122,7 +1268,8 @@ body {
      border: var(--dampened-social-sticker-border) solid white;
      outline: var(--dampened-social-sticker-outline) solid black;
      overflow: hidden;
-     box-shadow: 0 calc(var(--dampened-social-sticker-size) * 0.057) calc(var(--dampened-social-sticker-size) * 0.114) rgba(0, 0, 0, 0.25); /* Scaled 4px 8px */
+     box-shadow: 0 calc(var(--dampened-social-sticker-size) * 0.057) calc(var(--dampened-social-sticker-size) * 0.114)
+          rgba(0, 0, 0, 0.25); /* Scaled 4px 8px */
      background-color: white;
      display: flex;
      align-items: center;
@@ -1199,20 +1346,22 @@ body {
      height: 400px; /* Fixed height - no scaling */
      background-color: #ffffff;
      border: 1px solid #e5e5e5;
-     border-radius: 10px; 
+     border-radius: 10px;
      transform: rotate(-2deg); /* Slight rotation for organic feel */
-     box-shadow: 
-          0 12px 32px rgba(0, 0, 0, 0.25), /* More distinctive shadow */
-          0 6px 16px rgba(0, 0, 0, 0.18),
+     box-shadow:
+          0 12px 32px rgba(0, 0, 0, 0.25),
+          /* More distinctive shadow */ 0 6px 16px rgba(0, 0, 0, 0.18),
           0 2px 8px rgba(0, 0, 0, 0.12);
      z-index: 5;
      pointer-events: auto;
-     transition: transform 0.3s ease, box-shadow 0.3s ease;
+     transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
 }
 
 .hobby-card-asset:hover {
      transform: rotate(-1deg) translateY(-4px);
-     box-shadow: 
+     box-shadow:
           0 16px 40px rgba(0, 0, 0, 0.3),
           0 8px 20px rgba(0, 0, 0, 0.22),
           0 4px 12px rgba(0, 0, 0, 0.15);
@@ -1234,7 +1383,7 @@ body {
      left: 0;
      right: 0;
      height: 80px; /* Fixed header height */
-     background-image: url('/Food_header.png');
+     background-image: url("/Food_header.png");
      background-size: cover;
      background-position: center;
      background-repeat: no-repeat;
@@ -1253,7 +1402,7 @@ body {
      align-items: center;
      justify-content: center;
      color: #2c3e50;
-     font-family: 'Playlist-Script';
+     font-family: "Playlist-Script";
      font-size: 20px; /* Fixed font size */
      text-align: center;
      z-index: 7;
@@ -1373,14 +1522,12 @@ body {
           padding: 10px 15px;
           min-width: 150px;
      }
-     
+
      .scale-value {
           font-size: 1.2rem;
      }
-     
+
      .viewport-info {
           font-size: 0.7rem;
      }
 }
-
-

@@ -7,18 +7,26 @@ import ScrollFadeIn from "./components/animations/ScrollFadeIn";
 import NewsArticleLayout from "./components/subsections/ResearchNewspaperTemplate";
 import TextEditWindow from "./components/subsections/ProjectsTextEditorTemplate";
 import { HobbiesContainer } from "./components/subsections/HobbiesCardTemplate";
+import ScaleTracker from "./components/ScaleTracker";
 
 export default function Home() {
      return (
           <main>
+               {/* Scale Factor Controller */}
+               <ScaleTracker />
+               
                {/* Fixed navigation bar at the top */}
                <Navbar />
 
                {/* Hero Section with graph paper background */}
-               <Hero />
+               <Hero 
+                    craneScale={1.2}
+                    wingFlapSpeed={2.8}
+                    pathSpeed={11.0}
+               />
 
                {/* Content Sections with white backgrounds */}
-               <Section id="research" title="Research">
+               <Section id="research" title="Research" craneScale={1.2} wingFlapSpeed={2.8} pathSpeed={11.0}>
                     <ScrollFadeIn delay={200} duration={800} direction="up">
                          <NewsArticleLayout
                               title="Spateo: Spatiotemporal modeling of molecular holograms"
@@ -42,7 +50,7 @@ export default function Home() {
                     </ScrollFadeIn>
                </Section>
 
-               <Section id="projects" title="Projects">
+               <Section id="projects" title="Projects" craneScale={1.2} wingFlapSpeed={2.8} pathSpeed={11.0}>
                     <div className="space-y-12">
                          <ScrollFadeIn delay={100} duration={700} direction="left">
                               <TextEditWindow
@@ -67,17 +75,17 @@ and an import scanner that checks codebases for import statements that are not y
 
                <Section id="hobbies" title="Hobbies">
                     <ScrollFadeIn delay={200} duration={800} direction="up">
-                         <HobbiesContainer 
+                         <HobbiesContainer
                               showDebugInfo={false}
                               hobbies={[
                                    {
                                         title: "Test",
-                                        description: "Test."
+                                        description: "Test.",
                                    },
                                    {
-                                        title: "Test", 
-                                        description: "Test."
-                                   }
+                                        title: "Test",
+                                        description: "Test.",
+                                   },
                               ]}
                          />
                     </ScrollFadeIn>

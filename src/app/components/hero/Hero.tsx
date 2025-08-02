@@ -1,9 +1,25 @@
 "use client";
 import HandwrittenText from "../hero/HandwrittenText";
+import ThreeDContainer from "../ThreeDContainer";
 
-export default function Hero() {
+interface HeroProps {
+     craneScale?: number;
+     wingFlapSpeed?: number;
+     pathSpeed?: number;
+}
+
+export default function Hero({ craneScale = 1.2, wingFlapSpeed = 2.8, pathSpeed = 3.7 }: HeroProps) {
      return (
           <section className="hero-section">
+               {/* 3D Container for Hero Section */}
+               <ThreeDContainer 
+                    showAxes={false}
+                    isHeroSection={true}
+                    craneScale={craneScale}
+                    wingFlapSpeed={wingFlapSpeed}
+                    pathSpeed={pathSpeed}
+               />
+               
                {/* Zones for background masking - placed first so they're behind content */}
                <div className="navbar-zone"></div>
                <div className="hero-image-zone"></div>

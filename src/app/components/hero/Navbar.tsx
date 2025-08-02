@@ -13,7 +13,7 @@ export default function Navbar() {
                const baseWidth = 2048;
                const scale = currentWidth / baseWidth;
                setIsMobileMode(scale < 0.4);
-               
+
                // Close dropdown when switching modes
                if (scale >= 0.4) {
                     setIsDropdownOpen(false);
@@ -22,7 +22,7 @@ export default function Navbar() {
 
           const handleClickOutside = (event: MouseEvent) => {
                const target = event.target as Element;
-               if (!target.closest('.navbar-dropdown') && !target.closest('.navbar-menu-button')) {
+               if (!target.closest(".navbar-dropdown") && !target.closest(".navbar-menu-button")) {
                     setIsDropdownOpen(false);
                }
           };
@@ -31,14 +31,14 @@ export default function Navbar() {
           updateNavbarMode();
 
           // Listen for resize events
-          window.addEventListener('resize', updateNavbarMode);
-          
+          window.addEventListener("resize", updateNavbarMode);
+
           // Listen for clicks outside dropdown
-          document.addEventListener('click', handleClickOutside);
+          document.addEventListener("click", handleClickOutside);
 
           return () => {
-               window.removeEventListener('resize', updateNavbarMode);
-               document.removeEventListener('click', handleClickOutside);
+               window.removeEventListener("resize", updateNavbarMode);
+               document.removeEventListener("click", handleClickOutside);
           };
      }, []);
 
@@ -50,39 +50,30 @@ export default function Navbar() {
           { href: "#top", icon: Home, label: "Home" },
           { href: "#research", icon: BookOpen, label: "Research" },
           { href: "#projects", icon: Code, label: "Projects" },
-          { href: "#hobbies", icon: Sparkles, label: "Hobbies" }
+          { href: "#hobbies", icon: Sparkles, label: "Hobbies" },
      ];
 
      return (
-          <nav className={`navbar ${isMobileMode ? 'mobile-mode' : ''}`}>
+          <nav className={`navbar ${isMobileMode ? "mobile-mode" : ""}`}>
                <div className="container">
                     <div className="navbar-content">
                          {!isMobileMode ? (
                               // Regular navbar items
                               navItems.map((item) => (
-                                   <a 
-                                        key={item.href}
-                                        href={item.href} 
-                                        className="nav-item" 
-                                        aria-label={item.label}
-                                   >
+                                   <a key={item.href} href={item.href} className="nav-item" aria-label={item.label}>
                                         <item.icon size={18} />
                                         <span>{item.label}</span>
                                    </a>
                               ))
                          ) : (
                               // Mobile dropdown menu
-                              <div style={{ position: 'relative' }}>
-                                   <button
-                                        onClick={toggleDropdown}
-                                        className="navbar-menu-button"
-                                        aria-label="Menu"
-                                   >
+                              <div style={{ position: "relative" }}>
+                                   <button onClick={toggleDropdown} className="navbar-menu-button" aria-label="Menu">
                                         <Menu size={18} />
                                         <span>Menu</span>
                                    </button>
-                                   
-                                   <div className={`navbar-dropdown ${isDropdownOpen ? 'open' : ''}`}>
+
+                                   <div className={`navbar-dropdown ${isDropdownOpen ? "open" : ""}`}>
                                         {navItems.map((item) => (
                                              <a
                                                   key={item.href}
