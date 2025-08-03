@@ -7,7 +7,7 @@ import ScrollFadeIn from "./components/animations/ScrollFadeIn";
 import NewsArticleLayout from "./components/subsections/ResearchNewspaperTemplate";
 import TextEditWindow from "./components/subsections/ProjectsTextEditorTemplate";
 import CraneAnimatedProjectCard from "./components/subsections/CraneAnimatedProjectCard";
-import { HobbiesContainer } from "./components/subsections/HobbiesCardTemplate";
+import { CookingContainer } from "./components/subsections/CookingCardTemplate";
 import ScaleTracker from "./components/ScaleTracker";
 
 export default function Home() {
@@ -131,31 +131,37 @@ and an import scanner that checks codebases for import statements that are not y
                     </div>
                </Section>
 
-               <Section id="hobbies" title="Hobbies">
-                    <ScrollFadeIn delay={200} duration={800} direction="up">
-                         <HobbiesContainer
-                              showDebugInfo={false}
-                              hobbies={[
-                                   {
-                                        title: "Test",
-                                        description: "Test.",
-                                   },
-                                   {
-                                        title: "Test",
-                                        description: "Test.",
-                                   },
-                                   {
-                                        title: "Test",
-                                        description: "Test.",
-                                   },
-                                   {
-                                        title: "Test",
-                                        description: "Test.",
-                                   },
-                              ]}
-                         />
-                    </ScrollFadeIn>
-               </Section>
+               <Section
+                    id="hobbies"
+                    title="Hobbies"
+                    subsections={[
+                         {
+                              id: "cooking",
+                              title: "Culinary Adventures",
+                              children: (
+                                   <ScrollFadeIn delay={200} duration={800} direction="up">
+                                        <CookingContainer
+                                             showDebugInfo={false}
+                                             recipes={[
+                                                  {
+                                                       title: "Xīnnián Kuàilè (Happy New Year)",
+                                                       imagePath: "/hobbies/chinese_new_year.jpg",
+                                                       description:
+                                                            "A celebration of the Lunar New Year. Egg fried rice, pork potstickers, sweet potato puree, radish, pea shoots, pork char siu, panda-styled red bean bun, fried sesame balls with ube jam.",
+                                                  },
+                                                  {
+                                                       title: "Soil, Sea and Sky",
+                                                       imagePath: "/hobbies/soil_sea_and_sky.jpg",
+                                                       description:
+                                                            "A dish that represents each of the highest-level ecological zones: terrestrial, marine and aerial! Honey garlic salmon, orzo, sirloin steak, broccolini, pea puree, king oyster mushroom, duck, toasted sesame, tomato pearls and a teriyaki sauce & parsley tree.",
+                                                  },
+                                             ]}
+                                        />
+                                   </ScrollFadeIn>
+                              ),
+                         },
+                    ]}
+               />
           </main>
      );
 }

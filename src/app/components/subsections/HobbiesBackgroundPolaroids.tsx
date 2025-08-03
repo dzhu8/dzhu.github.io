@@ -114,7 +114,7 @@ const HobbiesBackgroundPolaroids: React.FC = () => {
           // Left column positions (3 polaroids)
           for (let i = 0; i < 3; i++) {
                const polaroidCenterX = contentLeftRelative - adjustedDistance - polaroidWidth / 2;
-               const polaroidCenterY = contentCenterY + (i - 1) * (polaroidHeight + 40); // Spread vertically, 40px gap
+               const polaroidCenterY = contentCenterY + (i - 1) * (polaroidHeight + 60); // Spread vertically, 60px gap
 
                positions.push({
                     x: polaroidCenterX - polaroidWidth / 2,
@@ -125,7 +125,7 @@ const HobbiesBackgroundPolaroids: React.FC = () => {
           // Right column positions (3 polaroids)
           for (let i = 0; i < 3; i++) {
                const polaroidCenterX = contentRightRelative + adjustedDistance + polaroidWidth / 2;
-               const polaroidCenterY = contentCenterY + (i - 1) * (polaroidHeight + 40); // Spread vertically, 40px gap
+               const polaroidCenterY = contentCenterY + (i - 1) * (polaroidHeight + 60); // Spread vertically, 60px gap
 
                positions.push({
                     x: polaroidCenterX - polaroidWidth / 2,

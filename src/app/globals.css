@@ -777,6 +777,21 @@ body {
      z-index: 5; /* Above background polaroids (z-index: 1) */
 }
 
+/* Subsection content styling within content-piece */
+.subsection-content {
+     margin-top: 2rem;
+     position: relative;
+}
+
+.subsection-content:first-child {
+     margin-top: 0; /* Remove top margin for first subsection */
+}
+
+/* Allow for future subsection customization */
+.subsection-content[id] {
+     scroll-margin-top: 80px; /* Account for navbar height when linking to subsections */
+}
+
 /* Container for responsive layout */
 .container {
      width: 100%;
@@ -1407,7 +1422,7 @@ body {
 }
 
 /* Food header image container at the top of each card */
-.hobby-card-header {
+.cooking-card-header {
      position: absolute;
      top: 0;
      left: 0;
@@ -1499,6 +1514,91 @@ body {
      font-style: italic;
 }
 
+/* Hobby Card Styles - Text wrapping variations for content cards */
+
+/* Hobby card content with text wrapping - content container behavior */
+.hobby-card-content-wrapped {
+     position: absolute;
+     top: 140px;
+     left: 20px;
+     right: 20px;
+     bottom: 20px;
+     z-index: 7;
+     display: flex;
+     flex-direction: column;
+     overflow: hidden; /* Prevent content from overflowing the card */
+}
+
+/* Text content container that defines the content area and text wrapping boundaries */
+.hobby-card-text-container {
+     flex: 1;
+     display: block;
+     width: 100%;
+     max-width: 100%;
+     box-sizing: border-box;
+     font-family: var(--font-lora), serif;
+     font-size: 14px;
+     line-height: 1.4;
+     color: #2c3e50;
+     text-align: justify;
+}
+
+/* Image floated to the left for text wrapping - content card behavior */
+.hobby-card-image-wrapped {
+     float: left;
+     min-width: 80px; /* Minimum width for very small images */
+     max-width: 70%; /* Maximum 70% of container width */
+     min-height: 60px; /* Minimum height for very small images */
+     max-height: 70%; /* Maximum 70% of container height */
+     margin: 0 15px 10px 0; /* Right and bottom margin for text spacing */
+     border-radius: 6px;
+     overflow: hidden;
+     background-color: #f8f9fa;
+     border: 2px dashed #dee2e6;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     font-size: 12px;
+     color: #6c757d;
+     font-style: italic;
+     flex-shrink: 0; /* Prevent shrinking */
+}
+
+/* When image is present, remove placeholder styling */
+.hobby-card-image-wrapped:has(img) {
+     background-color: transparent;
+     border: none;
+     padding: 0;
+}
+
+/* Ensure images within the container are responsive */
+.hobby-card-image-wrapped img {
+     border-radius: 6px;
+     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Container query for responsive layout when cards get too narrow - content cards */
+.hobby-card-asset {
+     container-type: inline-size;
+}
+
+@container (max-width: 400px) {
+     .hobby-card-image-wrapped {
+          float: none;
+          width: 100% !important; /* Override inline styles on mobile */
+          height: 120px !important; /* Fixed height for mobile */
+          margin: 0 0 10px 0;
+          max-width: none;
+          max-height: 120px;
+     }
+
+     .hobby-card-image-wrapped img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+     }
+}
+
 /* Hobbies Background Polaroids Styles */
 .hobbies-background-polaroids {
      position: absolute;
@@ -1561,8 +1661,8 @@ body {
 /* Polaroid photo corners - similar to existing PolaroidFrame component */
 .polaroid-corner {
      position: absolute;
-     width: 24px;
-     height: 24px;
+     width: 36px;
+     height: 36px;
      z-index: 10;
 }
 
@@ -1592,26 +1692,26 @@ body {
 }
 
 .corner-triangle-tl {
-     border-top: 24px solid #0ea5e9;
-     border-right: 24px solid transparent;
+     border-top: 36px solid #0ea5e9;
+     border-right: 36px solid transparent;
      filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.25));
 }
 
 .corner-triangle-tr {
-     border-top: 24px solid #0ea5e9;
-     border-left: 24px solid transparent;
+     border-top: 36px solid #0ea5e9;
+     border-left: 36px solid transparent;
      filter: drop-shadow(-2px 2px 3px rgba(0, 0, 0, 0.25));
 }
 
 .corner-triangle-bl {
-     border-bottom: 24px solid #0ea5e9;
-     border-right: 24px solid transparent;
+     border-bottom: 36px solid #0ea5e9;
+     border-right: 36px solid transparent;
      filter: drop-shadow(2px -2px 3px rgba(0, 0, 0, 0.25));
 }
 
 .corner-triangle-br {
-     border-bottom: 24px solid #0ea5e9;
-     border-left: 24px solid transparent;
+     border-bottom: 36px solid #0ea5e9;
+     border-left: 36px solid transparent;
      filter: drop-shadow(-2px -2px 3px rgba(0, 0, 0, 0.25));
 }
 
