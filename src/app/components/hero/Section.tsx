@@ -2,6 +2,7 @@
 
 import ScrollFadeIn from "../animations/ScrollFadeIn";
 import ThreeDContainer from "../ThreeDContainer";
+import HobbiesBackgroundPolaroids from "../subsections/HobbiesBackgroundPolaroids";
 
 interface SectionProps {
      id: string;
@@ -16,6 +17,9 @@ export default function Section({ id, title, children, craneScale, wingFlapSpeed
      // Only render 3D container if all crane parameters are provided
      const shouldRender3D = craneScale !== undefined && wingFlapSpeed !== undefined && pathSpeed !== undefined;
 
+     // Check if this is the hobbies section
+     const isHobbiesSection = id === "hobbies";
+
      return (
           <section id={id} className="content-section">
                {/* 3D Container for Section - only if parameters are provided */}
@@ -28,6 +32,9 @@ export default function Section({ id, title, children, craneScale, wingFlapSpeed
                          pathSpeed={pathSpeed}
                     />
                )}
+
+               {/* Hobbies Background Polaroids - only for hobbies section */}
+               {isHobbiesSection && <HobbiesBackgroundPolaroids />}
 
                <div className="container text-center">
                     <div className="content-piece">

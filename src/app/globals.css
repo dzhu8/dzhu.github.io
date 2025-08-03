@@ -732,7 +732,36 @@ body {
           linear-gradient(90deg, var(--grid-color) var(--grid-line-width), transparent var(--grid-line-width));
      background-size: var(--grid-size) var(--grid-size);
      position: relative;
-     font-family: var(--font-lora), serif; /* Apply Lora to content sections */
+     font-family: var(--font-lora), serif;
+     /* Add overflow hidden to prevent 3D containers from extending beyond section bounds */
+     overflow: hidden;
+}
+
+/* Specific styling for sections with 3D containers */
+.content-section:has(.three-d-container) {
+     /* Ensure 3D containers are clipped to section boundaries */
+     contain: layout style;
+}
+
+/* Style the 3D container wrapper */
+.three-d-container {
+     position: absolute;
+     top: 0;
+     left: 0;
+     width: 100%;
+     height: 100%;
+     pointer-events: none;
+     z-index: 0;
+     /* Ensure the container doesn't extend beyond its parent */
+     overflow: hidden;
+}
+
+.three-d-container.hero-3d {
+     z-index: 1;
+}
+
+.three-d-container.section-3d {
+     z-index: 0;
 }
 
 /* White content pieces that sit on top of the graph paper background */
@@ -745,6 +774,7 @@ body {
      margin: 2rem auto;
      max-width: fit-content;
      position: relative;
+     z-index: 5; /* Above background polaroids (z-index: 1) */
 }
 
 /* Container for responsive layout */
@@ -1467,6 +1497,122 @@ body {
      font-family: var(--font-lora), serif;
      font-size: var(--scaled-font-sm); /* Use scaled font size */
      font-style: italic;
+}
+
+/* Hobbies Background Polaroids Styles */
+.hobbies-background-polaroids {
+     position: absolute;
+     top: 0;
+     left: 0;
+     right: 0;
+     bottom: 0;
+     pointer-events: none; /* Allow clicks to pass through */
+     z-index: 1; /* Below content-piece (which has z-index 5+) */
+}
+
+.hobbies-polaroid {
+     transition: transform 0.3s ease;
+     pointer-events: none;
+}
+
+.polaroid-frame {
+     position: relative;
+     width: 100%;
+     height: 100%;
+}
+
+.polaroid-body {
+     width: 100%;
+     height: 100%;
+     background-color: #ffffff;
+     border: 2px solid #e5e5e5;
+     border-radius: 8px;
+     box-shadow:
+          0 8px 24px rgba(0, 0, 0, 0.25),
+          0 4px 12px rgba(0, 0, 0, 0.15);
+     display: flex;
+     flex-direction: column;
+     padding: 12px;
+     position: relative;
+}
+
+.polaroid-image-area {
+     flex: 1;
+     background-color: #f8f9fa;
+     border: 1px solid #dee2e6;
+     border-radius: 4px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     overflow: hidden;
+     margin-bottom: 12px;
+}
+
+.polaroid-image-area img {
+     object-fit: contain;
+}
+
+.polaroid-caption-area {
+     height: 40px;
+     background-color: #ffffff;
+     border-radius: 4px;
+}
+
+/* Polaroid photo corners - similar to existing PolaroidFrame component */
+.polaroid-corner {
+     position: absolute;
+     width: 24px;
+     height: 24px;
+     z-index: 10;
+}
+
+.polaroid-corner-tl {
+     top: -12px;
+     left: -12px;
+}
+
+.polaroid-corner-tr {
+     top: -12px;
+     right: -12px;
+}
+
+.polaroid-corner-bl {
+     bottom: -12px;
+     left: -12px;
+}
+
+.polaroid-corner-br {
+     bottom: -12px;
+     right: -12px;
+}
+
+.corner-triangle {
+     width: 0;
+     height: 0;
+}
+
+.corner-triangle-tl {
+     border-top: 24px solid #0ea5e9;
+     border-right: 24px solid transparent;
+     filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.25));
+}
+
+.corner-triangle-tr {
+     border-top: 24px solid #0ea5e9;
+     border-left: 24px solid transparent;
+     filter: drop-shadow(-2px 2px 3px rgba(0, 0, 0, 0.25));
+}
+
+.corner-triangle-bl {
+     border-bottom: 24px solid #0ea5e9;
+     border-right: 24px solid transparent;
+     filter: drop-shadow(2px -2px 3px rgba(0, 0, 0, 0.25));
+}
+
+.corner-triangle-br {
+     border-bottom: 24px solid #0ea5e9;
+     border-left: 24px solid transparent;
+     filter: drop-shadow(-2px -2px 3px rgba(0, 0, 0, 0.25));
 }
 
 /* Scale Tracker Styles */
