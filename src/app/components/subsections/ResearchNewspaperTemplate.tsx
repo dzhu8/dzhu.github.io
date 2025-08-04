@@ -10,6 +10,7 @@ interface NewsArticleLayoutProps {
      imageAlt?: string;
      pdfPath?: string;
      githubUrl?: string;
+     url?: string; // URL for social sharing
      fullText?: string; // Combined main and secondary content
      article1Title?: string;
      article1Content?: string;
@@ -32,6 +33,7 @@ const NewsArticleLayout: React.FC<NewsArticleLayoutProps> = ({
      imageAlt = "Article image",
      pdfPath,
      githubUrl,
+     url, // URL for social sharing
      fullText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse vel justo eu nibh vestibulum tincidunt. Praesent faucibus, nisl in lobortis tincidunt, magna lacus pulvinar mauris, nec accumsan odio metus et dolor. Cras non nisi ut augue pulvinar luctus. Curabitur eget augue ut turpis feugiat finibus eget sed nibh. Duis fermentum, tortor vel dictum lobortis, arcu nisi condimentum eros, vel ullamcorper risus dolor eget nisl. Praesent sodales nibh at euismod mattis. Sed dignissim, tortor sed finibus pellentesque, felis dolor scelerisque massa, eget tincidunt libero magna sit amet risus.",
      article1Title = "Title",
      article1Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse vel justo eu nibh vestibulum tincidunt. Praesent faucibus, nisl in lobortis tincidunt, magna lacus pulvinar mauris.",
@@ -192,6 +194,9 @@ const NewsArticleLayout: React.FC<NewsArticleLayoutProps> = ({
      const firstLetter = mainContent.charAt(0);
      const restOfContent = mainContent.substring(1);
 
+     // Use custom URL if provided, otherwise fall back to current URL
+     const shareUrl = url || currentUrl;
+
      return (
           <div className="max-w-6xl mx-auto p-6">
                {/* Title */}
@@ -249,7 +254,7 @@ const NewsArticleLayout: React.FC<NewsArticleLayoutProps> = ({
                     <div className="flex space-x-2">
                          {/* LinkedIn */}
                          <a
-                              href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(currentUrl)}`}
+                              href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="w-10 h-10 rounded-full bg-violet-800 flex items-center justify-center hover:bg-violet-700 transition-colors"
@@ -259,7 +264,7 @@ const NewsArticleLayout: React.FC<NewsArticleLayoutProps> = ({
 
                          {/* X (Twitter) */}
                          <a
-                              href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent(title)}`}
+                              href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(title)}`}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="w-10 h-10 rounded-full bg-violet-800 flex items-center justify-center hover:bg-violet-700 transition-colors"
@@ -269,7 +274,7 @@ const NewsArticleLayout: React.FC<NewsArticleLayoutProps> = ({
 
                          {/* Bluesky */}
                          <a
-                              href={`https://bsky.app/intent/compose?text=${encodeURIComponent(title + " " + currentUrl)}`}
+                              href={`https://bsky.app/intent/compose?text=${encodeURIComponent(title + " " + shareUrl)}`}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="w-10 h-10 rounded-full bg-violet-800 flex items-center justify-center hover:bg-violet-700 transition-colors"
@@ -279,7 +284,7 @@ const NewsArticleLayout: React.FC<NewsArticleLayoutProps> = ({
 
                          {/* Reddit */}
                          <a
-                              href={`https://www.reddit.com/submit?url=${encodeURIComponent(currentUrl)}&title=${encodeURIComponent(title)}`}
+                              href={`https://www.reddit.com/submit?url=${encodeURIComponent(shareUrl)}&title=${encodeURIComponent(title)}`}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="w-10 h-10 rounded-full bg-violet-800 flex items-center justify-center hover:bg-violet-700 transition-colors"

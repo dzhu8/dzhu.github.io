@@ -32,6 +32,7 @@ export default function Home() {
                               imagePath="/Spateo.png"
                               pdfPath="/pdf/Spateo.pdf"
                               githubUrl="https://github.com/aristoteleo/spateo-release"
+                              url="https://doi.org/10.1016/j.cell.2024.10.011"
                               date="November 11th, 2024"
                               journal="Cell"
                               mainContentFontSize={14}
@@ -54,6 +55,7 @@ export default function Home() {
                               imagePath="/COVID_image.png"
                               pdfPath="/pdf/COVID_story.pdf"
                               githubUrl="https://github.com/dzhu8/Ad26-Dose-Down"
+                              url="https://doi.org/10.1371/journal.pbio.3001609"
                               date="May 2nd, 2022"
                               journal="PLoS Biology"
                               mainContentFontSize={14}
@@ -75,6 +77,7 @@ export default function Home() {
                               title="Microtubule growth rates are sensitive to global and local changes in microtubule plus-end density"
                               imagePath="/MT_density.png"
                               pdfPath="/pdf/MT_density.pdf"
+                              url="https://doi.org/10.1016/j.cub.2020.05.056"
                               date="August 3rd, 2020"
                               journal="Current Biology"
                               mainContentFontSize={14}
@@ -127,7 +130,7 @@ and an import scanner that checks codebases for import statements that are not y
                               <CraneAnimatedProjectCard
                                    title="3D Animation Toolbox"
                                    languages={["javascript", "typescript"]}
-                                   content={`A set of 3D asset objects and examples of animations involving 3D assets. Currently, includes basic particle animations (rain, snowflakes, fire, etc.), an interactive flock of birds, and an animation of origami cranes in flight (which was utilized in this website!). This is not yet complete; additional examples and usage tutorials will be added in the future.`}
+                                   content={`Currently incomplete; a set of 3D asset objects and examples of animations involving 3D assets. Currently, includes basic particle animations (rain, snowflakes, fire, etc.), an interactive flock of birds, and an animation of origami cranes in flight (which was utilized in this website!). This is not yet complete; additional examples and usage tutorials will be added in the future.`}
                               />
                          </ScrollFadeIn>
                     </div>

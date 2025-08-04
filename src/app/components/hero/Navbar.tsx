@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Home, BookOpen, Code, Sparkles, Menu } from "lucide-react";
+import { Home, BookOpen, Code, Sparkles, Mail, Menu } from "lucide-react";
 
 export default function Navbar() {
      const [isMobileMode, setIsMobileMode] = useState(false);
@@ -51,6 +51,7 @@ export default function Navbar() {
           { href: "#research", icon: BookOpen, label: "Research" },
           { href: "#projects", icon: Code, label: "Projects" },
           { href: "#hobbies", icon: Sparkles, label: "Hobbies" },
+          { href: "#contact", icon: Mail, label: "Contact Me (coming soon!)" },
      ];
 
      return (

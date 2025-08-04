@@ -7,12 +7,15 @@ interface PolaroidProps {
      imagePath: string;
      rotation: number;
      position: { x: number; y: number };
+     secondaryImagePath?: string; // Optional secondary image
+     secondaryText?: string; // Optional secondary text
 }
 
-const Polaroid: React.FC<PolaroidProps> = ({ imagePath, rotation, position }) => {
+const Polaroid: React.FC<PolaroidProps> = ({ imagePath, rotation, position, secondaryImagePath, secondaryText }) => {
      const imageHeight = 200; // Base image height as specified
      const polaroidWidth = imageHeight / 0.7; // Calculate polaroid width based on image being 70% of height
-     const polaroidHeight = imageHeight / 0.7; // Calculate polaroid height based on image being 70% of height
+     const testAreaHeight = 50; // Height for the secondary area
+     const polaroidHeight = (imageHeight / 0.7) + testAreaHeight; // Extend polaroid height to include secondary area
      const imageWidth = polaroidWidth * 0.9; // Image is 90% the width of polaroid
 
      return (
@@ -63,8 +66,50 @@ const Polaroid: React.FC<PolaroidProps> = ({ imagePath, rotation, position }) =>
                               />
                          </div>
 
-                         {/* Caption area - remaining space */}
-                         <div className="polaroid-caption-area"></div>
+                         {/* Secondary area - can contain either image or text */}
+                         {(secondaryImagePath || secondaryText) && (
+                              <div
+                                   className="polaroid-secondary-area"
+                                   style={{
+                                        width: `${imageWidth}px`,
+                                        height: `${testAreaHeight}px`,
+                                        backgroundColor: "white",
+                                        marginTop: "5px",
+                                        marginBottom: "5px",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        overflow: "hidden",
+                                        fontFamily: '"Shantell Sans", cursive', // Same font as navbar
+                                        fontSize: "14px",
+                                        fontWeight: "400",
+                                        color: "#333",
+                                        textAlign: "center",
+                                        padding: "4px",
+                                   }}
+                              >
+                                   {secondaryImagePath ? (
+                                        <Image
+                                             src={secondaryImagePath}
+                                             alt="Secondary hobby image"
+                                             width={imageWidth}
+                                             height={testAreaHeight}
+                                             style={{
+                                                  width: "100%",
+                                                  height: "100%",
+                                                  objectFit: "contain",
+                                             }}
+                                        />
+                                   ) : (
+                                        <span style={{ 
+                                             lineHeight: "1.2",
+                                             whiteSpace: "pre-line" 
+                                        }}>
+                                             {secondaryText}
+                                        </span>
+                                   )}
+                              </div>
+                         )}
                     </div>
                </div>
           </div>
@@ -96,7 +141,8 @@ const HobbiesBackgroundPolaroids: React.FC = () => {
           // Base polaroid dimensions
           const imageHeight = 200;
           const polaroidWidth = imageHeight / 0.7; // ≈ 285.7px
-          const polaroidHeight = imageHeight / 0.7; // ≈ 285.7px
+          const testAreaHeight = 30; // Height for the secondary area (reduced by 20px)
+          const polaroidHeight = (imageHeight / 0.7) + testAreaHeight; // ≈ 315.7px (including secondary area)
 
           // Calculate distance for 2.5% viewport width when scale > 0.75
           const targetDistance = window.innerWidth * 0.025;
@@ -114,7 +160,7 @@ const HobbiesBackgroundPolaroids: React.FC = () => {
           // Left column positions (3 polaroids)
           for (let i = 0; i < 3; i++) {
                const polaroidCenterX = contentLeftRelative - adjustedDistance - polaroidWidth / 2;
-               const polaroidCenterY = contentCenterY + (i - 1) * (polaroidHeight + 60); // Spread vertically, 60px gap
+               const polaroidCenterY = contentCenterY + (i - 1) * (polaroidHeight + 90); // Spread vertically, 90px gap
 
                positions.push({
                     x: polaroidCenterX - polaroidWidth / 2,
@@ -125,7 +171,7 @@ const HobbiesBackgroundPolaroids: React.FC = () => {
           // Right column positions (3 polaroids)
           for (let i = 0; i < 3; i++) {
                const polaroidCenterX = contentRightRelative + adjustedDistance + polaroidWidth / 2;
-               const polaroidCenterY = contentCenterY + (i - 1) * (polaroidHeight + 60); // Spread vertically, 60px gap
+               const polaroidCenterY = contentCenterY + (i - 1) * (polaroidHeight + 90); // Spread vertically, 90px gap
 
                positions.push({
                     x: polaroidCenterX - polaroidWidth / 2,
@@ -178,12 +224,12 @@ const HobbiesBackgroundPolaroids: React.FC = () => {
      }, []);
 
      const polaroidData = [
-          { imagePath: "/Curry.png", rotation: -8 }, // Left column, top
-          { imagePath: "/DNA.svg", rotation: 5 }, // Left column, middle
-          { imagePath: "/DNA.svg", rotation: -3 }, // Left column, bottom
-          { imagePath: "/DNA.svg", rotation: 7 }, // Right column, top
-          { imagePath: "/DNA.svg", rotation: -6 }, // Right column, middle
-          { imagePath: "/DNA.svg", rotation: 4 }, // Right column, bottom
+          { imagePath: "/Curry.png", rotation: -8, secondaryImagePath: "/Curry_signature.png" }, // Left column, top - with secondary image
+          { imagePath: "/Manning.png", rotation: 5, secondaryImagePath: "/Manning_signature.png" }, // Left column, middle
+          { imagePath: "/Bayern.png", rotation: -3, secondaryText: "The 2013 Champions League, the last trophy in the treble in an unforgettable year." }, // Left column, bottom
+          { imagePath: "/Kawhi_game_winner.png", rotation: 7, secondaryText: "05/12/2019\nThe quadruple doink! My most iconic sports memory." }, // Right column, top
+          { imagePath: "/Verstappen.png", rotation: -6, secondaryImagePath: "/Verstappen_signature.png" }, // Right column, middle
+          { imagePath: "/OpTic.png", rotation: 4 }, // Right column, bottom
      ];
 
      return (
@@ -195,6 +241,8 @@ const HobbiesBackgroundPolaroids: React.FC = () => {
                          imagePath={polaroidData[index].imagePath}
                          rotation={polaroidData[index].rotation}
                          position={position}
+                         secondaryImagePath={polaroidData[index].secondaryImagePath}
+                         secondaryText={polaroidData[index].secondaryText}
                     />
                ))}
           </div>
