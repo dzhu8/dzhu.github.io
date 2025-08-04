@@ -3,22 +3,22 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
-interface CookingCardProps {
+interface BakingCardProps {
      title: string;
      imagePath: string;
      description?: string;
      titleFontSize?: number; // Font size in pixels, defaults to responsive sizing
 }
 
-interface CookingCardData {
+interface BakingCardData {
      title: string;
      imagePath?: string;
      description?: string;
      titleFontSize?: number;
 }
 
-interface CookingContainerProps {
-     recipes: CookingCardData[];
+interface BakingContainerProps {
+     recipes: BakingCardData[];
      showDebugInfo?: boolean;
 }
 
@@ -64,7 +64,7 @@ const useResponsiveLayout = () => {
 };
 
 // Individual Card Component
-const CookingCardTemplate: React.FC<CookingCardProps> = ({ title, imagePath, description, titleFontSize }) => {
+const BakingCardTemplate: React.FC<BakingCardProps> = ({ title, imagePath, description, titleFontSize }) => {
      const [imageDimensions, setImageDimensions] = useState<{ width: number; height: number } | null>(null);
      const [imageError, setImageError] = useState(false);
 
@@ -120,7 +120,7 @@ const CookingCardTemplate: React.FC<CookingCardProps> = ({ title, imagePath, des
 
      return (
           <div className="hobby-card-asset" style={{ position: "relative" }}>
-               <div className="cooking-card-header"></div>
+               <div className="baking-card-header"></div>
                <div
                     className="hobby-card-title"
                     style={{
@@ -169,7 +169,7 @@ const CookingCardTemplate: React.FC<CookingCardProps> = ({ title, imagePath, des
 };
 
 // Container Component with responsive layout
-const CookingContainer: React.FC<CookingContainerProps> = ({ recipes, showDebugInfo = false }) => {
+const BakingContainer: React.FC<BakingContainerProps> = ({ recipes, showDebugInfo = false }) => {
      const { useDoubleColumn, viewportWidth, fixedCardWidth, fixedCardHeight } = useResponsiveLayout();
 
      const containerStyle: React.CSSProperties = {
@@ -218,7 +218,7 @@ const CookingContainer: React.FC<CookingContainerProps> = ({ recipes, showDebugI
                     data-viewport-width={viewportWidth}
                >
                     {recipes.map((recipe, index) => (
-                         <CookingCardTemplate
+                         <BakingCardTemplate
                               key={index}
                               title={recipe.title}
                               imagePath={recipe.imagePath || ""}
@@ -231,6 +231,6 @@ const CookingContainer: React.FC<CookingContainerProps> = ({ recipes, showDebugI
      );
 };
 
-export default CookingCardTemplate;
-export { CookingContainer };
-export type { CookingCardData };
+export default BakingCardTemplate;
+export { BakingContainer };
+export type { BakingCardData };

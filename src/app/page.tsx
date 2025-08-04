@@ -8,6 +8,7 @@ import NewsArticleLayout from "./components/subsections/ResearchNewspaperTemplat
 import TextEditWindow from "./components/subsections/ProjectsTextEditorTemplate";
 import CraneAnimatedProjectCard from "./components/subsections/CraneAnimatedProjectCard";
 import { CookingContainer } from "./components/subsections/CookingCardTemplate";
+import { BakingContainer } from "./components/subsections/BakingCardTemplate";
 import ScaleTracker from "./components/ScaleTracker";
 
 export default function Home() {
@@ -136,6 +137,31 @@ and an import scanner that checks codebases for import statements that are not y
                     title="Hobbies"
                     subsections={[
                          {
+                              id: "baking",
+                              title: "Baking Sweet Treats",
+                              children: (
+                                   <ScrollFadeIn delay={200} duration={800} direction="up">
+                                        <BakingContainer
+                                             showDebugInfo={false}
+                                             recipes={[
+                                                  {
+                                                       title: "Black Forest Cake",
+                                                       imagePath: "/hobbies/black_forest.jpg",
+                                                       description:
+                                                            "A birthday cake for a friend. Chocolate sponge, cherry liqueur syrup, whipped cream, chocolate bark, pitted cherries and chocolate shavings.",
+                                                  },
+                                                  {
+                                                       title: "Peppermint Pizzazz",
+                                                       imagePath: "/hobbies/christmas_cake.jpg",
+                                                       description:
+                                                            "Chocolate espresso sponge, peppermint buttercream, dark chocolate ganache, candy cane brittle and white chocolate peppermint bark.",
+                                                  },
+                                             ]}
+                                        />
+                                   </ScrollFadeIn>
+                              ),
+                         },
+                         {
                               id: "cooking",
                               title: "Culinary Adventures",
                               children: (
@@ -145,12 +171,14 @@ and an import scanner that checks codebases for import statements that are not y
                                              recipes={[
                                                   {
                                                        title: "Xīnnián Kuàilè (Happy New Year)",
+                                                       titleFontSize: 24,
                                                        imagePath: "/hobbies/chinese_new_year.jpg",
                                                        description:
                                                             "A celebration of the Lunar New Year. Egg fried rice, pork potstickers, sweet potato puree, radish, pea shoots, pork char siu, panda-styled red bean bun, fried sesame balls with ube jam.",
                                                   },
                                                   {
                                                        title: "Soil, Sea and Sky",
+                                                       titleFontSize: 24,
                                                        imagePath: "/hobbies/soil_sea_and_sky.jpg",
                                                        description:
                                                             "A dish that represents each of the highest-level ecological zones: terrestrial, marine and aerial! Honey garlic salmon, orzo, sirloin steak, broccolini, pea puree, king oyster mushroom, duck, toasted sesame, tomato pearls and a teriyaki sauce & parsley tree.",
