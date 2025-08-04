@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Shantell_Sans, Lora } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
 // Load Shantell Sans with Medium weight
@@ -28,7 +29,14 @@ export default function RootLayout({
 }>) {
      return (
           <html lang="en">
-               <body className={`${shantellSans.variable} ${lora.variable} antialiased`}>{children}</body>
+               <body className={`${shantellSans.variable} ${lora.variable} antialiased`}>
+                    {children}
+                    <Script 
+                         src="https://strava-embeds.com/embed.js" 
+                         strategy="lazyOnload"
+                         id="strava-embed-script"
+                    />
+               </body>
           </html>
      );
 }

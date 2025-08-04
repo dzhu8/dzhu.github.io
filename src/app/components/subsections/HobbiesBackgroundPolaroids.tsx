@@ -178,7 +178,7 @@ const HobbiesBackgroundPolaroids: React.FC = () => {
      }, []);
 
      const polaroidData = [
-          { imagePath: "/DNA.svg", rotation: -8 }, // Left column, top
+          { imagePath: "/Curry.png", rotation: -8 }, // Left column, top
           { imagePath: "/DNA.svg", rotation: 5 }, // Left column, middle
           { imagePath: "/DNA.svg", rotation: -3 }, // Left column, bottom
           { imagePath: "/DNA.svg", rotation: 7 }, // Right column, top

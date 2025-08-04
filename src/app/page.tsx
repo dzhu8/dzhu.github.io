@@ -9,6 +9,7 @@ import TextEditWindow from "./components/subsections/ProjectsTextEditorTemplate"
 import CraneAnimatedProjectCard from "./components/subsections/CraneAnimatedProjectCard";
 import { CookingContainer } from "./components/subsections/CookingCardTemplate";
 import { BakingContainer } from "./components/subsections/BakingCardTemplate";
+import { StravaEmbedContainer } from "./components/subsections/StravaEmbed";
 import ScaleTracker from "./components/ScaleTracker";
 
 export default function Home() {
@@ -156,6 +157,30 @@ and an import scanner that checks codebases for import statements that are not y
                                                        description:
                                                             "Chocolate espresso sponge, peppermint buttercream, dark chocolate ganache, candy cane brittle and white chocolate peppermint bark.",
                                                   },
+                                                  {
+                                                       title: "Hazelnut Symphony",
+                                                       imagePath: "/hobbies/hazelnut_symphony.jpg",
+                                                       description:
+                                                            "No special occasion unless a love of Nutella counts as a special occasion. Chocolate sponge, hazelnut & almond streusel, hazelnut mousse, dark chocolate ganache, dark chocolate & Nutella shards, pecan shavings, Ferrero Rocher.",
+                                                  },
+                                                  {
+                                                       title: "Oreo Domes",
+                                                       imagePath: "/hobbies/oreo_domes.jpg",
+                                                       description:
+                                                            "Cookies & cream mousse hemispheres, Oreos (whole cookies and crumble), brownie round, vanilla mirror glaze, caramel syrup, lemon shavings, decorative Pirouette chocolate fudge wafer.",
+                                                  },
+                                                  {
+                                                       title: "Ode to Reese's",
+                                                       imagePath: "/hobbies/reeses_cake.jpg",
+                                                       description:
+                                                            "Even though I stopped trick-or-treating over a decade ago, I still like to put out candy for everyone else. One year I had enough leftover peanut butter cups to make a cake- chocolate sponge, peanut buttercream, milk chocolate ganache, decorative Reese's cups.",
+                                                  },
+                                                  {
+                                                       title: "Yuletide on the Forest Floor",
+                                                       imagePath: "/hobbies/yule_log.jpg",
+                                                       description:
+                                                            "Created for a holiday party! Chocolate genoise sponge, chocolate chestnut whipped cream, dark chocolate ganache, meringue mushrooms, cranberry, decorative rosemary, sugar and simple syrup.",
+                                                  },
                                              ]}
                                         />
                                    </ScrollFadeIn>
@@ -182,6 +207,53 @@ and an import scanner that checks codebases for import statements that are not y
                                                        imagePath: "/hobbies/soil_sea_and_sky.jpg",
                                                        description:
                                                             "A dish that represents each of the highest-level ecological zones: terrestrial, marine and aerial! Honey garlic salmon, orzo, sirloin steak, broccolini, pea puree, king oyster mushroom, duck, toasted sesame, tomato pearls and a teriyaki sauce & parsley tree.",
+                                                  },
+                                                  {
+                                                       title: "Elevated Thanksgiving",
+                                                       titleFontSize: 24,
+                                                       imagePath: "/hobbies/fancy_thanksgiving.jpg",
+                                                       description:
+                                                            "Decided to have fun on Friendsgiving with this elevated take on Thanksgiving dinner. Turkey roulade, mashed potatoes, potato pave, cranberry gel, assorted vegetables.",
+                                                  },
+                                                  {
+                                                       title: "Mediterranean Medley",
+                                                       titleFontSize: 24,
+                                                       imagePath: "/hobbies/mediterranean.jpg",
+                                                       description:
+                                                            "A miscellaneous Mediterranean mashup! Falafel, pita crisps, tzatziki, yogurt, harissa tahini, pomegranate, mango chutney, cucumber slaw, and basmati rice.",
+                                                  },
+                                                  {
+                                                       title: "KBBQ Plate",
+                                                       titleFontSize: 24,
+                                                       imagePath: "/hobbies/kbbq.jpg",
+                                                       description:
+                                                            "Galbi (Korean BBQ short rib), nasi goreng w/ fried egg, Chinese cabbage slaw with sweet & sour homemade Asian dressing.",
+                                                  },
+                                                  {
+                                                       title: "Deconstructed Big Mac Meal",
+                                                       titleFontSize: 24,
+                                                       imagePath: "/hobbies/deconstructed_big_mac_meal.jpg",
+                                                       description:
+                                                            "Had some fun injecting a little flair into a staple of my childhood. NY strip steak, toasted sesame buns, butter lettuce, pickle, onion, `special sauce`, pommes puree, ketchup, Sprite in a wine glass (not pictured).",
+                                                  },
+                                             ]}
+                                        />
+                                   </ScrollFadeIn>
+                              ),
+                         },
+                         {
+                              id: "fitness",
+                              title: "Running",
+                              children: (
+                                   <ScrollFadeIn delay={200} duration={800} direction="up">
+                                        <StravaEmbedContainer
+                                             showDebugInfo={false}
+                                             description="No better way to clear your head and relax than with constant searing lung pain! Just kidding, kind of. I love endurance running and it's also my preferred mode of transit. It's my favorite way of exploring new places!"
+                                             activities={[
+                                                  {
+                                                       id: "10165279936",
+                                                       title: "Cambridge Half Marathon 2023",
+                                                       style: "standard"
                                                   },
                                              ]}
                                         />
