@@ -2,12 +2,14 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import { getCardTransform, getCardHoverTransform } from "../../utils/cardRotation";
 
 interface CookingCardProps {
      title: string;
      imagePath: string;
      description?: string;
      titleFontSize?: number; // Font size in pixels, defaults to responsive sizing
+     index: number; // Add index for rotation calculation
 }
 
 interface CookingCardData {
@@ -64,9 +66,10 @@ const useResponsiveLayout = () => {
 };
 
 // Individual Card Component
-const CookingCardTemplate: React.FC<CookingCardProps> = ({ title, imagePath, description, titleFontSize }) => {
+const CookingCardTemplate: React.FC<CookingCardProps> = ({ title, imagePath, description, titleFontSize, index }) => {
      const [imageDimensions, setImageDimensions] = useState<{ width: number; height: number } | null>(null);
      const [imageError, setImageError] = useState(false);
+     const [isHovered, setIsHovered] = useState(false);
 
      // Handle image load to get natural dimensions
      const handleImageLoad = (event: React.SyntheticEvent<HTMLImageElement>) => {
@@ -119,7 +122,16 @@ const CookingCardTemplate: React.FC<CookingCardProps> = ({ title, imagePath, des
      };
 
      return (
-          <div className="hobby-card-asset" style={{ position: "relative" }}>
+          <div 
+               className="hobby-card-asset" 
+               style={{ 
+                    position: "relative",
+                    transform: isHovered ? getCardHoverTransform(index) : getCardTransform(index),
+                    transition: "transform 0.3s ease, box-shadow 0.3s ease"
+               }}
+               onMouseEnter={() => setIsHovered(true)}
+               onMouseLeave={() => setIsHovered(false)}
+          >
                <div className="cooking-card-header"></div>
                <div
                     className="hobby-card-title"
@@ -224,6 +236,7 @@ const CookingContainer: React.FC<CookingContainerProps> = ({ recipes, showDebugI
                               imagePath={recipe.imagePath || ""}
                               description={recipe.description}
                               titleFontSize={recipe.titleFontSize}
+                              index={index}
                          />
                     ))}
                </div>

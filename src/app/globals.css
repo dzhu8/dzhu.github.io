@@ -1392,7 +1392,7 @@ body {
      background-color: #ffffff;
      border: 1px solid #e5e5e5;
      border-radius: 10px;
-     transform: rotate(-2deg); /* Slight rotation for organic feel */
+     /* Remove default rotation - handled by React component */
      box-shadow:
           0 12px 32px rgba(0, 0, 0, 0.25),
           /* More distinctive shadow */ 0 6px 16px rgba(0, 0, 0, 0.18),
@@ -1405,21 +1405,14 @@ body {
 }
 
 .hobby-card-asset:hover {
-     transform: rotate(-1deg) translateY(-4px);
+     /* Hover transform is now handled by React component */
      box-shadow:
           0 16px 40px rgba(0, 0, 0, 0.3),
           0 8px 20px rgba(0, 0, 0, 0.22),
           0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* Alternate rotation for second column cards */
-.hobby-card-asset:nth-child(even) {
-     transform: rotate(2deg);
-}
-
-.hobby-card-asset:nth-child(even):hover {
-     transform: rotate(1deg) translateY(-4px);
-}
+/* Remove the alternating rotation for second column cards - now handled by React */
 
 /* Food header image container at the top of each card */
 .cooking-card-header {
