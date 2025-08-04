@@ -14,6 +14,7 @@ interface ThreeDContainerProps {
      craneScale?: number;
      wingFlapSpeed?: number;
      pathSpeed?: number;
+     craneCount?: number;
 }
 
 export default function ThreeDContainer({
@@ -23,6 +24,7 @@ export default function ThreeDContainer({
      craneScale = 1.0,
      wingFlapSpeed = 7.5,
      pathSpeed = 2.0,
+     craneCount = 10,
 }: ThreeDContainerProps) {
      const mountRef = useRef<HTMLDivElement>(null);
      const sceneRef = useRef<THREE.Scene | null>(null);
@@ -50,7 +52,7 @@ export default function ThreeDContainer({
           const currentMount = mountRef.current;
 
           // Create path generator
-          const pathGenerator = new PathGenerator({ cameraDistance, craneCount: 10 });
+          const pathGenerator = new PathGenerator({ cameraDistance, craneCount });
           pathGeneratorRef.current = pathGenerator;
 
           // Scene setup
@@ -99,7 +101,6 @@ export default function ThreeDContainer({
           // Add crane instances with path animation
           let craneGroup: CraneGroup | null = null;
           let cranesLoaded = false;
-          const craneCount = 10;
 
           // Generate paths for cranes
           const pathResult = pathGenerator.generateCranePaths(craneCount);
@@ -410,7 +411,7 @@ export default function ThreeDContainer({
                     });
                }
           };
-     }, [showAxes, isHeroSection, cameraDistance, craneScale, wingFlapSpeed, pathSpeed]);
+     }, [showAxes, isHeroSection, cameraDistance, craneScale, wingFlapSpeed, pathSpeed, craneCount]);
 
      return (
           <>

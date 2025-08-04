@@ -18,6 +18,7 @@ interface SectionProps {
      craneScale?: number;
      wingFlapSpeed?: number;
      pathSpeed?: number;
+     craneCount?: number;
 }
 
 export default function Section({
@@ -28,6 +29,7 @@ export default function Section({
      craneScale,
      wingFlapSpeed,
      pathSpeed,
+     craneCount,
 }: SectionProps) {
      // Only render 3D container if all crane parameters are provided
      const shouldRender3D = craneScale !== undefined && wingFlapSpeed !== undefined && pathSpeed !== undefined;
@@ -45,6 +47,7 @@ export default function Section({
                          craneScale={craneScale}
                          wingFlapSpeed={wingFlapSpeed}
                          pathSpeed={pathSpeed}
+                         craneCount={craneCount}
                     />
                )}
 

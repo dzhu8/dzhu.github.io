@@ -49,19 +49,21 @@ export function StravaEmbedContainer({
                          Debug: {activities.length} Strava activities loaded
                     </div>
                )}
-               {activities.map((activity) => (
-                    <div key={activity.id} className="strava-activity-container">
-                         {activity.title && (
-                              <h4 className="text-lg font-semibold mb-2 text-center">
-                                   {activity.title}
-                              </h4>
-                         )}
-                         <StravaEmbed 
-                              activityId={activity.id} 
-                              style={activity.style || "standard"} 
-                         />
-                    </div>
-               ))}
+               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {activities.map((activity) => (
+                         <div key={activity.id} className="strava-activity-container">
+                              {activity.title && (
+                                   <h4 className="text-lg font-semibold mb-2 text-center">
+                                        {activity.title}
+                                   </h4>
+                              )}
+                              <StravaEmbed 
+                                   activityId={activity.id} 
+                                   style={activity.style || "standard"} 
+                              />
+                         </div>
+                    ))}
+               </div>
           </div>
      );
 }

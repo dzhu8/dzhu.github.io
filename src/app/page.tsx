@@ -25,7 +25,7 @@ export default function Home() {
                <Hero craneScale={1.2} wingFlapSpeed={2.8} pathSpeed={11.0} />
 
                {/* Content Sections with white backgrounds */}
-               <Section id="research" title="Research" craneScale={0.4} wingFlapSpeed={2.8} pathSpeed={11.0}>
+               <Section id="research" title="Research" craneScale={0.4} wingFlapSpeed={2.8} pathSpeed={5.0} craneCount={25}>
                     <ScrollFadeIn delay={200} duration={800} direction="up">
                          <NewsArticleLayout
                               title="Spateo: Spatiotemporal modeling of molecular holograms"
@@ -92,7 +92,7 @@ export default function Home() {
                     </ScrollFadeIn>
                </Section>
 
-               <Section id="projects" title="Projects" craneScale={0.8} wingFlapSpeed={2.8} pathSpeed={11.0}>
+               <Section id="projects" title="Projects" craneScale={0.8} wingFlapSpeed={2.8} pathSpeed={11.0} craneCount={15}>
                     <div className="space-y-12">
                          <ScrollFadeIn delay={100} duration={700} direction="right">
                               <TextEditWindow
@@ -253,6 +253,16 @@ and an import scanner that checks codebases for import statements that are not y
                                                   {
                                                        id: "10165279936",
                                                        title: "Cambridge Half Marathon 2023",
+                                                       style: "standard"
+                                                  },
+                                                  {
+                                                       id: "12998336535",
+                                                       title: "Thanksgiving 10k",
+                                                       style: "standard"
+                                                  },
+                                                  {
+                                                       id: "13643287586",
+                                                       title: "5k PR",
                                                        style: "standard"
                                                   },
                                              ]}

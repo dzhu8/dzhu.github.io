@@ -6,9 +6,10 @@ interface HeroProps {
      craneScale?: number;
      wingFlapSpeed?: number;
      pathSpeed?: number;
+     craneCount?: number;
 }
 
-export default function Hero({ craneScale = 1.2, wingFlapSpeed = 2.8, pathSpeed = 3.7 }: HeroProps) {
+export default function Hero({ craneScale = 1.2, wingFlapSpeed = 2.8, pathSpeed = 3.7, craneCount }: HeroProps) {
      return (
           <section className="hero-section">
                {/* 3D Container for Hero Section */}
@@ -18,6 +19,7 @@ export default function Hero({ craneScale = 1.2, wingFlapSpeed = 2.8, pathSpeed 
                     craneScale={craneScale}
                     wingFlapSpeed={wingFlapSpeed}
                     pathSpeed={pathSpeed}
+                    craneCount={craneCount}
                />
 
                {/* Zones for background masking - placed first so they're behind content */}
