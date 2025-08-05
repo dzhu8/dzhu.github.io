@@ -19,7 +19,8 @@ const lora = Lora({
 
 export const metadata: Metadata = {
      title: "Daniel Zhu",
-     description: "The personal portfolio of Daniel Zhu, a PhD student in Biological Engineering at MIT, computational biologist and code enthusiast. Learn about my research work, side projects, and hobbies!",
+     description:
+          "The personal portfolio of Daniel Zhu, a PhD student in Biological Engineering at MIT, computational biologist and code enthusiast. Learn about my research work, side projects, and hobbies!",
      keywords: ["Daniel Zhu", "Biological Engineering", "MIT", "Computational Biology", "Software Development"],
      authors: [
           {
@@ -30,9 +31,10 @@ export const metadata: Metadata = {
      creator: "Daniel Zhu",
      openGraph: {
           title: "Daniel Zhu",
-          description: "The personal portfolio of Daniel Zhu, a PhD student in Biological Engineering at MIT, computational biologist and code enthusiast. Learn about my research work, side projects, and hobbies!",
+          description:
+               "The personal portfolio of Daniel Zhu, a PhD student in Biological Engineering at MIT, computational biologist and code enthusiast. Learn about my research work, side projects, and hobbies!",
           url: "https://danielyzhu.com",
-          siteName: "Daniel Zhu",
+          siteName: "Daniel Y. Zhu",
           images: [
                {
                     url: "/daniel_zhu.jpeg",
@@ -47,7 +49,8 @@ export const metadata: Metadata = {
      twitter: {
           card: "summary_large_image",
           title: "Daniel Zhu",
-          description: "The personal portfolio of Daniel Zhu, a PhD student in Biological Engineering at MIT, computational biologist and code enthusiast. Learn about my research work, side projects, and hobbies!",
+          description:
+               "The personal portfolio of Daniel Zhu, a PhD student in Biological Engineering at MIT, computational biologist and code enthusiast. Learn about my research work, side projects, and hobbies!",
           images: ["/daniel_zhu.jpeg"],
      },
 };
@@ -61,11 +64,7 @@ export default function RootLayout({
           <html lang="en">
                <body className={`${shantellSans.variable} ${lora.variable} antialiased`}>
                     {children}
-                    <Script 
-                         src="https://strava-embeds.com/embed.js" 
-                         strategy="lazyOnload"
-                         id="strava-embed-script"
-                    />
+                    <Script src="https://strava-embeds.com/embed.js" strategy="lazyOnload" id="strava-embed-script" />
                </body>
           </html>
      );

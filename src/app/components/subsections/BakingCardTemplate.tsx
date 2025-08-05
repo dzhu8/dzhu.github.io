@@ -122,12 +122,12 @@ const BakingCardTemplate: React.FC<BakingCardProps> = ({ title, imagePath, descr
      };
 
      return (
-          <div 
-               className="hobby-card-asset" 
-               style={{ 
+          <div
+               className="hobby-card-asset"
+               style={{
                     position: "relative",
                     transform: isHovered ? getCardHoverTransform(index) : getCardTransform(index),
-                    transition: "transform 0.3s ease, box-shadow 0.3s ease"
+                    transition: "transform 0.3s ease, box-shadow 0.3s ease",
                }}
                onMouseEnter={() => setIsHovered(true)}
                onMouseLeave={() => setIsHovered(false)}

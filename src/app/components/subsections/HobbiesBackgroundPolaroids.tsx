@@ -15,7 +15,7 @@ const Polaroid: React.FC<PolaroidProps> = ({ imagePath, rotation, position, seco
      const imageHeight = 200; // Base image height as specified
      const polaroidWidth = imageHeight / 0.7; // Calculate polaroid width based on image being 70% of height
      const testAreaHeight = 50; // Height for the secondary area
-     const polaroidHeight = (imageHeight / 0.7) + testAreaHeight; // Extend polaroid height to include secondary area
+     const polaroidHeight = imageHeight / 0.7 + testAreaHeight; // Extend polaroid height to include secondary area
      const imageWidth = polaroidWidth * 0.9; // Image is 90% the width of polaroid
 
      return (
@@ -101,10 +101,12 @@ const Polaroid: React.FC<PolaroidProps> = ({ imagePath, rotation, position, seco
                                              }}
                                         />
                                    ) : (
-                                        <span style={{ 
-                                             lineHeight: "1.2",
-                                             whiteSpace: "pre-line" 
-                                        }}>
+                                        <span
+                                             style={{
+                                                  lineHeight: "1.2",
+                                                  whiteSpace: "pre-line",
+                                             }}
+                                        >
                                              {secondaryText}
                                         </span>
                                    )}
@@ -142,7 +144,7 @@ const HobbiesBackgroundPolaroids: React.FC = () => {
           const imageHeight = 200;
           const polaroidWidth = imageHeight / 0.7; // ≈ 285.7px
           const testAreaHeight = 30; // Height for the secondary area (reduced by 20px)
-          const polaroidHeight = (imageHeight / 0.7) + testAreaHeight; // ≈ 315.7px (including secondary area)
+          const polaroidHeight = imageHeight / 0.7 + testAreaHeight; // ≈ 315.7px (including secondary area)
 
           // Calculate distance for 2.5% viewport width when scale > 0.75
           const targetDistance = window.innerWidth * 0.025;
@@ -226,8 +228,16 @@ const HobbiesBackgroundPolaroids: React.FC = () => {
      const polaroidData = [
           { imagePath: "/Curry.png", rotation: -8, secondaryImagePath: "/Curry_signature.png" }, // Left column, top - with secondary image
           { imagePath: "/Manning.png", rotation: 5, secondaryImagePath: "/Manning_signature.png" }, // Left column, middle
-          { imagePath: "/Bayern.png", rotation: -3, secondaryText: "The 2013 Champions League, the last trophy in the treble in an unforgettable year." }, // Left column, bottom
-          { imagePath: "/Kawhi_game_winner.png", rotation: 7, secondaryText: "05/12/2019\nThe quadruple doink! My most iconic sports memory." }, // Right column, top
+          {
+               imagePath: "/Bayern.png",
+               rotation: -3,
+               secondaryText: "The 2013 Champions League, the last trophy in the treble in an unforgettable year.",
+          }, // Left column, bottom
+          {
+               imagePath: "/Kawhi_game_winner.png",
+               rotation: 7,
+               secondaryText: "05/12/2019\nThe quadruple doink! My most iconic sports memory.",
+          }, // Right column, top
           { imagePath: "/Verstappen.png", rotation: -6, secondaryImagePath: "/Verstappen_signature.png" }, // Right column, middle
           { imagePath: "/OpTic.png", rotation: 4 }, // Right column, bottom
      ];

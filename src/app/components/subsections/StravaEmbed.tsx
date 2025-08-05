@@ -6,17 +6,13 @@ interface StravaEmbedProps {
      className?: string;
 }
 
-export default function StravaEmbed({ 
-     activityId, 
-     style = "standard", 
-     className = "" 
-}: StravaEmbedProps) {
+export default function StravaEmbed({ activityId, style = "standard", className = "" }: StravaEmbedProps) {
      return (
-          <div 
+          <div
                className={`strava-embed-placeholder ${className}`}
-               data-embed-type="activity" 
-               data-embed-id={activityId} 
-               data-style={style} 
+               data-embed-type="activity"
+               data-embed-id={activityId}
+               data-style={style}
                data-from-embed="false"
           />
      );
@@ -32,11 +28,7 @@ interface StravaEmbedContainerProps {
      showDebugInfo?: boolean;
 }
 
-export function StravaEmbedContainer({ 
-     activities, 
-     description,
-     showDebugInfo = false 
-}: StravaEmbedContainerProps) {
+export function StravaEmbedContainer({ activities, description, showDebugInfo = false }: StravaEmbedContainerProps) {
      return (
           <div className="space-y-6">
                {description && (
@@ -53,14 +45,9 @@ export function StravaEmbedContainer({
                     {activities.map((activity) => (
                          <div key={activity.id} className="strava-activity-container">
                               {activity.title && (
-                                   <h4 className="text-lg font-semibold mb-2 text-center">
-                                        {activity.title}
-                                   </h4>
+                                   <h4 className="text-lg font-semibold mb-2 text-center">{activity.title}</h4>
                               )}
-                              <StravaEmbed 
-                                   activityId={activity.id} 
-                                   style={activity.style || "standard"} 
-                              />
+                              <StravaEmbed activityId={activity.id} style={activity.style || "standard"} />
                          </div>
                     ))}
                </div>
