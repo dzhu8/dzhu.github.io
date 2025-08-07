@@ -18,7 +18,7 @@ const lora = Lora({
 });
 
 export const metadata: Metadata = {
-     title: "Daniel Zhu",
+     title: "Daniel Zhu - PhD Student @ MIT Biological Engineering | Computational Biology",
      description:
           "The personal portfolio of Daniel Zhu, a PhD student in Biological Engineering at MIT, computational biologist and code enthusiast. Learn about my research work, side projects, and hobbies!",
      keywords: ["Daniel Zhu", "Biological Engineering", "MIT", "Computational Biology", "Software Development"],
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
      ],
      creator: "Daniel Zhu",
      openGraph: {
-          title: "Daniel Zhu",
+          title: "Daniel Zhu - PhD Student @ MIT Biological Engineering | Computational Biology",
           description:
                "The personal portfolio of Daniel Zhu, a PhD student in Biological Engineering at MIT, computational biologist and code enthusiast. Learn about my research work, side projects, and hobbies!",
           url: "https://danielyzhu.com",
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
      },
      twitter: {
           card: "summary_large_image",
-          title: "Daniel Zhu",
+          title: "Daniel Zhu - PhD Student @ MIT Biological Engineering | Computational Biology",
           description:
                "The personal portfolio of Daniel Zhu, a PhD student in Biological Engineering at MIT, computational biologist and code enthusiast. Learn about my research work, side projects, and hobbies!",
           images: ["/daniel_zhu.jpeg"],
