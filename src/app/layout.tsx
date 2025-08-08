@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Shantell_Sans, Lora } from "next/font/google";
 import Script from "next/script";
+import StructuredData from "./components/StructuredData";
 import "./globals.css";
 
 // Load Shantell Sans with Medium weight
@@ -34,7 +35,7 @@ export const metadata: Metadata = {
           description:
                "The personal portfolio of Daniel Zhu, a PhD student in Biological Engineering at MIT, computational biologist and code enthusiast. Learn about my research work, side projects, and hobbies!",
           url: "https://danielyzhu.com",
-          siteName: "Daniel Y. Zhu",
+          siteName: "Daniel Zhu",
           images: [
                {
                     url: "/daniel_zhu.jpeg",
@@ -64,6 +65,7 @@ export default function RootLayout({
           <html lang="en">
                <body className={`${shantellSans.variable} ${lora.variable} antialiased`}>
                     {children}
+                    <StructuredData />
                     <Script src="https://strava-embeds.com/embed.js" strategy="lazyOnload" id="strava-embed-script" />
                </body>
           </html>

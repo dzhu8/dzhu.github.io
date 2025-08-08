@@ -6,7 +6,7 @@ export const dynamic = "force-static";
 export default function sitemap(): MetadataRoute.Sitemap {
      // Use a fixed date instead of new Date() for static export
      const lastModified = new Date("2025-08-05").toISOString();
-     
+
      return [
           {
                url: "https://danielyzhu.com",
@@ -15,7 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
                priority: 1,
           },
           {
-               url: "https://danielyzhu.com#research", 
+               url: "https://danielyzhu.com#research",
                lastModified,
                changeFrequency: "monthly",
                priority: 0.7,
@@ -23,7 +23,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
           {
                url: "https://danielyzhu.com#projects",
                lastModified,
-               changeFrequency: "monthly", 
+               changeFrequency: "monthly",
                priority: 0.7,
           },
           {
