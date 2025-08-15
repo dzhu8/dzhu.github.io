@@ -28,10 +28,6 @@ export default function Home() {
                <Section
                     id="research"
                     title="Research"
-                    craneScale={0.4}
-                    wingFlapSpeed={2.8}
-                    pathSpeed={5.0}
-                    craneCount={25}
                >
                     <ScrollFadeIn delay={200} duration={800} direction="up">
                          <NewsArticleLayout
@@ -105,10 +101,6 @@ export default function Home() {
                <Section
                     id="projects"
                     title="Projects"
-                    craneScale={0.8}
-                    wingFlapSpeed={2.8}
-                    pathSpeed={11.0}
-                    craneCount={15}
                >
                     <div className="space-y-12">
                          <ScrollFadeIn delay={100} duration={700} direction="right">

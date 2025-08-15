@@ -14,7 +14,6 @@ export default function Hero({ craneScale = 1.2, wingFlapSpeed = 2.8, pathSpeed 
           <section className="hero-section">
                {/* 3D Container for Hero Section */}
                <ThreeDContainer
-                    showAxes={false}
                     isHeroSection={true}
                     craneScale={craneScale}
                     wingFlapSpeed={wingFlapSpeed}
