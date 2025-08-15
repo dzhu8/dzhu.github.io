@@ -62,7 +62,7 @@ const TextEditWindow: React.FC<TextEditWindowProps> = ({
      // Calculate responsive Polaroid dimensions
      const getPolaroidDimensions = () => {
           const maxWidth = Math.min(windowWidth * 0.9, 400); // Maximum 90% of window width or 400px
-          const minWidth = 200; // Minimum width
+          const minWidth = 100; // Minimum width
           
           if (isCompactLayout) {
                const width = Math.max(Math.min(maxWidth, 300), minWidth);
@@ -71,6 +71,26 @@ const TextEditWindow: React.FC<TextEditWindowProps> = ({
           } else {
                return { width: 256, height: 320 };
           }
+     };
+
+     // Calculate responsive text area height based on content and window size
+     const getTextAreaHeight = () => {
+          const baseHeight = isCompactLayout ? 200 : 256; // Base height
+          const minHeight = windowWidth < 480 ? 120 : 150; // Smaller minimum on very small screens
+          const maxHeight = windowWidth < 480 ? 250 : (windowWidth < 768 ? 300 : 400); // Progressive max height
+          
+          // Calculate content-based height (rough estimate based on content length)
+          const contentLines = Math.ceil(content.length / (windowWidth < 480 ? 40 : 80)); // Fewer chars per line on mobile
+          const lineHeight = parseInt(fontSize) * parseFloat(lineSpacing);
+          const contentHeight = Math.max(contentLines * lineHeight + 32, minHeight); // Add padding
+          
+          return Math.min(Math.max(contentHeight, baseHeight), maxHeight);
+     };
+
+     // Check if title would overlap with buttons
+     const shouldStackTitle = () => {
+          // If window is very narrow, stack the title
+          return windowWidth < 480 || (isCompactLayout && windowWidth < 600);
      };
 
      // Generate text style based on current settings
@@ -172,19 +192,19 @@ const TextEditWindow: React.FC<TextEditWindowProps> = ({
                </div>
 
                {/* Text editor */}
-               <div className="flex-grow min-w-0"> {/* min-w-0 prevents flex item from overflowing */}
-                    <div className="rounded-lg overflow-hidden shadow-lg border border-gray-300 w-full">
+               <div className="flex-grow min-w-0 max-w-full"> {/* min-w-0 prevents flex item from overflowing */}
+                    <div className="rounded-lg overflow-hidden shadow-lg border border-gray-300 w-full max-w-full">
                          {/* Title bar */}
-                         <div className="h-10 bg-gradient-to-b from-gray-100 to-gray-200 flex items-center relative border-b border-gray-300">
+                         <div className={`${shouldStackTitle() ? "h-16" : "h-10"} bg-gradient-to-b from-gray-100 to-gray-200 flex ${shouldStackTitle() ? "flex-col" : "items-center"} relative border-b border-gray-300`}>
                               {/* Window buttons */}
-                              <div className="absolute left-3 flex space-x-2">
+                              <div className={`${shouldStackTitle() ? "absolute top-2" : "absolute"} left-3 flex space-x-2`}>
                                    <div className="w-3 h-3 rounded-full bg-red-500 border border-red-600"></div>
                                    <div className="w-3 h-3 rounded-full bg-yellow-400 border border-yellow-500"></div>
                                    <div className="w-3 h-3 rounded-full bg-green-500 border border-green-600"></div>
                               </div>
 
                               {/* Window title */}
-                              <div className="w-full text-center text-sm sm:text-lg font-semibold text-gray-700 px-16">
+                              <div className={`w-full text-center text-sm sm:text-lg font-semibold text-gray-700 ${shouldStackTitle() ? "mt-8 px-4" : "px-16"}`}>
                                    <span className="truncate block">{title}</span>
                               </div>
                          </div>
@@ -487,8 +507,8 @@ const TextEditWindow: React.FC<TextEditWindowProps> = ({
                          </div>
 
                          {/* Ruler */}
-                         <div className="h-8 bg-gray-100 border-b border-gray-300 relative flex items-center">
-                              {[...Array(9)].map((_, i) => (
+                         <div className="h-8 bg-gray-100 border-b border-gray-300 relative flex items-center overflow-hidden">
+                              {[...Array(Math.max(1, Math.floor((windowWidth * 0.8) / 100)))].map((_, i) => (
                                    <React.Fragment key={i}>
                                         <div
                                              className="absolute w-px h-2.5 bg-gray-400"
@@ -510,8 +530,11 @@ const TextEditWindow: React.FC<TextEditWindowProps> = ({
 
                          {/* Text area */}
                          <div
-                              className={`${isCompactLayout ? "h-48" : "h-64"} p-4 bg-white w-full`}
-                              style={getTextStyle()}
+                              className="p-4 bg-white w-full overflow-auto"
+                              style={{
+                                   height: `${getTextAreaHeight()}px`,
+                                   ...getTextStyle()
+                              }}
                          >
                               {content}
                          </div>
