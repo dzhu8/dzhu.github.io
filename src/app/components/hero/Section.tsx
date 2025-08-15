@@ -42,7 +42,6 @@ export default function Section({
                {/* 3D Container for Section - only if parameters are provided */}
                {shouldRender3D && (
                     <ThreeDContainer
-                         showAxes={false}
                          isHeroSection={false}
                          craneScale={craneScale}
                          wingFlapSpeed={wingFlapSpeed}
