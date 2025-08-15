@@ -50,6 +50,7 @@ const NewsArticleLayout: React.FC<NewsArticleLayoutProps> = ({
      const [mainContent, setMainContent] = useState("");
      const [secondaryContent, setSecondaryContent] = useState("");
      const [currentUrl, setCurrentUrl] = useState<string>("");
+     const [isMobile, setIsMobile] = useState(false);
 
      // Refs for measuring header heights
      const article1HeaderRef = useRef<HTMLDivElement>(null);
@@ -60,6 +61,18 @@ const NewsArticleLayout: React.FC<NewsArticleLayoutProps> = ({
      const measurementRef = useRef<HTMLDivElement>(null);
      const leftColumnRef = useRef<HTMLDivElement>(null);
      const rightColumnRef = useRef<HTMLDivElement>(null);
+
+     // Check if mobile viewport
+     useEffect(() => {
+          const checkMobile = () => {
+               setIsMobile(window.innerWidth < 768);
+          };
+          
+          checkMobile();
+          window.addEventListener("resize", checkMobile);
+          
+          return () => window.removeEventListener("resize", checkMobile);
+     }, []);
 
      // Get current URL on client side
      useEffect(() => {
@@ -105,6 +118,13 @@ const NewsArticleLayout: React.FC<NewsArticleLayoutProps> = ({
      // Smart text splitting function
      const calculateOptimalSplit = React.useCallback(() => {
           if (!fullText || !leftColumnRef.current || !rightColumnRef.current) return;
+
+          // On mobile, don't split the text - use full text in one column
+          if (isMobile) {
+               setMainContent(fullText);
+               setSecondaryContent("");
+               return;
+          }
 
           const words = fullText.split(" ");
           const totalWords = words.length;
@@ -170,7 +190,7 @@ const NewsArticleLayout: React.FC<NewsArticleLayoutProps> = ({
 
           setMainContent(splitMainContent);
           setSecondaryContent(splitSecondaryContent);
-     }, [fullText, mainContentFontSize]);
+     }, [fullText, mainContentFontSize, isMobile]);
 
      // Calculate split when component mounts and on resize
      useEffect(() => {
@@ -197,108 +217,121 @@ const NewsArticleLayout: React.FC<NewsArticleLayoutProps> = ({
      // Use custom URL if provided, otherwise fall back to current URL
      const shareUrl = url || currentUrl;
 
+     // Calculate responsive font sizes
+     const responsiveMainFontSize = isMobile ? Math.max(mainContentFontSize * 0.9, 14) : mainContentFontSize;
+     const responsiveSecondaryFontSize = isMobile ? Math.max(secondaryContentFontSize * 0.9, 14) : secondaryContentFontSize;
+     //const responsiveArticle1FontSize = isMobile ? Math.max(article1ContentFontSize * 0.85, 12) : article1ContentFontSize;
+     //const responsiveArticle2FontSize = isMobile ? Math.max(article2ContentFontSize * 0.85, 12) : article2ContentFontSize;
+
      return (
-          <div className="max-w-6xl mx-auto p-6">
-               {/* Title */}
-               <div className="mb-4 p-2">
-                    <h1 className="text-4xl font-bold">{title}</h1>
+          <div className="max-w-6xl mx-auto p-3 sm:p-6">
+               {/* Header Section */}
+               <div className="mb-6 p-2 text-center">
+                    {/* Title */}
+                    <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight px-2">
+                         {title}
+                    </h1>
+
+                    {/* Date and Journal - directly below title */}
+                    <div className="mt-2 mb-4">
+                         <span className="text-lg sm:text-xl">{date}</span>
+                         {journal && (
+                              <>
+                                   <span className="text-lg sm:text-xl">, </span>
+                                   <span className="text-lg sm:text-xl italic">{journal}</span>
+                              </>
+                         )}
+                    </div>
 
                     {/* Action Buttons Row - centered */}
-                    <div className="mt-3 flex justify-center space-x-4">
+                    <div className="flex flex-col sm:flex-row justify-center items-center gap-2 sm:gap-4">
                          {/* PDF Download Button - only shown if pdfPath is provided */}
                          {pdfPath && (
-                              <Link href={pdfPath} target="_blank" rel="noopener noreferrer">
-                                   <button className="flex items-center px-4 py-2 bg-violet-600 text-white rounded-full hover:bg-violet-700 transition-colors">
+                              <Link href={pdfPath} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
+                                   <button className="w-full sm:w-auto flex items-center justify-center px-3 sm:px-4 py-2 bg-violet-600 text-white rounded-full hover:bg-violet-700 transition-colors text-sm sm:text-base">
                                         <Image
                                              src="/PDF_file_icon.svg"
                                              alt="PDF"
-                                             width={20}
-                                             height={20}
-                                             className="mr-2"
+                                             width={16}
+                                             height={16}
+                                             className="mr-2 flex-shrink-0"
                                         />
-                                        <span>Download PDF</span>
+                                        <span className="whitespace-nowrap">Download PDF</span>
                                    </button>
                               </Link>
                          )}
 
                          {/* GitHub Button - only shown if githubUrl is provided */}
                          {githubUrl && (
-                              <Link href={githubUrl} target="_blank" rel="noopener noreferrer">
-                                   <button className="flex items-center px-4 py-2 bg-violet-600 text-white rounded-full hover:bg-violet-700 transition-colors">
+                              <Link href={githubUrl} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
+                                   <button className="w-full sm:w-auto flex items-center justify-center px-3 sm:px-4 py-2 bg-violet-600 text-white rounded-full hover:bg-violet-700 transition-colors text-sm sm:text-base">
                                         <Image
                                              src="/Octicons-mark-github.svg"
                                              alt="GitHub"
-                                             width={20}
-                                             height={20}
-                                             className="mr-2"
+                                             width={16}
+                                             height={16}
+                                             className="mr-2 flex-shrink-0"
                                         />
-                                        <span>View on GitHub</span>
+                                        <span className="whitespace-nowrap">View on GitHub</span>
                                    </button>
                               </Link>
                          )}
                     </div>
                </div>
 
-               {/* Date, Journal and Share */}
-               <div className="flex items-center mb-6">
-                    <div className="mr-auto">
-                         <span className="text-xl">{date}</span>
-                         {journal && (
-                              <>
-                                   <span className="text-xl">, </span>
-                                   <span className="text-xl italic">{journal}</span>
-                              </>
-                         )}
-                    </div>
-                    <span className="mr-2">Share:</span>
-                    <div className="flex space-x-2">
-                         {/* LinkedIn */}
-                         <a
-                              href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="w-10 h-10 rounded-full bg-violet-800 flex items-center justify-center hover:bg-violet-700 transition-colors"
-                         >
-                              <Image src="/LinkedIn_icon.svg" alt="Share on LinkedIn" width={20} height={20} />
-                         </a>
+               {/* Share Section */}
+               <div className="flex justify-center mb-6">
+                    <div className="flex flex-col sm:flex-row items-center gap-2">
+                         <span className="text-sm sm:text-base whitespace-nowrap">Share:</span>
+                         <div className="flex space-x-2">
+                              {/* LinkedIn */}
+                              <a
+                                   href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`}
+                                   target="_blank"
+                                   rel="noopener noreferrer"
+                                   className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-violet-800 flex items-center justify-center hover:bg-violet-700 transition-colors flex-shrink-0"
+                              >
+                                   <Image src="/LinkedIn_icon.svg" alt="Share on LinkedIn" width={16} height={16} className="sm:w-5 sm:h-5" />
+                              </a>
 
-                         {/* X (Twitter) */}
-                         <a
-                              href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(title)}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="w-10 h-10 rounded-full bg-violet-800 flex items-center justify-center hover:bg-violet-700 transition-colors"
-                         >
-                              <Image src="/X_icon.svg" alt="Share on X" width={16} height={16} className="invert" />
-                         </a>
+                              {/* X (Twitter) */}
+                              <a
+                                   href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(title)}`}
+                                   target="_blank"
+                                   rel="noopener noreferrer"
+                                   className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-violet-800 flex items-center justify-center hover:bg-violet-700 transition-colors flex-shrink-0"
+                              >
+                                   <Image src="/X_icon.svg" alt="Share on X" width={14} height={14} className="sm:w-4 sm:h-4 invert" />
+                              </a>
 
-                         {/* Bluesky */}
-                         <a
-                              href={`https://bsky.app/intent/compose?text=${encodeURIComponent(title + " " + shareUrl)}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="w-10 h-10 rounded-full bg-violet-800 flex items-center justify-center hover:bg-violet-700 transition-colors"
-                         >
-                              <Image src="/Bluesky_icon.svg" alt="Share on Bluesky" width={16} height={16} />
-                         </a>
+                              {/* Bluesky */}
+                              <a
+                                   href={`https://bsky.app/intent/compose?text=${encodeURIComponent(title + " " + shareUrl)}`}
+                                   target="_blank"
+                                   rel="noopener noreferrer"
+                                   className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-violet-800 flex items-center justify-center hover:bg-violet-700 transition-colors flex-shrink-0"
+                              >
+                                   <Image src="/Bluesky_icon.svg" alt="Share on Bluesky" width={14} height={14} className="sm:w-4 sm:h-4" />
+                              </a>
 
-                         {/* Reddit */}
-                         <a
-                              href={`https://www.reddit.com/submit?url=${encodeURIComponent(shareUrl)}&title=${encodeURIComponent(title)}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="w-10 h-10 rounded-full bg-violet-800 flex items-center justify-center hover:bg-violet-700 transition-colors"
-                         >
-                              <Image src="/reddit_icon.svg" alt="Share on Reddit" width={20} height={20} />
-                         </a>
+                              {/* Reddit */}
+                              <a
+                                   href={`https://www.reddit.com/submit?url=${encodeURIComponent(shareUrl)}&title=${encodeURIComponent(title)}`}
+                                   target="_blank"
+                                   rel="noopener noreferrer"
+                                   className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-violet-800 flex items-center justify-center hover:bg-violet-700 transition-colors flex-shrink-0"
+                              >
+                                   <Image src="/reddit_icon.svg" alt="Share on Reddit" width={16} height={16} className="sm:w-5 sm:h-5" />
+                              </a>
+                         </div>
                     </div>
                </div>
 
                {/* Main content */}
-               <div className="flex flex-wrap mb-6">
+               <div className="flex flex-col md:flex-row mb-6 gap-4 md:gap-0">
                     {/* Image container */}
                     <div className="w-full md:w-1/3 mb-4 md:mb-0">
-                         <div className="bg-blue-800 h-96 flex items-center justify-center text-white overflow-hidden">
+                         <div className="bg-blue-800 h-64 sm:h-80 md:h-96 flex items-center justify-center text-white overflow-hidden">
                               <Image
                                    src={imagePath}
                                    alt={imageAlt}
@@ -311,25 +344,29 @@ const NewsArticleLayout: React.FC<NewsArticleLayoutProps> = ({
 
                     {/* Text columns */}
                     <div className="w-full md:w-2/3 md:pl-6">
-                         <div className="grid grid-cols-2 gap-8 h-full">
+                         <div className={`${isMobile ? 'block' : 'grid grid-cols-2 gap-8'} h-full`}>
                               {/* Left column with drop cap */}
                               <div ref={leftColumnRef} className="p-2">
                                    <p className="text-justify">
-                                        {firstLetter && (
-                                             <span className="float-left text-7xl font-serif mr-2 mt-1 leading-none">
+                                        {firstLetter && !isMobile && (
+                                             <span className="float-left text-5xl sm:text-6xl md:text-7xl font-serif mr-2 mt-1 leading-none">
                                                   {firstLetter}
                                              </span>
                                         )}
-                                        <span style={{ fontSize: `${mainContentFontSize}px` }}>{restOfContent}</span>
+                                        <span style={{ fontSize: `${responsiveMainFontSize}px` }}>
+                                             {isMobile ? mainContent : restOfContent}
+                                        </span>
                                    </p>
                               </div>
 
-                              {/* Right column */}
-                              <div ref={rightColumnRef} className="p-2">
-                                   <p className="text-justify" style={{ fontSize: `${secondaryContentFontSize}px` }}>
-                                        {secondaryContent}
-                                   </p>
-                              </div>
+                              {/* Right column - Hidden on mobile */}
+                              {!isMobile && (
+                                   <div ref={rightColumnRef} className="p-2">
+                                        <p className="text-justify" style={{ fontSize: `${responsiveSecondaryFontSize}px` }}>
+                                             {secondaryContent}
+                                        </p>
+                                   </div>
+                              )}
                          </div>
                     </div>
                </div>
