@@ -61,16 +61,15 @@ const TextEditWindow: React.FC<TextEditWindowProps> = ({
 
      // Calculate responsive Polaroid dimensions
      const getPolaroidDimensions = () => {
-          const maxWidth = Math.min(windowWidth * 0.9, 400); // Maximum 90% of window width or 400px
-          const minWidth = 100; // Minimum width
+          // Less aggressive scaling - 50% less than before
+          const baseWidth = Math.min(windowWidth * 0.125, 320); // 12.5% of viewport (half of 25%), max 320px
+          const minWidth = 200; // Increased minimum to make scaling less aggressive
+          const maxWidth = 320;
           
-          if (isCompactLayout) {
-               const width = Math.max(Math.min(maxWidth, 300), minWidth);
-               const height = width * 1.25; // Maintain aspect ratio
-               return { width, height };
-          } else {
-               return { width: 256, height: 320 };
-          }
+          const width = Math.max(Math.min(baseWidth, maxWidth), minWidth);
+          const height = width * 1.25;
+          
+          return { width, height };
      };
 
      // Calculate responsive text area height based on content and window size
