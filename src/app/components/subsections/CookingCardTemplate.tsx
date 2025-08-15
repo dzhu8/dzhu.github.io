@@ -10,6 +10,8 @@ interface CookingCardProps {
      description?: string;
      titleFontSize?: number; // Font size in pixels, defaults to responsive sizing
      index: number; // Add index for rotation calculation
+     cardDimensions: { width: number; height: number };
+     useVerticalLayout: boolean;
 }
 
 interface CookingCardData {
@@ -28,33 +30,45 @@ interface CookingContainerProps {
 const useResponsiveLayout = () => {
      const [viewportWidth, setViewportWidth] = useState(0);
      const [useDoubleColumn, setUseDoubleColumn] = useState(true);
-     const fixedCardWidth = 500; // Fixed card width - no scaling
-     const fixedCardHeight = 360; // Fixed card height - no scaling
+     const [cardDimensions, setCardDimensions] = useState({ width: 500, height: 360 });
+     const [useVerticalLayout, setUseVerticalLayout] = useState(false);
 
      useEffect(() => {
           const updateLayout = () => {
                const currentWidth = window.innerWidth;
-
-               // Fixed card dimensions - no scaling
-               const cardWidth = fixedCardWidth;
                const containerMaxWidth = 1216; // 1152px content + 64px padding
                const containerPadding = 32;
                const cardGap = 48;
+               const minCardWidth = 100;
 
                // Calculate available space for cards
                const availableWidth = Math.min(
                     currentWidth - containerPadding * 2,
                     containerMaxWidth - containerPadding * 2
                );
-               const requiredWidthForTwoColumns = cardWidth * 2 + cardGap;
-               const rotationMargin = cardWidth * 0.1;
-               const requiredWidthWithMargin = requiredWidthForTwoColumns + rotationMargin * 2;
 
-               // Determine if we should use double column - switch when two full-size cards don't fit
-               const shouldUseDoubleColumn = availableWidth >= requiredWidthWithMargin && currentWidth >= 640;
+               // Determine card scaling
+               let cardWidth = 500; // Default card width
+               let cardHeight = 360; // Default card height
+               let shouldUseVerticalLayout = false;
+               
+               // Check if we need to scale down cards
+               if (availableWidth < 500 + 100) { // If less than one card + margin
+                    cardWidth = Math.max(availableWidth - 100, minCardWidth);
+                    cardHeight = Math.round(cardWidth * 0.72); // Maintain aspect ratio
+                    shouldUseVerticalLayout = cardWidth < 300; // Use vertical layout for very small cards
+               }
+
+               const rotationMargin = cardWidth * 0.1;
+               const requiredWidthForTwoColumns = cardWidth * 2 + cardGap + rotationMargin * 2;
+
+               // Determine if we should use double column
+               const shouldUseDoubleColumn = availableWidth >= requiredWidthForTwoColumns && currentWidth >= 640 && !shouldUseVerticalLayout;
 
                setViewportWidth(currentWidth);
                setUseDoubleColumn(shouldUseDoubleColumn);
+               setCardDimensions({ width: cardWidth, height: cardHeight });
+               setUseVerticalLayout(shouldUseVerticalLayout);
           };
 
           updateLayout();
@@ -62,11 +76,11 @@ const useResponsiveLayout = () => {
           return () => window.removeEventListener("resize", updateLayout);
      }, []);
 
-     return { useDoubleColumn, viewportWidth, fixedCardWidth, fixedCardHeight };
+     return { useDoubleColumn, viewportWidth, cardDimensions, useVerticalLayout };
 };
 
 // Individual Card Component
-const CookingCardTemplate: React.FC<CookingCardProps> = ({ title, imagePath, description, titleFontSize, index }) => {
+const CookingCardTemplate: React.FC<CookingCardProps> = ({ title, imagePath, description, titleFontSize, index, cardDimensions, useVerticalLayout }) => {
      const [imageDimensions, setImageDimensions] = useState<{ width: number; height: number } | null>(null);
      const [imageError, setImageError] = useState(false);
      const [isHovered, setIsHovered] = useState(false);
@@ -77,49 +91,58 @@ const CookingCardTemplate: React.FC<CookingCardProps> = ({ title, imagePath, des
           const naturalWidth = img.naturalWidth;
           const naturalHeight = img.naturalHeight;
 
-          // Card dimensions (fixed at 500x360px)
-          const cardWidth = 500;
-          const cardHeight = 360;
+          // Dynamic card dimensions
+          const cardWidth = cardDimensions.width;
+          const cardHeight = cardDimensions.height;
 
-          // 45% requirements
-          const minWidth = cardWidth * 0.4; // 40% of card width = 200px
-          const minHeight = cardHeight * 0.45; // 45% of card height = 162px
+          // 45% requirements (scale with card size and layout)
+          let minWidth, minHeight;
+          
+          if (useVerticalLayout) {
+               // For vertical layout, image can be smaller relative to card
+               minWidth = cardWidth * 0.6; // 60% of card width
+               minHeight = cardHeight * 0.3; // 30% of card height
+          } else {
+               // Original horizontal layout requirements
+               minWidth = cardWidth * 0.4; // 40% of card width
+               minHeight = cardHeight * 0.45; // 45% of card height
+          }
 
           let finalWidth = naturalWidth;
           let finalHeight = naturalHeight;
 
-          // Check if both dimensions are less than 40% - need to scale up
+          // Check if both dimensions are less than minimum - need to scale up
           if (naturalWidth < minWidth && naturalHeight < minHeight) {
                const scaleForWidth = minWidth / naturalWidth;
                const scaleForHeight = minHeight / naturalHeight;
-               // Use the larger scale to ensure both minimums are met
                const scaleUp = Math.max(scaleForWidth, scaleForHeight);
                finalWidth = Math.round(naturalWidth * scaleUp);
                finalHeight = Math.round(naturalHeight * scaleUp);
           }
-          // Check if both dimensions are greater than 40% - need to scale down to smallest possible
+          // Check if both dimensions are greater than minimum - need to scale down
           else if (naturalWidth > minWidth && naturalHeight > minHeight) {
                const scaleForWidth = minWidth / naturalWidth;
                const scaleForHeight = minHeight / naturalHeight;
-               // Use the larger scale (closer to 1) to get the smallest possible values that still meet requirements
                const scaleDown = Math.max(scaleForWidth, scaleForHeight);
                finalWidth = Math.round(naturalWidth * scaleDown);
                finalHeight = Math.round(naturalHeight * scaleDown);
           }
-          // Otherwise, use original dimensions (one dimension meets requirement, other doesn't - no scaling)
 
           setImageDimensions({ width: finalWidth, height: finalHeight });
      };
 
      const handleImageError = () => {
           setImageError(true);
-          // Fallback dimensions meeting 45% requirement
-          const cardWidth = 500;
-          const cardHeight = 360;
-          const fallbackWidth = Math.round(cardWidth * 0.4); // 40% of card width
-          const fallbackHeight = Math.round(cardHeight * 0.45); // 45% of card height
+          // Fallback dimensions
+          const cardWidth = cardDimensions.width;
+          const cardHeight = cardDimensions.height;
+          const fallbackWidth = Math.round(cardWidth * (useVerticalLayout ? 0.6 : 0.4));
+          const fallbackHeight = Math.round(cardHeight * (useVerticalLayout ? 0.3 : 0.45));
           setImageDimensions({ width: fallbackWidth, height: fallbackHeight });
      };
+
+     // Calculate responsive font size
+     const responsiveFontSize = titleFontSize || Math.max(16, cardDimensions.width * 0.05);
 
      return (
           <div
@@ -128,6 +151,9 @@ const CookingCardTemplate: React.FC<CookingCardProps> = ({ title, imagePath, des
                     position: "relative",
                     transform: isHovered ? getCardHoverTransform(index) : getCardTransform(index),
                     transition: "transform 0.3s ease, box-shadow 0.3s ease",
+                    width: `${cardDimensions.width}px`,
+                    height: useVerticalLayout ? 'auto' : `${cardDimensions.height}px`,
+                    minHeight: useVerticalLayout ? `${cardDimensions.height}px` : undefined,
                }}
                onMouseEnter={() => setIsHovered(true)}
                onMouseLeave={() => setIsHovered(false)}
@@ -137,7 +163,7 @@ const CookingCardTemplate: React.FC<CookingCardProps> = ({ title, imagePath, des
                     className="hobby-card-title"
                     style={{
                          fontFamily: "'Playlist-Script'",
-                         fontSize: titleFontSize ? `${titleFontSize}px` : undefined,
+                         fontSize: `${responsiveFontSize}px`,
                          color: "#2c3e50",
                          textAlign: "center",
                          fontWeight: "normal",
@@ -146,12 +172,13 @@ const CookingCardTemplate: React.FC<CookingCardProps> = ({ title, imagePath, des
                     {title}
                </div>
                <div className="hobby-card-content-wrapped">
-                    <div className="hobby-card-text-container">
+                    <div className={`hobby-card-text-container ${useVerticalLayout ? 'vertical-layout' : ''}`}>
                          <div
                               className="hobby-card-image-wrapped"
                               style={{
-                                   width: imageDimensions ? `${imageDimensions.width}px` : "200px", // 40% of 500px card width
-                                   height: imageDimensions ? `${imageDimensions.height}px` : "162px", // 45% of 360px card height
+                                   width: imageDimensions ? `${imageDimensions.width}px` : `${Math.round(cardDimensions.width * (useVerticalLayout ? 0.6 : 0.4))}px`,
+                                   height: imageDimensions ? `${imageDimensions.height}px` : `${Math.round(cardDimensions.height * (useVerticalLayout ? 0.3 : 0.45))}px`,
+                                   margin: useVerticalLayout ? '0 auto 1rem auto' : undefined,
                               }}
                          >
                               {imagePath && !imageError ? (
@@ -173,7 +200,13 @@ const CookingCardTemplate: React.FC<CookingCardProps> = ({ title, imagePath, des
                                    "Recipe Image Placeholder"
                               )}
                          </div>
-                         {description || "Recipe Description"}
+                         <div style={{
+                              fontSize: `${Math.max(12, cardDimensions.width * 0.03)}px`,
+                              lineHeight: '1.4',
+                              textAlign: useVerticalLayout ? 'center' : 'left',
+                         }}>
+                              {description || "Recipe Description"}
+                         </div>
                     </div>
                </div>
           </div>
@@ -182,7 +215,7 @@ const CookingCardTemplate: React.FC<CookingCardProps> = ({ title, imagePath, des
 
 // Container Component with responsive layout
 const CookingContainer: React.FC<CookingContainerProps> = ({ recipes, showDebugInfo = false }) => {
-     const { useDoubleColumn, viewportWidth, fixedCardWidth, fixedCardHeight } = useResponsiveLayout();
+     const { useDoubleColumn, viewportWidth, cardDimensions, useVerticalLayout } = useResponsiveLayout();
 
      const containerStyle: React.CSSProperties = {
           display: "grid",
@@ -190,8 +223,9 @@ const CookingContainer: React.FC<CookingContainerProps> = ({ recipes, showDebugI
           gap: "3rem",
           maxWidth: "1216px", // 1152px content + 64px padding (2rem * 2)
           margin: "0 auto",
-          padding: "2rem",
-          alignItems: "center",
+          padding: "4px",
+          alignItems: useVerticalLayout ? "start" : "center",
+          justifyItems: "center", // Center cards horizontally
           transition: "grid-template-columns 0.3s ease",
      };
 
@@ -216,9 +250,9 @@ const CookingContainer: React.FC<CookingContainerProps> = ({ recipes, showDebugI
                          <div>Cards: Fixed Size</div>
                          <div>Viewport: {viewportWidth}px</div>
                          <div>
-                              Card Size: {fixedCardWidth}x{fixedCardHeight}px
+                              Card Size: {cardDimensions.width}x{cardDimensions.height}px
                          </div>
-                         <div>Required: {(fixedCardWidth * 2 + 48 + fixedCardWidth * 0.2).toFixed(0)}px</div>
+                         <div>Required: {(cardDimensions.width * 2 + 48 + cardDimensions.width * 0.2).toFixed(0)}px</div>
                          <div>Available: {Math.min(viewportWidth - 64, 1216 - 64).toFixed(0)}px</div>
                     </div>
                )}
@@ -226,7 +260,7 @@ const CookingContainer: React.FC<CookingContainerProps> = ({ recipes, showDebugI
                     className="hobby-cards-container-responsive"
                     style={containerStyle}
                     data-layout={useDoubleColumn ? "double-column" : "single-column"}
-                    data-card-size={`${fixedCardWidth}x${fixedCardHeight}`}
+                    data-card-size={`${cardDimensions.width}x${cardDimensions.height}`}
                     data-viewport-width={viewportWidth}
                >
                     {recipes.map((recipe, index) => (
@@ -237,6 +271,8 @@ const CookingContainer: React.FC<CookingContainerProps> = ({ recipes, showDebugI
                               description={recipe.description}
                               titleFontSize={recipe.titleFontSize}
                               index={index}
+                              cardDimensions={cardDimensions}
+                              useVerticalLayout={useVerticalLayout}
                          />
                     ))}
                </div>
