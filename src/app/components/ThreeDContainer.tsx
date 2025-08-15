@@ -8,7 +8,6 @@ import { QuaternionTransforms } from "../utils/quaternion-transforms.js";
 import { PathGenerator, PathData } from "./animations/pathGeneration";
 
 interface ThreeDContainerProps {
-     showAxes?: boolean;
      isHeroSection?: boolean;
      cameraDistance?: number;
      craneScale?: number;
@@ -18,7 +17,6 @@ interface ThreeDContainerProps {
 }
 
 export default function ThreeDContainer({
-     showAxes = false,
      isHeroSection = false,
      cameraDistance = 10,
      craneScale = 1.0,
@@ -303,39 +301,12 @@ export default function ThreeDContainer({
                crane.performAlignmentTestFlight(QuaternionTransforms, pathData.referenceVector);
           };
 
-          // Add axes helper if enabled
-          let xLabels: HTMLDivElement[] = [];
-          if (showAxes) {
-               // Scale axes and grid based on camera distance
-               const scaleFactorForCamera = cameraDistance / 5; // Scale relative to half the default distance of 10
-               const axesHelper = new THREE.AxesHelper(5 * scaleFactorForCamera);
-               scene.add(axesHelper);
-
-               // Add grid to show the XZ plane
-               const gridHelper = new THREE.GridHelper(10 * scaleFactorForCamera, 10);
-               scene.add(gridHelper);
-
-               // Add x-axis labels as HTML elements
-               const xPositions = [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5].map((x) => x * scaleFactorForCamera);
-               xLabels = xPositions.map((x, index) => {
-                    const label = document.createElement("div");
-                    label.textContent = [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5][index].toString();
-                    label.style.position = "absolute";
-                    label.style.color = "#ff0000";
-                    label.style.fontSize = "14px";
-                    label.style.pointerEvents = "none";
-                    label.style.zIndex = "2";
-                    label.style.transform = "translate(-50%, -50%)";
-                    label.style.fontWeight = "bold";
-                    currentMount.appendChild(label);
-                    return label;
-               });
-          }
-
-          // Animation loop
+          // Animation loop with performance optimizations
           let lastFrameTime = 0;
+          let rafId = 0;
+
           const animate = (currentTime: number = 0) => {
-               requestAnimationFrame(animate);
+               rafId = requestAnimationFrame(animate);
 
                // Calculate delta time in seconds
                const deltaTime = lastFrameTime ? (currentTime - lastFrameTime) / 1000 : 0;
@@ -351,23 +322,35 @@ export default function ThreeDContainer({
                     craneGroup.updateAllAnimations(wingFlapSpeed);
                }
 
-               // Update x-axis label positions
-               if (showAxes && xLabels.length > 0 && camera) {
-                    const scaleFactorForCamera = cameraDistance / 10;
-                    const xPositions = [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5].map((x) => x * scaleFactorForCamera);
-                    xLabels.forEach((label, i) => {
-                         // Project 3D position to 2D screen
-                         const pos = new THREE.Vector3(xPositions[i], 0, 0);
-                         pos.project(camera);
-                         const x = (pos.x * 0.5 + 0.5) * currentMount.clientWidth;
-                         const y = (-pos.y * 0.5 + 0.5) * currentMount.clientHeight;
-                         label.style.left = `${x}px`;
-                         label.style.top = `${y}px`;
-                    });
-               }
-
                renderer.render(scene, camera);
           };
+
+          // Performance optimization: pause animation when tab is hidden
+          const handleVisibilityChange = () => {
+               if (document.hidden) {
+                    cancelAnimationFrame(rafId);
+               } else {
+                    animate();
+               }
+          };
+
+          // WebGL context loss/restore handlers
+          const handleContextLost = (e: Event) => {
+               e.preventDefault();
+               cancelAnimationFrame(rafId);
+          };
+
+          const handleContextRestored = () => {
+               // Recreate any GL resources if needed, then restart animation
+               animate();
+          };
+
+          // Add event listeners
+          document.addEventListener("visibilitychange", handleVisibilityChange);
+          renderer.domElement.addEventListener("webglcontextlost", handleContextLost);
+          renderer.domElement.addEventListener("webglcontextrestored", handleContextRestored);
+
+          // Start animation
           animate();
 
           // Handle window resize
@@ -383,6 +366,16 @@ export default function ThreeDContainer({
 
           // Cleanup
           return () => {
+               // Cancel animation frame
+               cancelAnimationFrame(rafId);
+
+               // Remove event listeners
+               document.removeEventListener("visibilitychange", handleVisibilityChange);
+               if (renderer.domElement) {
+                    renderer.domElement.removeEventListener("webglcontextlost", handleContextLost);
+                    renderer.domElement.removeEventListener("webglcontextrestored", handleContextRestored);
+               }
+
                window.removeEventListener("resize", handleResize);
                if (currentMount && renderer.domElement) {
                     currentMount.removeChild(renderer.domElement);
@@ -403,15 +396,8 @@ export default function ThreeDContainer({
                pathLinesRef.current = [];
 
                renderer.dispose();
-
-               // Remove x-axis labels
-               if (xLabels && currentMount) {
-                    xLabels.forEach((label) => {
-                         currentMount.removeChild(label);
-                    });
-               }
           };
-     }, [showAxes, isHeroSection, cameraDistance, craneScale, wingFlapSpeed, pathSpeed, craneCount]);
+     }, [isHeroSection, cameraDistance, craneScale, wingFlapSpeed, pathSpeed, craneCount]);
 
      return (
           <>
