@@ -24,42 +24,86 @@ const PolaroidFrame: React.FC<PolaroidFrameProps> = ({
 
      const imageAreaHeight = height * imageRatio;
      const imageSize = Math.min(width * 0.8, imageAreaHeight * 0.8); // Image size with some padding
+     
+     // Calculate responsive corner size based on frame width
+     const cornerSize = Math.max(Math.min(width * 0.15, 36), 20); // Scale with width, but keep between 20px and 36px
+     const cornerOffset = cornerSize * 0.33; // Position offset from frame edge
 
      return (
           <div className="flex flex-col relative" style={frameStyle}>
                <div className="bg-white p-4 shadow-lg flex flex-col border-2 border-gray-300 rounded-sm h-full relative">
-                    {/* Photo corners */}
-                    <div className="absolute -top-3 -left-3 w-9 h-9 z-10">
+                    {/* Photo corners - responsive sizing */}
+                    <div 
+                         className="absolute z-10"
+                         style={{ 
+                              top: `-${cornerOffset}px`, 
+                              left: `-${cornerOffset}px`, 
+                              width: `${cornerSize}px`, 
+                              height: `${cornerSize}px` 
+                         }}
+                    >
                          <div
-                              className="w-0 h-0 border-t-[36px] border-t-sky-400 border-r-[36px] border-r-transparent"
+                              className="w-0 h-0 border-t-sky-400 border-r-transparent"
                               style={{
+                                   borderTopWidth: `${cornerSize}px`,
+                                   borderRightWidth: `${cornerSize}px`,
                                    filter: "drop-shadow(2px 2px 3px rgba(0,0,0,0.25))",
                               }}
                          ></div>
                     </div>
 
-                    <div className="absolute -top-3 -right-3 w-9 h-9 z-10">
+                    <div 
+                         className="absolute z-10"
+                         style={{ 
+                              top: `-${cornerOffset}px`, 
+                              right: `-${cornerOffset}px`, 
+                              width: `${cornerSize}px`, 
+                              height: `${cornerSize}px` 
+                         }}
+                    >
                          <div
-                              className="w-0 h-0 border-t-[36px] border-t-sky-400 border-l-[36px] border-l-transparent"
+                              className="w-0 h-0 border-t-sky-400 border-l-transparent"
                               style={{
+                                   borderTopWidth: `${cornerSize}px`,
+                                   borderLeftWidth: `${cornerSize}px`,
                                    filter: "drop-shadow(-2px 2px 3px rgba(0,0,0,0.25))",
                               }}
                          ></div>
                     </div>
 
-                    <div className="absolute -bottom-3 -left-3 w-9 h-9 z-10">
+                    <div 
+                         className="absolute z-10"
+                         style={{ 
+                              bottom: `-${cornerOffset}px`, 
+                              left: `-${cornerOffset}px`, 
+                              width: `${cornerSize}px`, 
+                              height: `${cornerSize}px` 
+                         }}
+                    >
                          <div
-                              className="w-0 h-0 border-b-[36px] border-b-sky-400 border-r-[36px] border-r-transparent"
+                              className="w-0 h-0 border-b-sky-400 border-r-transparent"
                               style={{
+                                   borderBottomWidth: `${cornerSize}px`,
+                                   borderRightWidth: `${cornerSize}px`,
                                    filter: "drop-shadow(2px -2px 3px rgba(0,0,0,0.25))",
                               }}
                          ></div>
                     </div>
 
-                    <div className="absolute -bottom-3 -right-3 w-9 h-9 z-10">
+                    <div 
+                         className="absolute z-10"
+                         style={{ 
+                              bottom: `-${cornerOffset}px`, 
+                              right: `-${cornerOffset}px`, 
+                              width: `${cornerSize}px`, 
+                              height: `${cornerSize}px` 
+                         }}
+                    >
                          <div
-                              className="w-0 h-0 border-b-[36px] border-b-sky-400 border-l-[36px] border-l-transparent"
+                              className="w-0 h-0 border-b-sky-400 border-l-transparent"
                               style={{
+                                   borderBottomWidth: `${cornerSize}px`,
+                                   borderLeftWidth: `${cornerSize}px`,
                                    filter: "drop-shadow(-2px -2px 3px rgba(0,0,0,0.25))",
                               }}
                          ></div>

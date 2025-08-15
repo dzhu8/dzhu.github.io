@@ -16,6 +16,7 @@ const TextEditWindow: React.FC<TextEditWindowProps> = ({
 }) => {
      // State for scale factor tracking
      const [scaleFactor, setScaleFactor] = useState(1);
+     const [windowWidth, setWindowWidth] = useState(1200); // Default to desktop width
 
      // State for text formatting
      const [fontFamily, setFontFamily] = useState("Helvetica");
@@ -32,17 +33,20 @@ const TextEditWindow: React.FC<TextEditWindowProps> = ({
      // State for dropdown visibility
      const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
-     // Track scale factor changes
+     // Track scale factor changes and window width
      useEffect(() => {
           const updateScale = () => {
                const scaleFactorValue = parseFloat(
                     getComputedStyle(document.documentElement).getPropertyValue("--scale-factor") || "1"
                );
                setScaleFactor(scaleFactorValue);
+               setWindowWidth(window.innerWidth);
           };
 
-          // Initial scale update
-          updateScale();
+          // Initial scale update - only on client side
+          if (typeof window !== 'undefined') {
+               updateScale();
+          }
 
           // Listen for resize events to update scale
           window.addEventListener("resize", updateScale);
@@ -53,7 +57,21 @@ const TextEditWindow: React.FC<TextEditWindowProps> = ({
      }, []);
 
      // Determine if we should use compact layout
-     const isCompactLayout = scaleFactor < 0.6;
+     const isCompactLayout = scaleFactor < 0.6 || windowWidth < 768;
+
+     // Calculate responsive Polaroid dimensions
+     const getPolaroidDimensions = () => {
+          const maxWidth = Math.min(windowWidth * 0.9, 400); // Maximum 90% of window width or 400px
+          const minWidth = 200; // Minimum width
+          
+          if (isCompactLayout) {
+               const width = Math.max(Math.min(maxWidth, 300), minWidth);
+               const height = width * 1.25; // Maintain aspect ratio
+               return { width, height };
+          } else {
+               return { width: 256, height: 320 };
+          }
+     };
 
      // Generate text style based on current settings
      const getTextStyle = () => {
@@ -128,32 +146,34 @@ const TextEditWindow: React.FC<TextEditWindowProps> = ({
      };
 
      return (
-          <div className={`w-full max-w-6xl mx-auto ${isCompactLayout ? "flex-col space-y-4" : "flex gap-6"}`}>
-               {/* Polaroid frame */}
-               <div className={`${isCompactLayout ? "w-full max-w-md mx-auto" : "flex-none"}`}>
-                    <PolaroidFrame
-                         imagePath={imagePath}
-                         width={isCompactLayout ? 300 : 256}
-                         height={isCompactLayout ? 375 : 320}
-                         imageRatio={0.75}
-                    >
-                         {/* Language icons */}
-                         <div className="flex flex-wrap gap-2 justify-center">
-                              {languages.map((lang, index) => (
-                                   <div key={index} className="flex items-center" title={lang}>
-                                        <span className={`${isCompactLayout ? "text-xl" : "text-2xl"}`}>
-                                             {getLanguageIcon(lang)}
-                                        </span>
-                                        <span className="ml-1 text-xs text-gray-600">{lang}</span>
-                                   </div>
-                              ))}
-                         </div>
-                    </PolaroidFrame>
+          <div className={`w-full max-w-6xl mx-auto px-2 sm:px-4 ${isCompactLayout ? "flex-col space-y-4" : "flex gap-6"}`}>
+               {/* Polaroid frame - Always centered and responsive */}
+               <div className={`${isCompactLayout ? "w-full flex justify-center" : "flex-none flex justify-center lg:justify-start"}`}>
+                    <div className="flex-shrink-0">
+                         <PolaroidFrame
+                              imagePath={imagePath}
+                              width={getPolaroidDimensions().width}
+                              height={getPolaroidDimensions().height}
+                              imageRatio={0.75}
+                         >
+                              {/* Language icons */}
+                              <div className="flex flex-wrap gap-1 sm:gap-2 justify-center">
+                                   {languages.map((lang, index) => (
+                                        <div key={index} className="flex items-center" title={lang}>
+                                             <span className={`${isCompactLayout ? "text-lg sm:text-xl" : "text-xl sm:text-2xl"}`}>
+                                                  {getLanguageIcon(lang)}
+                                             </span>
+                                             <span className="ml-1 text-xs text-gray-600">{lang}</span>
+                                        </div>
+                                   ))}
+                              </div>
+                         </PolaroidFrame>
+                    </div>
                </div>
 
                {/* Text editor */}
-               <div className="flex-grow">
-                    <div className="rounded-lg overflow-hidden shadow-lg border border-gray-300">
+               <div className="flex-grow min-w-0"> {/* min-w-0 prevents flex item from overflowing */}
+                    <div className="rounded-lg overflow-hidden shadow-lg border border-gray-300 w-full">
                          {/* Title bar */}
                          <div className="h-10 bg-gradient-to-b from-gray-100 to-gray-200 flex items-center relative border-b border-gray-300">
                               {/* Window buttons */}
@@ -164,15 +184,17 @@ const TextEditWindow: React.FC<TextEditWindowProps> = ({
                               </div>
 
                               {/* Window title */}
-                              <div className="w-full text-center text-lg font-semibold text-gray-700">{title}</div>
+                              <div className="w-full text-center text-sm sm:text-lg font-semibold text-gray-700 px-16">
+                                   <span className="truncate block">{title}</span>
+                              </div>
                          </div>
 
                          {/* Toolbar */}
                          <div
-                              className={`${isCompactLayout ? "min-h-20" : "h-12"} bg-gradient-to-b from-gray-50 to-gray-100 px-2 border-b border-gray-300`}
+                              className={`${isCompactLayout ? "min-h-20" : "h-12"} bg-gradient-to-b from-gray-50 to-gray-100 px-1 sm:px-2 border-b border-gray-300 overflow-x-auto`}
                          >
                               <div
-                                   className={`${isCompactLayout ? "flex flex-wrap gap-1 py-1" : "flex items-center h-full"}`}
+                                   className={`${isCompactLayout ? "flex flex-wrap gap-1 py-1" : "flex items-center h-full"} min-w-max`}
                               >
                                    {/* First row of controls in compact mode, or main row in normal mode */}
                                    <div
