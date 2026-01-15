@@ -114,31 +114,7 @@ export default function Home() {
                                         underlying this movement.`}
                               />
                          </ScrollFadeIn>
-                         <ScrollFadeIn delay={100} duration={700} direction="left">
-                              <TextEditWindow
-                                   title="JSMonitor"
-                                   imagePath="/JS_monitor_logo.png"
-                                   languages={["python"]}
-                                   content={`A suite of terminal commands for quickly managing JavaScript/TypeScript project dependencies. Currently, this contains two tools: a dependency updater that fetches the latest versions of dependencies and devDependencies and installs them if outdated,
-and an import scanner that checks codebases for import statements that are not yet installed. These packages are installed, and the package file is updated accordingly. Stay tuned for further updates!`}
-                              />
-                         </ScrollFadeIn>
-                         <ScrollFadeIn delay={100} duration={700} direction="right">
-                              <TextEditWindow
-                                   title="Orange"
-                                   imagePath="/Orange_logo.png"
-                                   languages={["python"]}
-                                   content={`A command-line tool for formatting and organizing JavaScript/TypeScript files and additional common file types found in JS/TS projects. Formats files with extensions .js, .jsx, .ts, .tsx, .vue, .html, and .json by default. Allows for custom Prettier config and ignore files to be used,
-(by specifying the path to --config flag) with fallback to a default configuration if none is provided.`}
-                              />
-                         </ScrollFadeIn>
-                         <ScrollFadeIn delay={100} duration={700} direction="left">
-                              <CraneAnimatedProjectCard
-                                   title="3D Animation Toolbox"
-                                   languages={["javascript", "typescript"]}
-                                   content={`Currently incomplete; a set of 3D asset objects and examples of animations involving 3D assets. Currently, includes basic particle animations (rain, snowflakes, fire, etc.), an interactive flock of birds, and an animation of origami cranes in flight (which was utilized in this website!). This is not yet complete; additional examples and usage tutorials will be added in the future.`}
-                              />
-                         </ScrollFadeIn>
+                         
                     </div>
                </Section>
 
