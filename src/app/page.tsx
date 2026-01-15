@@ -6,7 +6,6 @@ import Section from "./components/hero/Section";
 import ScrollFadeIn from "./components/animations/ScrollFadeIn";
 import NewsArticleLayout from "./components/subsections/ResearchNewspaperTemplate";
 import TextEditWindow from "./components/subsections/ProjectsTextEditorTemplate";
-import CraneAnimatedProjectCard from "./components/subsections/CraneAnimatedProjectCard";
 import { CookingContainer } from "./components/subsections/CookingCardTemplate";
 import { BakingContainer } from "./components/subsections/BakingCardTemplate";
 import { StravaEmbedContainer } from "./components/subsections/StravaEmbed";
@@ -114,7 +113,6 @@ export default function Home() {
                                         underlying this movement.`}
                               />
                          </ScrollFadeIn>
-                         
                     </div>
                </Section>
 
