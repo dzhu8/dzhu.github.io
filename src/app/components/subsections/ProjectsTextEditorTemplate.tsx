@@ -159,6 +159,10 @@ const TextEditWindow: React.FC<TextEditWindowProps> = ({
                     return "💎"; // Gem for Ruby
                case "go":
                     return "🔵"; // Blue circle for Go
+               case "cad":
+                    return "📐"; // Triangular ruler for CAD
+               case "blender":
+                    return "🧊"; // Ice cube for Blender/3D
                default:
                     return "💻"; // Generic computer for other languages
           }

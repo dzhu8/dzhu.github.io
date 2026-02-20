@@ -113,6 +113,42 @@ export default function Home() {
                                         underlying this movement.`}
                               />
                          </ScrollFadeIn>
+
+                         <ScrollFadeIn delay={200} duration={700} direction="left">
+                              <TextEditWindow
+                                   title="MASLAB Competition Robot"
+                                   imagePath="/MASLAB-bot.jpg"
+                                   languages={["python", "cad"]}
+                                   content={`Our robot (affectionately named Nate), which placed 2nd in the 2026 MASLAB competition! MASLAB (Mobile Autonomous Systems Laboratory) is an MIT-run robotics competition where teams design and build autonomous robots to navigate and compete in dynamic environments. This year, the 
+                                        competition was a bracket-style tournament game where the goal was to collect colored Pringles cans and deposit them in the correct scoring zones, all while staying in bounds. We (our team of three) used computer vision, odometric position-finding and homographic mapping to navigate
+                                        the field, find cans and score points. This was an unforgettable experience, and ended up being a really riveting blitz of CAD prototyping, 3D printing, laser cutting, and algorithm refinement in the last two weeks. We tried many more ambitious things and unfortunately didn't get the
+                                        time to see them through- c'est la vie! It was really fun, highly recommend!`}
+                              />
+                         </ScrollFadeIn>
+
+                         <ScrollFadeIn delay={200} duration={700} direction="left">
+                              <TextEditWindow
+                                   title="Autonomous Indoor Drone"
+                                   imagePath="/indoor-drone.png"
+                                   languages={["python"]}
+                                   content={`My senior design project! We (my project partner and I) were interested in exploring the use of miniature drones to map the interiors of buildings, for possible applications in the construction and manufacturing industries. We retrofitted a small drone (with built-in inertial 
+                                        measurement unit (IMU)) with a stereo camera, 2D horizontal Light Detection and Ranging (LiDAR) sensor and downward-facing LiDAR distance sensor to provide forward and downward spatial awareness. We used the Dronekit Python API to send flight commands and MAVROS to receive information
+                                        from the sensors for autonomous navigation. We tested the capabilities of this system with a Simultaneous Localization and Mapping (SLAM) task, managing to achieve a preliminary (but imperfect) mapping of the fifth floor of the University of Wyoming's Engineering Building. It would've
+                                        been fun to continue this, but COVID-19 and then grad school had other plans; maybe one day I'll return to something like this on a larger scale.`}
+                              />
+                         </ScrollFadeIn>
+
+                         <ScrollFadeIn delay={200} duration={700} direction="left">
+                              <TextEditWindow
+                                   title="GoFetch"
+                                   imagePath="GoFetch-logo.svg"
+                                   languages={["typescript"]}
+                                   content={`A chat-with-your-codebase application- think of it as "Perplexity for your own file storage"! This application helps users download local AI models and use them to answer questions using information from within folders they provide. When a folder is added, the application builds a 
+                                        folder tree, builds and persists a live index to handle file changes, and kicks off an initial embedding job. Source files are parsed into chunks and a vector search index is run against the user query to find the most relevant files/pieces of files. The chosen model is then used to
+                                        format the retrieved files into a context block and output a response to the user query that cites the retrieved files. This started as a pet project to help me navigate my poorly-organized scientific paper repositories, and development is actively ongoing. We have a cute mascot because
+                                        that's the most important part, naturally.`}
+                              />
+                         </ScrollFadeIn>
                     </div>
                </Section>
 
