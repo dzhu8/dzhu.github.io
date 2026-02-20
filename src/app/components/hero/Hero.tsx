@@ -124,10 +124,11 @@ export default function Hero({ craneScale = 1.2, wingFlapSpeed = 2.8, pathSpeed 
                               <div className="handwritten-subtitle">
                                    <HandwrittenText
                                         phrases={[
+                                             "Molecular Biologist",
+                                             "Electrical Engineer",
                                              "Software Developer",
                                              "Web Designer",
-                                             "Molecular Biologist",
-                                             "PhD Candidate, MIT",
+                                             "PhD Candidate, MIT"
                                         ]}
                                    />
                               </div>

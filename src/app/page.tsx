@@ -95,6 +95,28 @@ export default function Home() {
                               article2PdfPath="/pdf/Mitchison_Kirschner_1984.pdf"
                          />
                     </ScrollFadeIn>
+
+                    <ScrollFadeIn delay={200} duration={800} direction="up">
+                         <NewsArticleLayout
+                              title="Reprogramming Factors Activate a Non-Canonical Oxidative Resilience Pathway that Can Rejuvenate RPEs and Restore Vision"
+                              imagePath="/gsta4_aging_fig.png"
+                              pdfPath="/pdf/RPE_GSTA4_story.pdf"
+                              url="https://doi.org/10.1101/2025.08.30.673239"
+                              date="September 1st, 2025"
+                              journal="bioRxiv (preprint)"
+                              mainContentFontSize={14}
+                              secondaryContentFontSize={14}
+                              article1ContentFontSize={14}
+                              article2ContentFontSize={14}
+                              fullText="I had a very minor computational role in this project (the child of Dr. Yuancheng Lu), but have included it here because it was so exciting to piece together the ultimate working mental model through analyses of ATAC-seq, RNA-seq, CRISPR screen and scRNA-seq data. In short, our experiments and analyses were motivated by the fact that Oct4, Sox2, and Klf4 (OSK, three of the Yamanaka factors) induce pluripotency and reverse age-related epigenetic changes (including retinal pigmented epithelium (RPE) degeneration), yet the mechanisms by which they promote rejuvenation remain poorly explored, particularly downstream pathways that may be activated by OSK and serve as potential alternative or companion targets for therapy. Functional genomics identified (among others but which became particularly interesting) GSTA4, a detoxifying enzyme that clears the lipid peroxidation byproduct 4-HNE, as a necessary OSK effector. Further investigations suggested that GSTA4 may have a broader pro-longevity role than its detoxifying primary function may imply on the surface, leading to a proposed model by which 4-HNE may accumulate in aged retinas to disrupt photoreceptor alignment, manifesting as age-induced visual problems. Expression of GSTA4 catalyzes export of this product to provide resilience to oxidative stress and restore vision, providing a potential method to fight against Age-related Macular Degeneration (AMD)."
+                              article1Title="Related: Reprogramming to recover youthful epigenetic information and restore vision"
+                              article1Content="A landmark paper in the aging optics field from Yuancheng, the first to show that OSK expression in mouse retinal ganglion cells can reverse vision loss."
+                              article1PdfPath="/pdf/Lu_et_al_2020.pdf"
+                              article2Title="Related: Spatial transcriptomic clocks reveal cell proximity effects in brain ageing"
+                              article2Content="A study that uses my favorite assays, spatial transcriptomics, to study neighborhood effects on neuronal aging."
+                              article2PdfPath="/pdf/Sun_et_al_2024.pdf"
+                         />
+                    </ScrollFadeIn>
                </Section>
 
                <Section
