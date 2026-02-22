@@ -162,10 +162,22 @@ export default function Home() {
 
                          <ScrollFadeIn delay={200} duration={700} direction="left">
                               <TextEditWindow
+                                   title="Motion Pattern Recognition for Trunk Exoskeleton Control"
+                                   imagePath="/exoskeleton.png"
+                                   languages={["matlab"]}
+                                   content={`Another fun project I picked up spring semester of senior year, and an attempt to actively bridge the gap between my dual lives in EE and Bio. For those undergoing rehabilitation for CNS injuries that make motor function more difficult, mechanical exoskeletons provide an attractive 
+                                        means to help make these movements. This would require the exoskeleton to be able to recognize the user's intended movement pattern and act accordingly. Towards this task, I outfitted a trunk exoskeleton with joint-mounted gyroscopes & accelerometers, a chest-mounted capacitive force 
+                                        sensor and flex sensors to measure spinal curvature. I used MATLAB's Simulink to design an I/O interface to control Wi-Fi communication between sensors and a central Arduino. We planned to enroll volunteers into trials to gather training data to fit a neural network for the predictive 
+                                        part of this task, but this project was unfortunately also stalled by COVID and then my moving away for grad school.`}
+                              />
+                         </ScrollFadeIn>
+
+                         <ScrollFadeIn delay={200} duration={700} direction="left">
+                              <TextEditWindow
                                    title="GoFetch"
                                    imagePath="GoFetch-logo.svg"
-                                   languages={["typescript"]}
-                                   content={`A chat-with-your-codebase application- think of it as "Perplexity for your own file storage"! This application helps users download local AI models and use them to answer questions using information from within folders they provide. When a folder is added, the application builds a 
+                                   languages={["typescript", "python"]}
+                                   content={`A chat-with-your-file system application- think of it as "Perplexity for your own file storage". This application helps users download local AI models and use them to answer questions using information from within folders they provide. When a folder is added, the application builds a 
                                         folder tree, builds and persists a live index to handle file changes, and kicks off an initial embedding job. Source files are parsed into chunks and a vector search index is run against the user query to find the most relevant files/pieces of files. The chosen model is then used to
                                         format the retrieved files into a context block and output a response to the user query that cites the retrieved files. This started as a pet project to help me navigate my poorly-organized scientific paper repositories, and development is actively ongoing. We have a cute mascot because
                                         that's the most important part, naturally.`}
