@@ -373,7 +373,6 @@ body {
      width: var(--scaled-globe-size);
      height: var(--scaled-globe-size);
      z-index: 2;
-     pointer-events: none;
 }
 
 /* Paper asset zone in the lower left corner */

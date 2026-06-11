@@ -36,9 +36,15 @@ export default function Hero({ craneScale = 1.2, wingFlapSpeed = 2.8, pathSpeed 
                </div>
 
                {/* Globe in the lower left corner */}
-               <div className="globe-container">
+               <a
+                    href="https://maptap.gg/u/dzhu8"
+                    className="globe-container"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="MapTap profile"
+               >
                     <img src="/globe.svg" alt="Globe" className="w-full h-full" />
-               </div>
+               </a>
 
                {/* Paper asset in the lower left corner */}
                <div className="paper-asset">
@@ -77,7 +83,7 @@ export default function Hero({ craneScale = 1.2, wingFlapSpeed = 2.8, pathSpeed 
                     <div className="social-stickers-grid">
                          {/* GitHub */}
                          <a
-                              href="https://github.com/dzhu8"
+                              href="https://github.com/danielyzhu"
                               className="social-sticker"
                               target="_blank"
                               rel="noopener noreferrer"
